@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff000000</color>
+    <color name="colorPrimaryDark">#ff000000</color>
+    <color name="colorAccent">#ff000000</color>
+    <color name="oneui_gray">#ff202020</color>
+</resources>

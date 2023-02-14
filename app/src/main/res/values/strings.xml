@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">IGexperiments Mod</string>
+    <string name="top_red_text">When you killed IG, open it and go to settings and click on internal to access to dev options. This app has been tested on v268, it might not work on others because the class or method can be different</string>
+    <string name="app_kill">Kill Instagram</string>
+</resources>
