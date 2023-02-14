@@ -24,7 +24,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="Mod for IG !" />
+            android:value="Enable dev options for IG!" />
         <meta-data
             android:name="xposedminversion"
             android:value="82" />
