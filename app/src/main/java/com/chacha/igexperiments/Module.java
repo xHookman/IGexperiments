@@ -1,37 +1,22 @@
 package com.chacha.igexperiments;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AndroidAppHelper;
-import android.widget.BaseAdapter;
-import android.widget.Toast;
-
-import androidx.fragment.app.FragmentActivity;
-
-import java.lang.reflect.Method;
 
 public class Module implements IXposedHookLoadPackage {
     String IG_PACKAGE_NAME = "com.instagram.android";
 
     @Override
-    public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws ClassNotFoundException {
+    public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) {
         if(lpparam.packageName.equals(IG_PACKAGE_NAME)) {
-            /*Method method = XposedHelpers.findMethodBestMatch(XposedHelpers.findClass("X.0uf", lpparam.classLoader), "A05",
-                    XposedHelpers.findClass("com.instagram.service.session.UserSession", lpparam.classLoader));
-*/
-            XposedHelpers.findAndHookMethod("X.0uf", lpparam.classLoader, "A05",
+            XposedHelpers.findAndHookMethod("X.36e", lpparam.classLoader, "A03",
                     XposedHelpers.findClass("com.instagram.service.session.UserSession", lpparam.classLoader),
                     XC_MethodReplacement.returnConstant(true));
-            
+
             XposedBridge.log("Experiments enabled!");
 
             /*final Object[] userSession = new Object[1];
