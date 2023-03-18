@@ -1,6 +1,7 @@
 package com.chacha.igexperiments;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -13,11 +14,15 @@ public class Module implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) {
         if(lpparam.packageName.equals(IG_PACKAGE_NAME)) {
-            XposedHelpers.findAndHookMethod("X.36e", lpparam.classLoader, "A03",
+            XposedHelpers.findAndHookMethod("X.4v3", lpparam.classLoader, "A03",
                     XposedHelpers.findClass("com.instagram.service.session.UserSession", lpparam.classLoader),
                     XC_MethodReplacement.returnConstant(true));
 
-            XposedBridge.log("Experiments enabled!");
+           /* Object obj = XposedHelpers.newInstance(XposedHelpers.findClass("com.instagram.debug.quickexperiment.storage.QuickExperimentBisectStoreModel", lpparam.classLoader));
+
+            Integer ouin = (Integer) XposedHelpers.callMethod(obj,"getUniverseIndex", "is_employee");
+            XposedBridge.log("Universe index: " + ouin);*/
+
 
             /*final Object[] userSession = new Object[1];
             final Object[] fragmentActivity = new Object[1];

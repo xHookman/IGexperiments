@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import java.io.DataOutputStream;
 import java.util.Objects;
-
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity {
