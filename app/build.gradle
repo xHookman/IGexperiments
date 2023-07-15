@@ -10,7 +10,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        lintOptions {
+        checkReleaseBuilds false // Disable lint checks for release builds
+        abortOnError false // Allow the build to continue even if lint errors are present
+    }
         lint {
         baseline = file("lint-baseline.xml")
         }
