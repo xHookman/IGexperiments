@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">IGexperiments Mod</string>
     <string name="top_red_text">When you killed IG, open it and go to settings and click on internal to access to dev options. It might not work on non tested versions because of the class or method name</string>
-    <string name="tested_version">Tested with Instagram v279.0.0.0.10 : https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-279-0-0-0-10-release/</string>
+    <string name="tested_version">Tested with Instagram v292.0.0.16.110 : https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-292-0-0-16-110-release/</string>
     <string name="app_kill">Kill Instagram</string>
 </resources>
