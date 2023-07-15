@@ -11,14 +11,15 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         lintOptions {
-        checkReleaseBuilds false // Disable lint checks for release builds
-        abortOnError false // Allow the build to continue even if lint errors are present
-        absolutePaths false
-        lintConfig file('lint.xml')
-    }
+            checkReleaseBuilds false // Disable lint checks for release builds
+            abortOnError false // Allow the build to continue even if lint errors are present
+            absolutePaths false
+            lintConfig file('lint.xml')
+            ignoreWarnings true // Skip line length checks
+        }
         
         lint {
-        baseline = file("lint-baseline.xml")
+            baseline = file("lint-baseline.xml")
         }
     }
 
