@@ -3,18 +3,26 @@ package com.chacha.igexperiments;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class Module implements IXposedHookLoadPackage {
-    String IG_PACKAGE_NAME = "com.instagram.android";
 
     @Override
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) {
-        if(lpparam.packageName.equals(IG_PACKAGE_NAME)) {
-            XposedHelpers.findAndHookMethod("X.8W4", lpparam.classLoader, "A03",
+        XSharedPreferences prefs =  new XPreferences().loadPreferences();
+        prefs.reload();
+
+        String methodName = prefs.getString("methodName", "");
+        if(lpparam.packageName.equals(Utils.IG_PACKAGE_NAME)) {
+            if(methodName.equals("")){
+                methodName = "X.8W4"; // Change this if you want to update the app
+            }
+
+            XposedHelpers.findAndHookMethod(methodName, lpparam.classLoader, "A03",
                     XposedHelpers.findClass("com.instagram.service.session.UserSession", lpparam.classLoader),
                     XC_MethodReplacement.returnConstant(true));
 
@@ -68,13 +76,13 @@ public class Module implements IXposedHookLoadPackage {
                             AndroidAppHelper.currentApplication(),
                             activity,
                             userSession[0],
-                            "salope");
+                            "wow");
                 }
             });*/
         }
 
-        if(lpparam.packageName.equals("com.chacha.igexperiments")) {
-            findAndHookMethod("com.chacha.igexperiments" + ".MainActivity", lpparam.classLoader,
+        if(lpparam.packageName.equals(Utils.MY_PACKAGE_NAME)) {
+            findAndHookMethod(Utils.MY_PACKAGE_NAME + ".MainActivity", lpparam.classLoader,
                     "isModuleActive", XC_MethodReplacement.returnConstant(true));
         }
     }
