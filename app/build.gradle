@@ -13,7 +13,10 @@ android {
         lintOptions {
         checkReleaseBuilds false // Disable lint checks for release builds
         abortOnError false // Allow the build to continue even if lint errors are present
+        absolutePaths false
+        lintConfig file('lint.xml')
     }
+        
         lint {
         baseline = file("lint-baseline.xml")
         }
