@@ -14,7 +14,7 @@ public class Module implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) {
         if(lpparam.packageName.equals(IG_PACKAGE_NAME)) {
-            XposedHelpers.findAndHookMethod("X.4q7", lpparam.classLoader, "A03",
+            XposedHelpers.findAndHookMethod("X.8W4", lpparam.classLoader, "A03",
                     XposedHelpers.findClass("com.instagram.service.session.UserSession", lpparam.classLoader),
                     XC_MethodReplacement.returnConstant(true));
 
