@@ -1,15 +1,11 @@
 package com.chacha.igexperiments;
 
-import android.app.Application;
 import android.os.Environment;
-
 import java.io.File;
-
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 
 public class XPreferences {
-    private XSharedPreferences pref;
 
     private XSharedPreferences getPref() {
         XSharedPreferences pref = new XSharedPreferences(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
@@ -22,6 +18,7 @@ public class XPreferences {
     }
 
     public XSharedPreferences loadPreferences() {
+        XSharedPreferences pref;
         if (XposedBridge.getXposedVersion() < 93) {
             pref = getLegacyPrefs();
         } else {

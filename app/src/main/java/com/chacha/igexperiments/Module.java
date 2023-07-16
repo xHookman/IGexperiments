@@ -14,15 +14,20 @@ public class Module implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) {
         XSharedPreferences prefs =  new XPreferences().loadPreferences();
-        prefs.reload();
-
-        String methodName = prefs.getString("methodName", "");
-        if(lpparam.packageName.equals(Utils.IG_PACKAGE_NAME)) {
-            if(methodName.equals("")){
-                methodName = "X.8W4"; // Change this if you want to update the app
+        String className = "";
+        if(prefs!=null) {
+            className = prefs.getString("className", "");
+            if(className.equals("")){
+                className = Utils.CLASS_TO_HOOK; // Change this if you want to update the app
             }
+        } else {
+            XposedBridge.log("Can't load preference in the module");
+        }
 
-            XposedHelpers.findAndHookMethod(methodName, lpparam.classLoader, "A03",
+        if(lpparam.packageName.equals(Utils.IG_PACKAGE_NAME)) {
+            XposedBridge.log("(IGExperiments) Hooking class: " + className);
+
+            XposedHelpers.findAndHookMethod(className, lpparam.classLoader, "A03",
                     XposedHelpers.findClass("com.instagram.service.session.UserSession", lpparam.classLoader),
                     XC_MethodReplacement.returnConstant(true));
 

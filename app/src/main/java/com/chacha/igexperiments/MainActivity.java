@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         customMethodName = findViewById(R.id.editTextMethodName);
         loadPreferences(this);
-        customMethodName.setText(sharedPreferences.getString("methodName", ""));
+        customMethodName.setText(sharedPreferences.getString("className", Utils.CLASS_TO_HOOK));
 
         if(!isModuleActive()){
             Toast.makeText(this, "Module DISABLED !", Toast.LENGTH_LONG).show();
@@ -82,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void hook(View view) {
-        Toast.makeText(this, "Hooking...", Toast.LENGTH_SHORT).show();
-        editor.putString("methodName", customMethodName.getText().toString()).commit();
+        Toast.makeText(this, "Kill Instagram to hook", Toast.LENGTH_SHORT).show();
+        editor.putString("className", customMethodName.getText().toString()).commit();
+        FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
     }
 }
