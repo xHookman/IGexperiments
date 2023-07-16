@@ -1,37 +1,54 @@
 package com.chacha.igexperiments;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.coniy.fileprefs.FileSharedPreferences;
-
 import java.io.DataOutputStream;
+import java.net.URL;
 import java.util.Objects;
+import java.util.Scanner;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText customMethodName;
+    private EditText customClassName;
+    private TextView textHookedClass;
+    private CheckBox checkBoxUseCustomClass;
+    private Button btnHook;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    private SharedPreferences loadPreferences(Context context){
-        try {
-            //noinspection deprecation
-            sharedPreferences = context.getSharedPreferences(Utils.PREFS_NAME, Context.MODE_WORLD_READABLE);
-        } catch (SecurityException ignored) {
-            sharedPreferences = context.getSharedPreferences(Utils.PREFS_NAME, Context.MODE_PRIVATE);
-        }
+    private void initPreferences(){
+        sharedPreferences = Preferences.loadPreferences(this);
+        editor = Preferences.getEditor();
 
-        FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
-        editor = sharedPreferences.edit();
-        return sharedPreferences;
+        boolean useGithub = sharedPreferences.getBoolean("useGithub", true);
+        checkBoxUseCustomClass.setChecked(!useGithub);
+        customClassName.setEnabled(!useGithub);
+        btnHook.setEnabled(!useGithub);
+
+        if(useGithub){
+            textHookedClass.setText("Hooked class : " + getClassNameFromGithub());
+        } else {
+            textHookedClass.setText("Hooked class : " + customClassName.getText().toString());
+        }
+    }
+
+    private void initViews(){
+        customClassName = findViewById(R.id.editTextClassName);
+        textHookedClass = findViewById(R.id.textView3);
+        checkBoxUseCustomClass = findViewById(R.id.useCustomClass);
+        btnHook = findViewById(R.id.btnHook);
     }
 
     @Override
@@ -39,9 +56,29 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        customMethodName = findViewById(R.id.editTextMethodName);
-        loadPreferences(this);
-        customMethodName.setText(sharedPreferences.getString("className", Utils.CLASS_TO_HOOK));
+
+        initViews();
+        initPreferences();
+
+        customClassName.setText(sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK));
+
+        checkBoxUseCustomClass.setOnCheckedChangeListener((compoundButton, b) -> {
+            editor.putBoolean("useGithub", !b).commit();
+            FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
+            if(!b){
+                textHookedClass.setText("Hooked class : " + getClassNameFromGithub());
+            } else {
+                textHookedClass.setText("Hooked class : " + customClassName.getText().toString());
+            }
+            customClassName.setEnabled(b);
+            btnHook.setEnabled(b);
+        });
+
+        btnHook.setOnClickListener(view -> {
+            editor.putString("className", customClassName.getText().toString()).commit();
+            FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
+            textHookedClass.setText("Hooked class : " + customClassName.getText().toString());
+        });
 
         if(!isModuleActive()){
             Toast.makeText(this, "Module DISABLED !", Toast.LENGTH_LONG).show();
@@ -81,9 +118,17 @@ public class MainActivity extends AppCompatActivity {
         killAction();
     }
 
-    public void hook(View view) {
-        Toast.makeText(this, "Kill Instagram to hook", Toast.LENGTH_SHORT).show();
-        editor.putString("className", customMethodName.getText().toString()).commit();
-        FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
+    public static String getClassNameFromGithub(){
+        try {
+            Log.println(Log.INFO, "IGexperiments", "Reading raw content from github file");
+            URL url = new URL("https://raw.githubusercontent.com/xHookman/IGexperiments/custom_class/app/src/main/assets/class_to_hook");
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            Scanner s = new Scanner(url.openStream());
+            return s.nextLine();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

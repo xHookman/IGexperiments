@@ -5,20 +5,20 @@ import java.io.File;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 
-public class XPreferences {
+public class XposedPreferences extends Preferences{
+    private static XSharedPreferences pref;
 
-    private XSharedPreferences getPref() {
+    private static XSharedPreferences getPref() {
         XSharedPreferences pref = new XSharedPreferences(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
         return pref.getFile().canRead() ? pref : null;
     }
 
-    private XSharedPreferences getLegacyPrefs() {
+    private static XSharedPreferences getLegacyPrefs() {
         File f = new File(Environment.getDataDirectory(), "data/" + Utils.MY_PACKAGE_NAME + "/shared_prefs/" + Utils.PREFS_NAME + ".xml");
         return new XSharedPreferences(f);
     }
 
-    public XSharedPreferences loadPreferences() {
-        XSharedPreferences pref;
+    public static XSharedPreferences loadPreferences() {
         if (XposedBridge.getXposedVersion() < 93) {
             pref = getLegacyPrefs();
         } else {
@@ -31,6 +31,18 @@ public class XPreferences {
             XposedBridge.log("Can't load preference in the module");
         }
 
+        return pref;
+    }
+
+    public static boolean hasPrefsChanged() {
+        return pref.hasFileChanged();
+    }
+
+    public static void reloadPrefs() {
+        pref.reload();
+    }
+
+    public static XSharedPreferences getPrefs() {
         return pref;
     }
 }

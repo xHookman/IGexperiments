@@ -38,6 +38,27 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <CheckBox
+        android:id="@+id/useCustomClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/use_custom_class_name"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="1dp"
+        android:text="@string/hooked_class"
+        android:textColor="@android:color/holo_green_light"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/useCustomClass"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
@@ -47,18 +68,17 @@
         tools:layout_editor_absoluteX="51dp">
 
         <EditText
-            android:id="@+id/editTextMethodName"
-            android:layout_width="match_parent"
+            android:id="@+id/editTextClassName"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="@string/methodname" />
+            android:hint="@string/classname" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnHook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="hook"
-            android:text="HOOK!" />
+            android:text="@string/hook" />
     </LinearLayout>
 
     <TextView
@@ -67,7 +87,7 @@
         android:layout_height="wrap_content"
         android:autoLink="web"
         android:text="@string/infohook"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2" />
+        app:layout_constraintBottom_toTopOf="@+id/useCustomClass" />
 
     <Button
         android:id="@+id/buttonKill"

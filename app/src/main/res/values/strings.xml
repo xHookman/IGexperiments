@@ -4,5 +4,8 @@
     <string name="tested_version">Tested with Instagram v292.0.0.16.110 : https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-292-0-0-16-110-release/</string>
     <string name="app_kill">Kill Instagram</string>
     <string name="infohook">If there is no update for you IG version, you can give the class name below. If you don\'t know how to do it, read the readme from my github repo:  https://github.com/xHookman/IGexperiments/</string>
-    <string name="methodname">Method name (ex : X.8W4)</string>
+    <string name="classname">Method name (ex : X.8W4)</string>
+    <string name="use_custom_class_name">Use custom class name</string>
+    <string name="hooked_class">Hooked class :</string>
+    <string name="hook">HOOK!</string>
 </resources>
