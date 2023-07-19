@@ -24,5 +24,8 @@ First you will need to use [Jadx](https://github.com/skylot/jadx)
 ```
 r2.A0i("is_employee", Boolean.valueOf(C8WQ.A03(userSession)));
 ```
-
-You now know the class to hook: C8WQ so you will use X.C8WQ!
+Double click on the method name, A03 and go at top. You will see a line: 
+```
+/* renamed from: X.8WQ  reason: invalid class name */
+```
+You now know the class to hook: X.8WQ!
