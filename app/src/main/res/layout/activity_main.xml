@@ -121,6 +121,7 @@
         android:onClick="killIG"
         android:text="@string/app_kill"
         android:textColor="@android:color/holo_red_dark"
+        android:layout_marginTop="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
