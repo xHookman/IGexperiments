@@ -22,13 +22,13 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         XposedPreferences.reloadPrefs();
 
         String className;
-        if(XposedPreferences.getPrefs().getBoolean("useGithub", true)){
+        if(XposedPreferences.getPrefs().getBoolean("useGithub", true))
             XposedBridge.log("(IGExperiments) Using class name from Github");
-            className = MainActivity.getClassNameFromGithub();
-        } else {
+         else
             XposedBridge.log("(IGExperiments) Using class name from preferences");
-            className = XposedPreferences.getPrefs().getString("className", "");
-        }
+
+         className = XposedPreferences.getPrefs().getString("className", "");
+
 
         if(className.equals("")){
             XposedBridge.log("(IGExperiments) No class name found, using default");

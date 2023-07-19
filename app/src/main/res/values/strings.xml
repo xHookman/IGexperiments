@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">IGexperiments Mod</string>
     <string name="top_red_text">When you killed IG, open it and go to settings and click on internal to access to dev options. It might not work on non tested versions because of the class or method name</string>
-    <string name="tested_version">Tested with Instagram v292.0.0.16.110 : https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-292-0-0-16-110-release/</string>
+    <string name="download">Download your chosen version: %1$s</string>
     <string name="app_kill">Kill Instagram</string>
     <string name="infohook">If there is no update for you IG version, you can give the class name below. If you don\'t know how to do it, read the readme from my github repo:  https://github.com/xHookman/IGexperiments/</string>
     <string name="classname">Method name (ex : X.8W4)</string>
     <string name="use_custom_class_name">Use custom class name</string>
-    <string name="hooked_class">Hooked class :</string>
+    <string name="hooked_class">Hooked class: %1$s</string>
     <string name="hook">HOOK!</string>
+    <string name="choose_version">Choose your IG version: </string>
 </resources>
