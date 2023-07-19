@@ -14,9 +14,8 @@ LSPatch(Non-Root devices)
 
 #### How to support more Instagram versions ?
 
-First you will need to use Jadx to decompile an Instagram apk.
-Jadx: 
-Instagram apks: 
+First you will need to use [Jadx](https://github.com/skylot/jadx)
+ to decompile an [Instagram apk](https://www.apkmirror.com/apk/instagram/).
 
 - Open Jadx and select your apk.
 - Click on the text search button at top, wait for decompiling (it can takes several times)
