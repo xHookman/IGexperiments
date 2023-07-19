@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Spinner igVersionsSpinner;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private ArrayList<InfoIGVersion> igVersions;
+    private ArrayList<InfoIGVersion> iGVersionsInfos;
 
     private void initPreferences(){
         sharedPreferences = Preferences.loadPreferences(this);
@@ -60,29 +60,18 @@ public class MainActivity extends AppCompatActivity {
         igVersionsSpinner = findViewById(R.id.igVersionsSpinner);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    private void initIGVersionsSpinner(){
+        ArrayAdapter<InfoIGVersion> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, iGVersionsInfos);
 
-        initViews();
-        initPreferences();
-
-        igVersions = new ArrayList<>();
-        try {
-            igVersions = getIGVersions();
-        } catch (JSONException e) {
-            Log.e("IGEXPERIMENTS", "Error while parsing JSON");
-            e.printStackTrace();
-        }
-
-        ArrayAdapter<InfoIGVersion> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, igVersions);
+        if(iGVersionsInfos.size()==0)
+            textViewDownload.setText(R.string.error);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapter.sort(Comparator.comparing(InfoIGVersion::getVersion));
         igVersionsSpinner.setAdapter(adapter);
         setIGItemPosition();
+    }
 
+    private void initViewsFunctions(){
         customClassName.setText(sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK));
 
         checkBoxUseCustomClass.setOnCheckedChangeListener((compoundButton, b) -> {
@@ -114,6 +103,22 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        initViews();
+        initPreferences();
+
+        iGVersionsInfos = new ArrayList<>();
+        iGVersionsInfos = getIGVersionsInfos();
+
+        initIGVersionsSpinner();
+        initViewsFunctions();
 
         if(!isModuleActive()){
             Toast.makeText(this, "Module DISABLED !", Toast.LENGTH_LONG).show();
@@ -156,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     private String getJSONContent(){
         try {
             Log.println(Log.INFO, "IGexperiments", "Reading raw content from github file");
-            URL url = new URL("https://raw.githubusercontent.com/xHookman/IGexperiments/custom_class/app/src/main/assets/class_to_hook.json");
+            URL url = new URL("https://raw.githubusercontent.com/xHookman/IGexperiments/master/classes_to_hook.json");
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             Scanner s = new Scanner(url.openStream());
@@ -171,23 +176,28 @@ public class MainActivity extends AppCompatActivity {
         return "";
     }
 
-    private ArrayList<InfoIGVersion> getIGVersions() throws JSONException {
+    private ArrayList<InfoIGVersion> getIGVersionsInfos() {
         ArrayList<InfoIGVersion> versions = new ArrayList<>();
         Log.e("IGEXPERIMENTS", getJSONContent());
-        JSONObject jsonObject = new JSONObject(getJSONContent());
-        JSONArray jsonArray = jsonObject.getJSONArray("ig_versions");
-        for(int i = 0; i < jsonArray.length(); i++){
-            JSONObject infoVersions = jsonArray.getJSONObject(i);
-            versions.add(new InfoIGVersion(infoVersions.getString("version"),
-                    infoVersions.getString("class_to_hook"),
-                    infoVersions.getString("download")));
+        try {
+            JSONObject jsonObject = new JSONObject(getJSONContent());
+            JSONArray jsonArray = jsonObject.getJSONArray("ig_versions");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject infoVersions = jsonArray.getJSONObject(i);
+                versions.add(new InfoIGVersion(infoVersions.getString("version"),
+                        infoVersions.getString("class_to_hook"),
+                        infoVersions.getString("download")));
+            }
+        } catch (JSONException e) {
+            Log.e("IGEXPERIMENTS", "Error while parsing JSON");
+            e.printStackTrace();
         }
         return versions;
     }
 
     private void setIGItemPosition(){
-        for (int i = 0; i < igVersions.size(); i++) {
-            if (igVersions.get(i).getClassToHook().equals(sharedPreferences.getString("className", ""))){
+        for (int i = 0; i < iGVersionsInfos.size(); i++) {
+            if (iGVersionsInfos.get(i).getClassToHook().equals(sharedPreferences.getString("className", ""))){
                 igVersionsSpinner.setSelection(i);
             }
         }

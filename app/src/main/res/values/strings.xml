@@ -9,4 +9,5 @@
     <string name="hooked_class">Hooked class: %1$s</string>
     <string name="hook">HOOK!</string>
     <string name="choose_version">Choose your IG version: </string>
+    <string name="error">An error occurred getting infos for instagram versions from Github!</string>
 </resources>
