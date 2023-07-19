@@ -19,12 +19,12 @@ First you will need to use [Jadx](https://github.com/skylot/jadx)
 
 - Open Jadx and select your apk.
 - Click on the text search button at top, wait for decompiling (it can takes several times)
-- Search for "is_employee" and find a line similar to this:
+- Search for "is_employee" and find a line similar to:
 
 ```
 r2.A0i("is_employee", Boolean.valueOf(C8WQ.A03(userSession)));
 ```
-Double click on the method name, A03 and go at top. You will see a line: 
+Double click on the method name, A03 and go at top. You will see a line like this: 
 ```
 /* renamed from: X.8WQ  reason: invalid class name */
 ```
