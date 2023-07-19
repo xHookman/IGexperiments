@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="target_app">
-    <item>com.instagram.android</item>
+        <item>com.instagram.android</item>
+    </string-array>
+    <string-array name="ig_version">
+        <item>292.0.0.16.110</item>
     </string-array>
 </resources>

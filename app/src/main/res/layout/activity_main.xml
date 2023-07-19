@@ -28,14 +28,89 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/textViewDownload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autoLink="web"
-        android:text="@string/tested_version"
+        android:text="@string/download"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/useCustomClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/use_custom_class_name"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/hooked_class"
+        android:textColor="@android:color/holo_green_light"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/useCustomClass" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/useCustomClass">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_version"
+            android:textColor="@android:color/holo_red_light"
+            app:layout_constraintBottom_toTopOf="@+id/useCustomClass"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Spinner
+            android:id="@+id/igVersionsSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:entries="@array/ig_version"
+            tools:layout_editor_absoluteX="208dp"
+            tools:layout_editor_absoluteY="706dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/textViewDownload"
+        tools:layout_editor_absoluteX="51dp">
+
+        <EditText
+            android:id="@+id/editTextClassName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="@string/classname" />
+
+        <Button
+            android:id="@+id/btnHook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hook" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:text="@string/infohook"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3" />
 
     <Button
         android:id="@+id/buttonKill"
