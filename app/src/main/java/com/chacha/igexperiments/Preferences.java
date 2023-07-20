@@ -2,7 +2,6 @@ package com.chacha.igexperiments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import com.coniy.fileprefs.FileSharedPreferences;
 
 public class Preferences {
