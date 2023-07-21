@@ -1,6 +1,11 @@
 {
     "ig_versions": [
         {
+                "version": "293.0.2.0.84",
+                "class_to_hook": "X.0Km",
+                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-293-0-2-0-84-release/"
+        },
+        {
                 "version": "293.0.2.0.74",
                 "class_to_hook": "X.8WQ",
                 "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-293-0-2-0-74-release/"
