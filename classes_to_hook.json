@@ -3,26 +3,31 @@
         {
                 "version": "294.0.0.0.15",
                 "class_to_hook": "X.0Ko",
+                "method_to_hook": "A01",
                 "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-294-0-0-0-15-release"
         },
         {
                 "version": "293.0.2.0.74",
                 "class_to_hook": "X.8WQ",
+                "method_to_hook": "A03",
                 "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-293-0-2-0-74-release/"
         },
         {
                 "version": "292.0.0.16.110",
                 "class_to_hook": "X.8W4",
+                "method_to_hook": "A03",
                 "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-292-0-0-16-110-release/"
         },
         {
                 "version": "279.0.0.0.10",
                 "class_to_hook": "X.4q7",
+                "method_to_hook": "A03",
                 "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-279-0-0-0-10-release"
         },
         {
                 "version": "v276.0.0.0.20",
                 "class_to_hook": "X.4v3",
+                "method_to_hook": "A03",
                 "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-276-0-0-0-20-release/"
         }
   ]
