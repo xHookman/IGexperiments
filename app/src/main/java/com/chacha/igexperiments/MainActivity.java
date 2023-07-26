@@ -29,7 +29,7 @@ import java.util.Scanner;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText customClassName;
+    private EditText customClassName, customMethodName;
     private TextView textHookedClass, textViewDownload;
     private CheckBox checkBoxUseCustomClass;
     private Button btnHook;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private ArrayList<InfoIGVersion> iGVersionsInfos;
 
-    private void initPreferences(){
+    private void initPreferences() {
         sharedPreferences = Preferences.loadPreferences(this);
         editor = Preferences.getEditor();
 
@@ -48,11 +48,14 @@ public class MainActivity extends AppCompatActivity {
         btnHook.setEnabled(!useGithub);
         igVersionsSpinner.setEnabled(useGithub);
 
-        textHookedClass.setText(sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK));
+        textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
+                sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK),
+                sharedPreferences.getString("methodName", Utils.DEFAULT_METHOD_TO_HOOK)));
     }
 
     private void initViews(){
         customClassName = findViewById(R.id.editTextClassName);
+        customMethodName = findViewById(R.id.editTextMethodName);
         textHookedClass = findViewById(R.id.textView3);
         textViewDownload = findViewById(R.id.textViewDownload);
         checkBoxUseCustomClass = findViewById(R.id.useCustomClass);
@@ -73,27 +76,38 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViewsFunctions(){
         customClassName.setText(sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK));
+        customMethodName.setText(sharedPreferences.getString("methodName", Utils.DEFAULT_METHOD_TO_HOOK));
 
         checkBoxUseCustomClass.setOnCheckedChangeListener((compoundButton, b) -> {
             editor.putBoolean("useGithub", !b).commit();
             FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
-            textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class), sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK)));
+            textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
+                    sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK),
+                    sharedPreferences.getString("methodName", Utils.DEFAULT_METHOD_TO_HOOK)));
+
             customClassName.setEnabled(b);
+            customMethodName.setEnabled(b);
             btnHook.setEnabled(b);
             igVersionsSpinner.setEnabled(!b);
         });
 
         btnHook.setOnClickListener(view -> {
             editor.putString("className", customClassName.getText().toString()).commit();
+            editor.putString("methodName", customMethodName.getText().toString()).commit();
             FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
-            textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class), customClassName.getText().toString()));
+            textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
+                    customClassName.getText().toString(),
+                    customMethodName.getText().toString()));
         });
 
         igVersionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 editor.putString("className", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook()).commit();
-                textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class), ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook()));
+                textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
+                        ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook(),
+                        ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getMethodToHook()));
+
                 textViewDownload.setText(String.format(getResources().getString(R.string.download), ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getUrl()));
                 FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
             }
@@ -186,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject infoVersions = jsonArray.getJSONObject(i);
                 versions.add(new InfoIGVersion(infoVersions.getString("version"),
                         infoVersions.getString("class_to_hook"),
+                        infoVersions.getString("method_to_hook"),
                         infoVersions.getString("download")));
             }
         } catch (JSONException e) {

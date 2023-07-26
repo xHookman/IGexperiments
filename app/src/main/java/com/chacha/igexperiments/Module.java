@@ -21,24 +21,26 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         XposedPreferences.loadPreferences();
         XposedPreferences.reloadPrefs();
 
-        String className;
+        String className, methodName;
         if(XposedPreferences.getPrefs().getBoolean("useGithub", true))
             XposedBridge.log("(IGExperiments) Using class name from Github");
          else
             XposedBridge.log("(IGExperiments) Using class name from preferences");
 
          className = XposedPreferences.getPrefs().getString("className", "");
+         methodName = XposedPreferences.getPrefs().getString("methodName", "");
 
 
         if(className.equals("")){
             XposedBridge.log("(IGExperiments) No class name found, using default");
             className = Utils.DEFAULT_CLASS_TO_HOOK; // Change this if you want to update the app
+            methodName = Utils.DEFAULT_METHOD_TO_HOOK;
         }
 
         if(lpparam.packageName.equals(Utils.IG_PACKAGE_NAME)) {
             XposedBridge.log("(IGExperiments) Hooking class: " + className);
 
-            XposedHelpers.findAndHookMethod(className, lpparam.classLoader, "A03",
+            XposedHelpers.findAndHookMethod(className, lpparam.classLoader, methodName,
                     XposedHelpers.findClass("com.instagram.service.session.UserSession", lpparam.classLoader),
                     XC_MethodReplacement.returnConstant(true));
         }
