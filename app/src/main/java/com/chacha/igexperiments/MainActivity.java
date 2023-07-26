@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 editor.putString("className", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook()).commit();
+                editor.putString("methodName", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getMethodToHook()).commit();
+
                 textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
                         ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook(),
                         ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getMethodToHook()));
