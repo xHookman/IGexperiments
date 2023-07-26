@@ -39,7 +39,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
         if(lpparam.packageName.equals(Utils.IG_PACKAGE_NAME)) {
             XposedBridge.log("(IGExperiments) Hooking class: " + className);
-
+            XposedBridge.log("(IGExperiments) Hooking method: " + methodName);
             XposedHelpers.findAndHookMethod(className, lpparam.classLoader, methodName,
                     XposedHelpers.findClass("com.instagram.service.session.UserSession", lpparam.classLoader),
                     XC_MethodReplacement.returnConstant(true));

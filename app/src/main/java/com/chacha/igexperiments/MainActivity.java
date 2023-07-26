@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         boolean useGithub = sharedPreferences.getBoolean("useGithub", true);
         checkBoxUseCustomClass.setChecked(!useGithub);
         customClassName.setEnabled(!useGithub);
+        customMethodName.setEnabled(!useGithub);
         btnHook.setEnabled(!useGithub);
         igVersionsSpinner.setEnabled(useGithub);
 
