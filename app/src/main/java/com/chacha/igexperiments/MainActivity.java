@@ -23,7 +23,6 @@ import org.json.JSONObject;
 import java.io.DataOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Objects;
 import java.util.Scanner;
 import eu.chainfire.libsuperuser.Shell;
@@ -69,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         if(iGVersionsInfos.size()==0)
             textViewDownload.setText(R.string.error);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter.sort(Comparator.comparing(InfoIGVersion::getVersion));
         igVersionsSpinner.setAdapter(adapter);
         setIGItemPosition();
     }
