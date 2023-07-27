@@ -19,7 +19,7 @@ First you will need to use [Jadx](https://github.com/skylot/jadx)
 
 - Open Jadx and select your apk.
 - Click on the text search button at top, wait for decompiling (it can takes several times)
-- Search for "is_employee" or "("is_employee", Boolean.valueOf(" and find a line similar to:
+- Search for "```is_employee```" or "```("is_employee", Boolean.valueOf(```" and find a line similar to:
 
 ```
 r2.A0i("is_employee", Boolean.valueOf(C8WQ.A03(userSession)));
