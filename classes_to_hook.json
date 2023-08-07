@@ -1,6 +1,12 @@
 {
     "ig_versions": [
         {
+                "version": "295.0.0.32.109",
+                "class_to_hook": "X.1D9",
+                "method_to_hook": "A00",
+                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-295-0-0-32-109-release/"
+        },
+        {
                 "version": "295.0.0.5.109 (Beta)",
                 "class_to_hook": "X.12U",
                 "method_to_hook": "A00",
