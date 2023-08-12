@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">IGexperiments</string>
-    <string name="top_red_text">When you killed IG, open it and go to settings and click on internal to access to dev options. It might not work on non tested versions because of the class or method name. Betas versions has readable experiments name, you can enable "is_employee" to be able to access the menu when you update Instagram.</string>
-    <string name="download">Download your chosen version: %1$s</string>
+    <string name="top_red_text">1. Choose you Instagram version\n2. Download and install the apk\n3. Kill and launch Instagram\n4. Long press the home button &amp; enjoy!</string>
     <string name="app_kill">Kill &amp; launch Instagram</string>
-    <string name="infohook">If there is no update for you IG version, you can give the class name below and contribute. If you don\'t know how to do it, read the readme from my github repo:  https://github.com/xHookman/IGexperiments/</string>
+    <string name="infohook">The last version is not supported? Contribute! Read the faq from my github repo:  https://github.com/xHookman/IGexperiments/. Use the HECKER mode to try what you found!</string>
     <string name="classname">Class name (ex : X.8W4)</string>
     <string name="methodname">Method name (ex : A00)</string>
-    <string name="use_custom_class_name">Use custom class name</string>
+    <string name="use_hecker_mode">Use HECKER mode</string>
     <string name="hooked_class">Hooked class: %1$s\nHooked method: %2$s</string>
     <string name="hook">HOOK!</string>
     <string name="choose_version">Choose your IG version: </string>
     <string name="error">An error occurred getting infos for instagram versions from Github!</string>
+    <string name="download_apk">Download APK</string>
 </resources>

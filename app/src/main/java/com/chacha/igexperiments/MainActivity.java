@@ -1,7 +1,11 @@
 package com.chacha.igexperiments;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -9,9 +13,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.coniy.fileprefs.FileSharedPreferences;
@@ -26,10 +31,11 @@ import java.util.Scanner;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity {
+    private LinearLayout layoutHeckerMode;
     private EditText customClassName, customMethodName;
-    private TextView textHookedClass, textViewDownload;
-    private CheckBox checkBoxUseCustomClass;
-    private Button btnHook;
+    private TextView textHookedClass, textViewError;
+    private SwitchCompat switchUseHeckerMode;
+    private Button btnHook, btnDownload, btnKill;
     private Spinner igVersionsSpinner;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -39,12 +45,9 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = Preferences.loadPreferences(this);
         editor = Preferences.getEditor();
 
-        boolean useGithub = sharedPreferences.getBoolean("useGithub", true);
-        checkBoxUseCustomClass.setChecked(!useGithub);
-        customClassName.setEnabled(!useGithub);
-        customMethodName.setEnabled(!useGithub);
-        btnHook.setEnabled(!useGithub);
-        igVersionsSpinner.setEnabled(useGithub);
+        boolean useHeckerMode = sharedPreferences.getBoolean("useHeckerMode", false);
+        switchUseHeckerMode.setChecked(useHeckerMode);
+        layoutHeckerMode.setVisibility(useHeckerMode ? View.VISIBLE : View.GONE);
 
         textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
                 sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK),
@@ -55,17 +58,24 @@ public class MainActivity extends AppCompatActivity {
         customClassName = findViewById(R.id.editTextClassName);
         customMethodName = findViewById(R.id.editTextMethodName);
         textHookedClass = findViewById(R.id.textView3);
-        textViewDownload = findViewById(R.id.textViewDownload);
-        checkBoxUseCustomClass = findViewById(R.id.useCustomClass);
+        switchUseHeckerMode = findViewById(R.id.useHeckerMode);
         btnHook = findViewById(R.id.btnHook);
         igVersionsSpinner = findViewById(R.id.igVersionsSpinner);
+        layoutHeckerMode = findViewById(R.id.layoutHeckerMode);
+        btnDownload = findViewById(R.id.btnDownload);
+        btnKill = findViewById(R.id.btnKill);
+        textViewError = findViewById(R.id.textViewError);
+    }
+
+    private boolean isErrorDetected(){
+        return iGVersionsInfos.size()==0;
     }
 
     private void initIGVersionsSpinner(){
         ArrayAdapter<InfoIGVersion> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, iGVersionsInfos);
 
-        if(iGVersionsInfos.size()==0)
-            textViewDownload.setText(R.string.error);
+        if(isErrorDetected())
+           textViewError.setVisibility(View.VISIBLE);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         igVersionsSpinner.setAdapter(adapter);
         setIGItemPosition();
@@ -75,17 +85,13 @@ public class MainActivity extends AppCompatActivity {
         customClassName.setText(sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK));
         customMethodName.setText(sharedPreferences.getString("methodName", Utils.DEFAULT_METHOD_TO_HOOK));
 
-        checkBoxUseCustomClass.setOnCheckedChangeListener((compoundButton, b) -> {
+        switchUseHeckerMode.setOnCheckedChangeListener((compoundButton, b) -> {
             editor.putBoolean("useGithub", !b).commit();
             FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
             textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
                     sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK),
                     sharedPreferences.getString("methodName", Utils.DEFAULT_METHOD_TO_HOOK)));
-
-            customClassName.setEnabled(b);
-            customMethodName.setEnabled(b);
-            btnHook.setEnabled(b);
-            igVersionsSpinner.setEnabled(!b);
+            layoutHeckerMode.setVisibility(b ? View.VISIBLE : View.GONE);
         });
 
         btnHook.setOnClickListener(view -> {
@@ -107,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                         ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook(),
                         ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getMethodToHook()));
 
-                textViewDownload.setText(String.format(getResources().getString(R.string.download), ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getUrl()));
                 FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
             }
 
@@ -115,6 +120,19 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
+        });
+
+        btnDownload.setOnClickListener(view -> {
+            if(isErrorDetected()){
+                textViewError.setTextSize(textViewError.getTextSize()+1);
+                return;
+            }
+
+            openUrl(((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getUrl());
+        });
+
+        btnKill.setOnClickListener(view -> {
+            killAction();
         });
     }
 
@@ -144,7 +162,12 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public void killAction() {
+    private void openUrl(String url){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
+    }
+
+    private void killAction() {
         if (Shell.SU.available()) {
             try {
                 Process su = Runtime.getRuntime().exec("su");
@@ -161,10 +184,6 @@ public class MainActivity extends AppCompatActivity {
         } else
             Toast.makeText(this, "Root not granted !", Toast.LENGTH_SHORT).show();
         }
-
-    public void killIG(View view) {
-        killAction();
-    }
 
     private String getJSONContent(){
         try {

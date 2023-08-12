@@ -22,10 +22,11 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         XposedPreferences.reloadPrefs();
 
         String className, methodName;
-        if(XposedPreferences.getPrefs().getBoolean("useGithub", true))
-            XposedBridge.log("(IGExperiments) Using class name from Github");
-         else
+        if(XposedPreferences.getPrefs().getBoolean("useHeckerMode", false))
             XposedBridge.log("(IGExperiments) Using class name from preferences");
+        else
+            XposedBridge.log("(IGExperiments) Using class name from Github");
+
 
          className = XposedPreferences.getPrefs().getString("className", "");
          methodName = XposedPreferences.getPrefs().getString("methodName", "");
