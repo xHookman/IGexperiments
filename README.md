@@ -29,3 +29,5 @@ Double click on the method name, A03 and go at top. You will see a line like thi
 /* renamed from: X.8WQ  reason: invalid class name */
 ```
 You now know the class to hook: X.8WQ!
+
+You can now try if it works by completing the class name and method name field, click on hook and kill Instagram :)
