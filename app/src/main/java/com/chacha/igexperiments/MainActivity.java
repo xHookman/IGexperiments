@@ -1,8 +1,6 @@
 package com.chacha.igexperiments;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -21,9 +19,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
 import eu.chainfire.libsuperuser.Shell;
 
@@ -147,27 +145,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void killAction() {
-        Context context = this;
-        try {
-            if (Shell.SU.available()) {
+        if (Shell.SU.available()) {
+            try {
                 Process su = Runtime.getRuntime().exec("su");
                 DataOutputStream os = new DataOutputStream(su.getOutputStream());
                 os.writeBytes("adb shell" + "\n");
                 os.flush();
                 os.writeBytes("am force-stop " + Utils.IG_PACKAGE_NAME + "\n");
                 os.flush();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ignored) {
-                }
-
-                //launch instagram
-                Intent LaunchIntent = context.getPackageManager().getLaunchIntentForPackage(Utils.IG_PACKAGE_NAME);
-                context.startActivity(Objects.requireNonNull(LaunchIntent));
+                os.writeBytes("am start -n " + Utils.IG_PACKAGE_NAME + "/com.instagram.mainactivity.MainActivity" + "\n");
+                os.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }catch (Exception exception){
-            Toast.makeText(context, "Root not granted !", Toast.LENGTH_SHORT).show();
-    }}
+        } else
+            Toast.makeText(this, "Root not granted !", Toast.LENGTH_SHORT).show();
+        }
 
     public void killIG(View view) {
         killAction();
