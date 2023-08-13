@@ -40,11 +40,12 @@
 
     <ImageButton
         android:id="@+id/btnDonate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:layout_marginBottom="10dp"
         android:background="@android:color/black"
         android:src="@drawable/btn_donate"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,6 +101,7 @@
 
         <Button
             android:id="@+id/btnHook"
+            android:background="@drawable/shape"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hook" />
