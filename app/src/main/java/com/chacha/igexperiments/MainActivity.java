@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         customMethodName.setText(sharedPreferences.getString("methodName", Utils.DEFAULT_METHOD_TO_HOOK));
 
         switchUseHeckerMode.setOnCheckedChangeListener((compoundButton, b) -> {
-            editor.putBoolean("useGithub", !b).commit();
+            editor.putBoolean("useHeckerMode", b).commit();
             FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
             textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
                     sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK),
@@ -111,9 +111,10 @@ public class MainActivity extends AppCompatActivity {
                 editor.putString("className", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook()).commit();
                 editor.putString("methodName", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getMethodToHook()).commit();
 
-                textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
-                        ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook(),
-                        ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getMethodToHook()));
+                if(!switchUseHeckerMode.isChecked())
+                    textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
+                            ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook(),
+                            ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getMethodToHook()));
 
                 FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
             }
