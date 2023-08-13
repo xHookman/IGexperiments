@@ -8,6 +8,11 @@ public class Preferences {
     private static SharedPreferences pref;
     private static SharedPreferences.Editor editor;
 
+    /**
+     * Init the preferences
+     * @param context
+     * @return the preferences
+     */
     public static SharedPreferences loadPreferences(Context context){
         try {
             //noinspection deprecation
@@ -20,10 +25,18 @@ public class Preferences {
         return pref;
     }
 
+    /**
+     *
+     * @return the preferences
+     */
     public static SharedPreferences getPrefs(){
         return pref;
     }
 
+    /**
+     *
+     * @return the editor
+     */
     public static SharedPreferences.Editor getEditor(){
         return editor;
     }

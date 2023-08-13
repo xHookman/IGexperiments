@@ -42,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private ArrayList<InfoIGVersion> iGVersionsInfos;
 
-    private void initPreferences() {
+    /**
+     * Init views preferences
+     */
+    private void initViewsPreferences() {
         sharedPreferences = Preferences.loadPreferences(this);
         editor = Preferences.getEditor();
 
@@ -55,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
                 sharedPreferences.getString("methodName", Utils.DEFAULT_METHOD_TO_HOOK)));
     }
 
+    /**
+     * Init the views
+     */
     private void initViews(){
         customClassName = findViewById(R.id.editTextClassName);
         customMethodName = findViewById(R.id.editTextMethodName);
@@ -69,10 +75,16 @@ public class MainActivity extends AppCompatActivity {
         btnDonate = findViewById(R.id.btnDonate);
     }
 
+    /**
+     * @return true if an error is detected
+     */
     private boolean isErrorDetected(){
         return iGVersionsInfos.size()==0;
     }
 
+    /**
+     * Init the spinner with the differents IG versions
+     */
     private void initIGVersionsSpinner(){
         ArrayAdapter<InfoIGVersion> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, iGVersionsInfos);
 
@@ -83,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
         setIGItemPosition();
     }
 
+    /**
+     * Init the differents views functions and listeners
+     */
     private void initViewsFunctions(){
         customClassName.setText(sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK));
         customMethodName.setText(sharedPreferences.getString("methodName", Utils.DEFAULT_METHOD_TO_HOOK));
@@ -143,6 +158,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Init array of IG versions infos
+     */
+    private void initIGVersionsInfos(){
+        iGVersionsInfos = new ArrayList<>();
+        iGVersionsInfos = getIGVersionsInfos();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -150,11 +173,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initViews();
-        initPreferences();
-
-        iGVersionsInfos = new ArrayList<>();
-        iGVersionsInfos = getIGVersionsInfos();
-
+        initViewsPreferences();
+        initIGVersionsInfos();
         initIGVersionsSpinner();
         initViewsFunctions();
 
@@ -170,11 +190,18 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * Open url in browser
+     * @param url url to open
+     */
     private void openUrl(String url){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
     }
 
+    /**
+     * Kill and start Instagram app
+     */
     private void killAction() {
         if (Shell.SU.available()) {
             try {
@@ -192,6 +219,10 @@ public class MainActivity extends AppCompatActivity {
         } else
             Toast.makeText(this, "Root not granted !", Toast.LENGTH_SHORT).show();
         }
+
+    /**
+     * @return Return the json of supported IG versions
+     */
 
     private String getJSONContent(){
         try {
@@ -211,9 +242,11 @@ public class MainActivity extends AppCompatActivity {
         return "";
     }
 
+    /**
+     * @return Return an ArrayList of differents supported IG versions
+     */
     private ArrayList<InfoIGVersion> getIGVersionsInfos() {
         ArrayList<InfoIGVersion> versions = new ArrayList<>();
-        Log.e("IGEXPERIMENTS", getJSONContent());
         try {
             JSONObject jsonObject = new JSONObject(getJSONContent());
             JSONArray jsonArray = jsonObject.getJSONArray("ig_versions");
@@ -231,6 +264,9 @@ public class MainActivity extends AppCompatActivity {
         return versions;
     }
 
+    /**
+     * Set the correct position of the spinner depending on the saved version
+     */
     private void setIGItemPosition(){
         for (int i = 0; i < iGVersionsInfos.size(); i++) {
             if (iGVersionsInfos.get(i).getClassToHook().equals(sharedPreferences.getString("className", ""))){
