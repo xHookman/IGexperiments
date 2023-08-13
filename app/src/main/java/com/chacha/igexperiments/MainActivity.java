@@ -103,7 +103,15 @@ public class MainActivity extends AppCompatActivity {
 
         switchUseHeckerMode.setOnCheckedChangeListener((compoundButton, b) -> {
             editor.putBoolean("useHeckerMode", b).commit();
+            if(b){
+                editor.putString("className", customClassName.getText().toString()).commit();
+                editor.putString("methodName", customMethodName.getText().toString()).commit();
+            } else {
+                editor.putString("className", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook()).commit();
+                editor.putString("methodName", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getMethodToHook()).commit();
+            }
             FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
+
             textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
                     sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK),
                     sharedPreferences.getString("methodName", Utils.DEFAULT_METHOD_TO_HOOK)));
