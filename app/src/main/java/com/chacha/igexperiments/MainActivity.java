@@ -14,9 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.coniy.fileprefs.FileSharedPreferences;
@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout layoutHeckerMode;
     private EditText customClassName, customMethodName;
     private TextView textHookedClass, textViewError;
+    private ImageButton btnDonate;
     private SwitchCompat switchUseHeckerMode;
     private Button btnHook, btnDownload, btnKill;
     private Spinner igVersionsSpinner;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         btnDownload = findViewById(R.id.btnDownload);
         btnKill = findViewById(R.id.btnKill);
         textViewError = findViewById(R.id.textViewError);
+        btnDonate = findViewById(R.id.btnDonate);
     }
 
     private boolean isErrorDetected(){
@@ -124,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnDownload.setOnClickListener(view -> {
             if(isErrorDetected()){
-                textViewError.setTextSize(textViewError.getTextSize()+1);
+                textViewError.setTextSize(textViewError.getTextSize()+0.5f);
                 return;
             }
 
@@ -133,6 +135,10 @@ public class MainActivity extends AppCompatActivity {
 
         btnKill.setOnClickListener(view -> {
             killAction();
+        });
+
+        btnDonate.setOnClickListener(view -> {
+            Donation.openDonationLink(this);
         });
     }
 
@@ -151,10 +157,11 @@ public class MainActivity extends AppCompatActivity {
         initIGVersionsSpinner();
         initViewsFunctions();
 
+        Donation.remindDonation(this);
+
         if(!isModuleActive()){
-            Toast.makeText(this, "Module DISABLED !", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "Module enabled !", Toast.LENGTH_LONG).show();
+            textViewError.setText("Module DISABLED!");
+            textViewError.setVisibility(View.VISIBLE);
         }
     }
 

@@ -8,6 +8,15 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <ImageButton
+        android:id="@+id/btnDonate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/black"
+        android:src="@drawable/btn_donate"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -27,29 +36,31 @@
 
     <TextView
         android:id="@+id/textViewError"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/error"
         android:textAlignment="center"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="30sp"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         tools:layout_editor_absoluteX="42dp" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/layoutHeckerMode"
-        tools:layout_editor_absoluteX="0dp">
+        android:layout_marginBottom="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutHeckerMode">
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/useHeckerMode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:text="@string/use_hecker_mode"
             android:thumb="@drawable/thumb_layerlist" />
 
@@ -57,8 +68,8 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hooked_class"
             android:layout_gravity="center"
+            android:text="@string/hooked_class"
             android:textColor="@android:color/holo_green_light" />
     </LinearLayout>
 
@@ -119,9 +130,9 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:autoLink="web"
         android:text="@string/infohook"
-        android:layout_marginTop="5dp"
         app:layout_constraintTop_toBottomOf="@+id/btnKill"
         tools:layout_editor_absoluteX="0dp" />
 

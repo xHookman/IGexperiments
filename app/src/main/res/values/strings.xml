@@ -11,4 +11,5 @@
     <string name="choose_version">Choose your IG version: </string>
     <string name="error">An error occurred getting infos for instagram versions from Github!</string>
     <string name="download_apk">Download APK</string>
+    <string name="donation_thanks">Thanks by advanced if you support my works! you\'re nice :)</string>
 </resources>
