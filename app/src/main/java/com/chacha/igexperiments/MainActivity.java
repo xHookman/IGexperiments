@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout layoutHeckerMode;
     private EditText customClassName, customMethodName;
     private TextView textHookedClass, textViewError;
-    private ImageButton btnDonate;
+    private ImageButton btnDonate, btnGithub;
     private SwitchCompat switchUseHeckerMode;
     private Button btnHook, btnDownload, btnKill;
     private Spinner igVersionsSpinner;
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         btnKill = findViewById(R.id.btnKill);
         textViewError = findViewById(R.id.textViewError);
         btnDonate = findViewById(R.id.btnDonate);
+        btnGithub = findViewById(R.id.btnGithub);
     }
 
     /**
@@ -162,6 +163,10 @@ public class MainActivity extends AppCompatActivity {
 
         btnDonate.setOnClickListener(view -> {
             Donation.openDonationLink(this);
+        });
+
+        btnGithub.setOnClickListener(view -> {
+            openUrl("https://github.com/xHookman/IGexperiments/");
         });
     }
 

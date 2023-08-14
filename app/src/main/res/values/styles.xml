@@ -7,8 +7,19 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorLink">@android:color/holo_blue_light</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:animateLayoutChanges">true</item>
     </style>
+
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
+    <style name="EditTextCustom" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">2</item>
+        <item name="maxLines">1</item>
+        <item name="android:inputType">text</item>
+        <item name="hintEnabled">false</item>
     </style>
 </resources>

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     android:background="@android:color/black"
     android:orientation="vertical"
     tools:context=".MainActivity">
@@ -21,8 +20,7 @@
             android:text="@string/top_red_text"
             android:textAlignment="center"
             android:textColor="@android:color/holo_red_light"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 
     <TextView
@@ -32,38 +30,49 @@
         android:text="@string/error"
         android:textAlignment="center"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="20sp"
+        android:textSize="@dimen/text_error_size"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/btnDonate"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:layout_editor_absoluteX="42dp" />
-
-    <ImageButton
-        android:id="@+id/btnDonate"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginBottom="10dp"
-        android:background="@android:color/black"
-        android:src="@drawable/btn_donate"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/layoutBtns"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+    <LinearLayout
+        android:id="@+id/layoutBtns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <ImageButton
+            android:id="@+id/btnGithub"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_github_height"
+            android:background="@android:color/black"
+            android:scaleType="centerInside"
+            android:src="@drawable/btn_github" />
+
+        <ImageButton
+            android:id="@+id/btnDonate"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_donate_height"
+            android:background="@android:color/black"
+            android:scaleType="centerInside"
+            android:src="@drawable/btn_donate" />
+
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
+        android:layout_marginHorizontal="@dimen/default_marginHorizontal"
+        android:layout_marginBottom="@dimen/default_marginBottom"
         app:layout_constraintBottom_toTopOf="@+id/layoutHeckerMode">
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/useHeckerMode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginHorizontal="@dimen/default_marginHorizontal"
             android:layout_weight="1"
             android:text="@string/use_hecker_mode"
             android:thumb="@drawable/thumb_layerlist" />
@@ -82,28 +91,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="51dp">
+        android:theme="@style/Theme.MaterialComponents"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <EditText
-            android:id="@+id/editTextClassName"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextCustom"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="@string/classname" />
+            app:helperText="@string/ex_class">
 
-        <EditText
-            android:id="@+id/editTextMethodName"
-            android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextClassName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/classname"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextCustom"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="@string/methodname" />
+            app:helperText="@string/ex_method">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextMethodName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/methodname"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnHook"
-            android:background="@drawable/shape"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/shape"
             android:text="@string/hook" />
     </LinearLayout>
 
@@ -125,7 +150,7 @@
         <Spinner
             android:id="@+id/igVersionsSpinner"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="@dimen/spinner_height"
             android:entries="@array/ig_version"
             tools:layout_editor_absoluteX="208dp"
             tools:layout_editor_absoluteY="706dp" />
@@ -135,11 +160,11 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/default_marginTop"
+        android:layout_marginHorizontal="@dimen/default_marginHorizontal"
         android:autoLink="web"
         android:text="@string/infohook"
-        app:layout_constraintTop_toBottomOf="@+id/btnKill"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintTop_toBottomOf="@+id/btnKill" />
 
     <Button
         android:id="@+id/btnDownload"
@@ -148,19 +173,17 @@
         android:layout_weight="1"
         android:background="@drawable/shape"
         android:text="@string/download_apk"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     <Button
         android:id="@+id/btnKill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/default_marginTop"
         android:layout_weight="1"
         android:background="@drawable/shape"
         android:text="@string/app_kill"
         android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintTop_toBottomOf="@+id/btnDownload"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintTop_toBottomOf="@+id/btnDownload" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

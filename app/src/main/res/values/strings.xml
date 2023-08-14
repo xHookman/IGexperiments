@@ -2,9 +2,9 @@
     <string name="app_name">IGexperiments</string>
     <string name="top_red_text">1. Choose you Instagram version\n2. Download and install the apk\n3. Kill and launch Instagram\n4. Long press the home button &amp; enjoy!</string>
     <string name="app_kill">Kill &amp; launch Instagram</string>
-    <string name="infohook">The last version is not supported? Contribute! Read the faq from my github repo:  https://github.com/xHookman/IGexperiments/. Use the HECKER mode to try what you found!</string>
-    <string name="classname">Class name (ex : X.8W4)</string>
-    <string name="methodname">Method name (ex : A00)</string>
+    <string name="infohook">The last version is not supported? Contribute! Read the faq from my github repo.\nUse the HECKER mode to try what you found!</string>
+    <string name="classname">Class name</string>
+    <string name="methodname">Method name</string>
     <string name="use_hecker_mode">Use HECKER mode</string>
     <string name="hooked_class">Hooked class: %1$s\nHooked method: %2$s</string>
     <string name="hook">HOOK!</string>
@@ -12,4 +12,6 @@
     <string name="error">An error occurred getting infos for instagram versions from Github!</string>
     <string name="download_apk">Download APK</string>
     <string name="donation_thanks">Thanks by advanced if you support my works! you\'re nice :)</string>
+    <string name="ex_class">ex : X.8W4</string>
+    <string name="ex_method">ex : A00</string>
 </resources>
