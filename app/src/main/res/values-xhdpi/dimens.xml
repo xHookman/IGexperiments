@@ -2,9 +2,4 @@
 <resources>
     <dimen name="btn_github_height">70dp</dimen>
     <dimen name="btn_donate_height">70dp</dimen>
-    <dimen name="default_marginHorizontal">5dp</dimen>
-    <dimen name="default_marginTop">5dp</dimen>
-    <dimen name="default_marginBottom">3dp</dimen>
-    <dimen name="spinner_height">50dp</dimen>
-    <dimen name="text_error_size">20sp</dimen>
 </resources>

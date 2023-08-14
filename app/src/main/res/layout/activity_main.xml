@@ -72,10 +72,11 @@
             android:id="@+id/useHeckerMode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/default_marginHorizontal"
+            android:layout_marginHorizontal="@dimen/switch_marginHorizontal"
             android:layout_weight="1"
             android:text="@string/use_hecker_mode"
-            android:thumb="@drawable/thumb_layerlist" />
+            android:thumb="@drawable/thumb_layerlist"
+            app:track="@drawable/track_selector"/>
 
         <TextView
             android:id="@+id/textView3"

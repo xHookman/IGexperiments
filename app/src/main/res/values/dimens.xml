@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="shape_radius">17dp</dimen>
+    <dimen name="default_marginHorizontal">5dp</dimen>
+    <dimen name="switch_marginHorizontal">10dp</dimen>
+    <dimen name="default_marginTop">5dp</dimen>
+    <dimen name="default_marginBottom">3dp</dimen>
+    <dimen name="spinner_height">50dp</dimen>
+    <dimen name="text_error_size">20sp</dimen>
 </resources>
