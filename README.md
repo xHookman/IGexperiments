@@ -16,7 +16,7 @@ LSPatch(Non-Root devices)
 
 *You can now use my new tool IGExperimentsPatcher to directly patch Instagram apk without waiting me for update something, it will give the method and class to patch too if you prefer to use this Xposed module. Find it [here](https://github.com/xHookman/IGExperimentsPatcher), it's totally automatic.*
 
-#### Otherwise if you are a hacker wearing a very dark hood :
+#### Otherwise if you are a hacker wearing a very dark hood  ROOT Devices ONLY:
 
 First you will need to use [Jadx](https://github.com/skylot/jadx)
  to decompile an [Instagram apk](https://www.apkmirror.com/apk/instagram/).
@@ -44,3 +44,11 @@ Now go at top, you will see a line like this:
 You now know the class to hook: X.8WQ!
 
 You can now try if it works by enabling HECKER mode and completing the class name and method name field, click on hook and kill Instagram :)
+
+### How to use it with Non-Root Devices?
+
+* Install and setup LSPatch
+* Check and Install one of the compatible Instagram versions from SupportedVersions.txt
+* Patch Instagram with our mod using LSPatch
+* Patch our mod with itself using LSPatch
+* Done! if the instagram version wasn't supported you will see a pop up within the instagram app
