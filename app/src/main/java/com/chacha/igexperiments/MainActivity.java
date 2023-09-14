@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
         iGVersionsInfos = new ArrayList<>();
         iGVersionsInfos = getIGVersionsInfos();
     }
-
+    // checks if the user has root access
     public static Boolean isRoot(){
 
         return Shell.SU.available();
