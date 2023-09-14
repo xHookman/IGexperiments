@@ -53,4 +53,7 @@ You can now try if it works by enabling HECKER mode and completing the class nam
 * Patch our mod with itself using LSPatch
 * Done! if the instagram version wasn't supported you will see a pop up within the instagram app
 
-#### If you was able to access the dev menu, please enable the is_employee option so you can update the app without patching!
+#### If you were able to access the dev menu, please enable the "is employee" option so you can update the app without patching!
+* Go to METAConfig Settings & Overrides
+* Search for "is employee"
+* Enable it!
