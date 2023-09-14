@@ -6,7 +6,7 @@ package com.chacha.igexperiments;
 public class InfoIGVersion {
 
     private final String version;
-    private final String classToHook, methodToHook;
+    private final String classToHook, methodToHook, secondClassToHook;
     private final String url;
 
     /**
@@ -16,11 +16,12 @@ public class InfoIGVersion {
      * @param methodToHook method to hook
      * @param url url to download the apk
      */
-    public InfoIGVersion(String version, String classToHook, String methodToHook, String url) {
+    public InfoIGVersion(String version, String classToHook, String methodToHook, String secondClassToHook, String url) {
         super();
         this.version = version;
         this.classToHook = classToHook;
         this.methodToHook = methodToHook;
+        this.secondClassToHook = secondClassToHook;
         this.url = url;
     }
 
@@ -46,6 +47,14 @@ public class InfoIGVersion {
      */
     public String getMethodToHook(){
         return methodToHook;
+    }
+
+    /**
+     *
+     * @return second class to hook
+     */
+    public String getSecondClassToHook(){
+        return secondClassToHook;
     }
 
     /**
