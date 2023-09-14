@@ -73,7 +73,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
                     String versionName = (String)XposedHelpers.getObjectField(pkg, "mVersionName");
 
-                    showToast(versionName);
+                    //showToast(versionName);
                     if (versionName.equals("301.0.0.0.103")){
                         Class<?> targetClass = XposedHelpers.findClass("X.1B3", lpparam.classLoader);
                         Class<?> c08470cRClass = XposedHelpers.findClass("X.0cR", lpparam.classLoader);
