@@ -18,7 +18,7 @@ Enable developer options in Instagram!
 
 * Non-Rooted Devices (Using LSPatch)
 
-  1. Install the module and one of the compatible Instagram versions ([Non-Root Compatible versions]([https://www.google.com](https://raw.githubusercontent.com/ReSo7200/IGexperiments/master/SupportedVersions.txt)))
+  1. Install the module and one of the compatible Instagram versions ([Non-Root Compatible versions](https://raw.githubusercontent.com/ReSo7200/IGexperiments/master/SupportedVersions.txt))
   2. Patch the Instagram app with the module
   3. Patch the module with itself
   4. Done! you can check the developer options by holding on the home button.
