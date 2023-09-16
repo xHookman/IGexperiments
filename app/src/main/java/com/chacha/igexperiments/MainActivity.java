@@ -32,7 +32,7 @@ import java.util.Scanner;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity {
-    private LinearLayout layoutHeckerMode, layoutChooseVersion;
+    private LinearLayout layoutHeckerMode, layoutChooseVersion, layoutSwitch;
     private EditText customClassName, customMethodName, customSecondClassName;
     private TextView textHookedClass, textViewError, infoHooktext, howtotext;
     private ImageButton btnDonate, btnGithub;
@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private ArrayList<InfoIGVersion> iGVersionsInfos;
-    public static boolean shouldApplyHooks = false;
-
-    //public Module xposedModule;
 
     /**
      * Init views preferences
@@ -68,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private void initViews(){
         customClassName = findViewById(R.id.editTextClassName);
         customMethodName = findViewById(R.id.editTextMethodName);
-        // customSecondClassName = findViewById(R.id.editTextClassName);
+        customSecondClassName = findViewById(R.id.editTextSecondClassName);
         textHookedClass = findViewById(R.id.textView3);
         switchUseHeckerMode = findViewById(R.id.useHeckerMode);
         btnHook = findViewById(R.id.btnHook);
@@ -82,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         infoHooktext = findViewById(R.id.textView2);
         howtotext = findViewById(R.id.howtotext);
         layoutChooseVersion = findViewById(R.id.linearLayout3);
+        layoutSwitch = findViewById(R.id.linearLayout2);
     }
 
     /**
@@ -111,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
     private void initViewsFunctions(){
         customClassName.setText(sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK));
         customMethodName.setText(sharedPreferences.getString("methodName", Utils.DEFAULT_METHOD_TO_HOOK));
+        customSecondClassName.setText(sharedPreferences.getString("secondClassName", Utils.DEFAULT_CLASS_TO_HOOK));
 
 
         switchUseHeckerMode.setOnCheckedChangeListener((compoundButton, b) -> {
@@ -118,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
             if(b){
                 editor.putString("className", customClassName.getText().toString()).commit();
                 editor.putString("methodName", customMethodName.getText().toString()).commit();
+                editor.putString("secondClassName", customSecondClassName.getText().toString()).commit();
             } else {
                 editor.putString("className", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook()).commit();
                 editor.putString("methodName", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getMethodToHook()).commit();
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         btnHook.setOnClickListener(view -> {
             editor.putString("className", customClassName.getText().toString()).commit();
             editor.putString("methodName", customMethodName.getText().toString()).commit();
-            //editor.putString("secondClassName", customClassName.getText().toString()).commit();
+            editor.putString("secondClassName", customClassName.getText().toString()).commit();
             FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
             textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
                     customClassName.getText().toString(),
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
         iGVersionsInfos = new ArrayList<>();
         iGVersionsInfos = getIGVersionsInfos();
     }
-    // checks if the user has root access
+
     public static Boolean isRoot(){
 
         return Shell.SU.available();
@@ -243,9 +243,11 @@ public class MainActivity extends AppCompatActivity {
             layoutChooseVersion.setVisibility(View.GONE);
             igVersionsSpinner.setVisibility(View.GONE);
             layoutHeckerMode.setVisibility(View.GONE);
+            layoutSwitch.setVisibility(View.GONE);
         }
     }
 
+    // Disable when module not enabled
     private void disableView(){
         customClassName.setEnabled(false);
         customMethodName.setEnabled(false);
