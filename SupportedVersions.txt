@@ -1,4 +1,4 @@
-Supported versions:
+Supported versions for non-rooted devices:
 
 302.0.0.0.21: https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-302-0-0-0-21-release/
 
