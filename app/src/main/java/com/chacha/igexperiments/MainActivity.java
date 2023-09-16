@@ -2,6 +2,8 @@ package com.chacha.igexperiments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -30,9 +32,9 @@ import java.util.Scanner;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity {
-    private LinearLayout layoutHeckerMode;
-    private EditText customClassName, customMethodName;
-    private TextView textHookedClass, textViewError;
+    private LinearLayout layoutHeckerMode, layoutChooseVersion, layoutSwitch;
+    private EditText customClassName, customMethodName, customSecondClassName;
+    private TextView textHookedClass, textViewError, infoHooktext, howtotext;
     private ImageButton btnDonate, btnGithub;
     private SwitchCompat switchUseHeckerMode;
     private Button btnHook, btnDownload, btnKill;
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private void initViews(){
         customClassName = findViewById(R.id.editTextClassName);
         customMethodName = findViewById(R.id.editTextMethodName);
+        customSecondClassName = findViewById(R.id.editTextSecondClassName);
         textHookedClass = findViewById(R.id.textView3);
         switchUseHeckerMode = findViewById(R.id.useHeckerMode);
         btnHook = findViewById(R.id.btnHook);
@@ -73,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
         textViewError = findViewById(R.id.textViewError);
         btnDonate = findViewById(R.id.btnDonate);
         btnGithub = findViewById(R.id.btnGithub);
+        infoHooktext = findViewById(R.id.textView2);
+        howtotext = findViewById(R.id.howtotext);
+        layoutChooseVersion = findViewById(R.id.linearLayout3);
+        layoutSwitch = findViewById(R.id.linearLayout2);
     }
 
     /**
@@ -83,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Init the spinner with the differents IG versions
+     * Init the spinner with the different IG versions
      */
     private void initIGVersionsSpinner(){
         ArrayAdapter<InfoIGVersion> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, iGVersionsInfos);
@@ -98,18 +105,23 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Init the differents views functions and listeners
      */
+    @SuppressLint("SetTextI18n")
     private void initViewsFunctions(){
         customClassName.setText(sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK));
         customMethodName.setText(sharedPreferences.getString("methodName", Utils.DEFAULT_METHOD_TO_HOOK));
+        customSecondClassName.setText(sharedPreferences.getString("secondClassName", Utils.DEFAULT_CLASS_TO_HOOK));
+
 
         switchUseHeckerMode.setOnCheckedChangeListener((compoundButton, b) -> {
             editor.putBoolean("useHeckerMode", b).commit();
             if(b){
                 editor.putString("className", customClassName.getText().toString()).commit();
                 editor.putString("methodName", customMethodName.getText().toString()).commit();
+                editor.putString("secondClassName", customSecondClassName.getText().toString()).commit();
             } else {
                 editor.putString("className", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook()).commit();
                 editor.putString("methodName", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getMethodToHook()).commit();
+                editor.putString("secondClassName", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getSecondClassToHook()).commit();
             }
             FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
 
@@ -122,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         btnHook.setOnClickListener(view -> {
             editor.putString("className", customClassName.getText().toString()).commit();
             editor.putString("methodName", customMethodName.getText().toString()).commit();
+            editor.putString("secondClassName", customClassName.getText().toString()).commit();
             FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
             textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
                     customClassName.getText().toString(),
@@ -133,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 editor.putString("className", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getClassToHook()).commit();
                 editor.putString("methodName", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getMethodToHook()).commit();
+                editor.putString("secondClassName", ((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getSecondClassToHook()).commit();
 
                 if(!switchUseHeckerMode.isChecked())
                     textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
@@ -157,9 +171,20 @@ public class MainActivity extends AppCompatActivity {
             openUrl(((InfoIGVersion) igVersionsSpinner.getSelectedItem()).getUrl());
         });
 
-        btnKill.setOnClickListener(view -> {
-            killAction();
-        });
+        if (isRoot()) {
+
+            btnKill.setOnClickListener(view -> {
+                killAction();
+            });
+        } else if (!isRoot() && isModuleActive()) {
+            btnKill.setText("Instagram Patched!");
+            btnKill.setOnClickListener(view -> {
+                Toast.makeText(this, "Instagram Already Patched", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Stop the app manually!", Toast.LENGTH_SHORT).show();
+
+            });
+
+        }
 
         btnDonate.setOnClickListener(view -> {
             Donation.openDonationLink(this);
@@ -178,6 +203,12 @@ public class MainActivity extends AppCompatActivity {
         iGVersionsInfos = getIGVersionsInfos();
     }
 
+    public static Boolean isRoot(){
+
+        return Shell.SU.available();
+    }
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -193,9 +224,41 @@ public class MainActivity extends AppCompatActivity {
         Donation.remindDonation(this);
 
         if(!isModuleActive()){
+            disableView();
             textViewError.setText("Module DISABLED!");
             textViewError.setVisibility(View.VISIBLE);
+            infoHooktext.setText("The module isn't enabled, Please enable it!\nUse LSPatch for Non-root devices!");
+
+        } else if (!isRoot()) {
+            disableView();
+            howtotext.setText("1. Find and download a compatible Instagram version\n" +
+                    "2. Install it\n" +
+                    "3. Patch Instagram using our mod\n" +
+                    "4. Patch our mod with itself\nCheck Github for non-root supported versions!");
+            textViewError.setText("Using LSPatch!");
+            textViewError.setVisibility(View.VISIBLE);
+            infoHooktext.setText("Using LSPatch! Use supported versions-See Github page.");
+
+            btnDownload.setVisibility(View.GONE);
+            layoutChooseVersion.setVisibility(View.GONE);
+            igVersionsSpinner.setVisibility(View.GONE);
+            layoutHeckerMode.setVisibility(View.GONE);
+            layoutSwitch.setVisibility(View.GONE);
         }
+    }
+
+    // Disable when module not enabled
+    private void disableView(){
+        customClassName.setEnabled(false);
+        customMethodName.setEnabled(false);
+        textHookedClass.setEnabled(false);
+        switchUseHeckerMode.setEnabled(false);
+        btnHook.setEnabled(false);
+        igVersionsSpinner.setEnabled(false);
+        layoutHeckerMode.setEnabled(false);
+        btnDownload.setEnabled(false);
+        btnKill.setEnabled(false);
+
     }
 
     private static boolean isModuleActive(){
@@ -214,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Kill and start Instagram app
      */
+    @SuppressLint("SuspiciousIndentation")
     private void killAction() {
         if (Shell.SU.available()) {
             try {
@@ -230,16 +294,19 @@ public class MainActivity extends AppCompatActivity {
             }
         } else
             Toast.makeText(this, "Root not granted !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Stop the app manually!", Toast.LENGTH_SHORT).show();
         }
+
 
     /**
      * @return Return the json of supported IG versions
      */
 
-    private String getJSONContent(){
+    private static String getJSONContent(){
         try {
             Log.println(Log.INFO, "IGexperiments", "Reading raw content from github file");
-            URL url = new URL("https://raw.githubusercontent.com/xHookman/IGexperiments/master/classes_to_hook.json");
+            //Please change to the main one - xHookman after accepting pull request
+            URL url = new URL("https://raw.githubusercontent.com/ReSo7200/IGexperiments/master/classes_to_hook.json");
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             Scanner s = new Scanner(url.openStream());
@@ -257,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * @return Return an ArrayList of differents supported IG versions
      */
-    private ArrayList<InfoIGVersion> getIGVersionsInfos() {
+    public static ArrayList<InfoIGVersion> getIGVersionsInfos() {
         ArrayList<InfoIGVersion> versions = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(getJSONContent());
@@ -267,6 +334,7 @@ public class MainActivity extends AppCompatActivity {
                 versions.add(new InfoIGVersion(infoVersions.getString("version"),
                         infoVersions.getString("class_to_hook"),
                         infoVersions.getString("method_to_hook"),
+                        infoVersions.getString("second_class_to_hook"),
                         infoVersions.getString("download")));
             }
         } catch (JSONException e) {
