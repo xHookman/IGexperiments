@@ -132,6 +132,21 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                                 });
 
                     }
+                    else if (versionName.equals("302.0.0.0.21")) {
+                        Class<?> targetClass = XposedHelpers.findClass("X.1Ay", lpparam.classLoader);
+                        Class<?> C08420cPClass = XposedHelpers.findClass("X.0cQ", lpparam.classLoader);
+
+                        // Hook into the A00 method and make it always return true
+                        XposedHelpers.findAndHookMethod(targetClass, "A00", C08420cPClass,
+                                new XC_MethodReplacement() {
+                                    @Override
+                                    protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                                        // Always return true
+                                        return true;
+                                    }
+                                });
+
+                    }
                     else {
                         showToast("Not supported Instagram version!\nCheck Github page!");
                     }
