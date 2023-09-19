@@ -22,13 +22,6 @@
                 "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-301-0-0-1-110-release/"
         },
         {
-                "version": "301.0.0.0.103 (Alpha)",
-                "class_to_hook": "X.1B3",
-                "method_to_hook": "A00",
-                "second_class_to_hook":"X.0cR",
-                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-301-0-0-0-103-release/"
-        },
-        {
                 "version": "301.0.0.0.82 (Alpha)",
                 "class_to_hook": "X.1B0",
                 "method_to_hook": "A00",
