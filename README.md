@@ -15,6 +15,7 @@ Enable developer options in Instagram!
   2. Run the module and select the desired Instagram version.
   3. Kill instagram
   4. Done! you can check the developer options by holding on the home button.
+     
   Extra: You can use Hecker mode to test newer versions with its Method and Classes
 
 * Non-Rooted Devices (Using LSPatch)
