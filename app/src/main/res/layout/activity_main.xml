@@ -14,14 +14,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/howtotext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/top_red_text"
-            android:textAlignment="center"
-            android:textColor="@android:color/holo_red_light"
-            app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 
     <TextView
@@ -48,6 +40,7 @@
             android:id="@+id/btnGithub"
             android:layout_width="match_parent"
             android:layout_height="@dimen/btn_github_height"
+            android:layout_marginTop="50dp"
             android:background="@android:color/black"
             android:scaleType="centerInside"
             android:src="@drawable/btn_github" />
@@ -131,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            app:helperText="ex: Leave empty for default">
+            app:helperText="X.0cQ">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextSecondClassName"
@@ -202,5 +195,16 @@
         android:text="@string/app_kill"
         android:textColor="@android:color/holo_red_dark"
         app:layout_constraintTop_toBottomOf="@+id/btnDownload" />
+
+    <TextView
+        android:id="@+id/howtotext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="230dp"
+        android:text="@string/top_red_text"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_light"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="-5dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

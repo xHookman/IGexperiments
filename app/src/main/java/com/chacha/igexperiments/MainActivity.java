@@ -32,7 +32,7 @@ import java.util.Scanner;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity {
-    private LinearLayout layoutHeckerMode, layoutChooseVersion, layoutSwitch;
+    private LinearLayout layoutHeckerMode, layoutSwitch;
     private EditText customClassName, customMethodName, customSecondClassName;
     private TextView textHookedClass, textViewError, infoHooktext, howtotext;
     private ImageButton btnDonate, btnGithub;
@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         btnGithub = findViewById(R.id.btnGithub);
         infoHooktext = findViewById(R.id.textView2);
         howtotext = findViewById(R.id.howtotext);
-        layoutChooseVersion = findViewById(R.id.linearLayout3);
         layoutSwitch = findViewById(R.id.linearLayout2);
     }
 
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     private void initViewsFunctions(){
         customClassName.setText(sharedPreferences.getString("className", Utils.DEFAULT_CLASS_TO_HOOK));
         customMethodName.setText(sharedPreferences.getString("methodName", Utils.DEFAULT_METHOD_TO_HOOK));
-        customSecondClassName.setText(sharedPreferences.getString("secondClassName", Utils.DEFAULT_CLASS_TO_HOOK));
+        customSecondClassName.setText(sharedPreferences.getString("secondClassName", Utils.DEFAULT_SECOND_CLASS_TO_HOOK));
 
 
         switchUseHeckerMode.setOnCheckedChangeListener((compoundButton, b) -> {
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         btnHook.setOnClickListener(view -> {
             editor.putString("className", customClassName.getText().toString()).commit();
             editor.putString("methodName", customMethodName.getText().toString()).commit();
-            editor.putString("secondClassName", customClassName.getText().toString()).commit();
+            editor.putString("secondClassName", customSecondClassName.getText().toString()).commit();
             FileSharedPreferences.makeWorldReadable(Utils.MY_PACKAGE_NAME, Utils.PREFS_NAME);
             textHookedClass.setText(String.format(getResources().getString(R.string.hooked_class),
                     customClassName.getText().toString(),
@@ -172,15 +171,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (isRoot()) {
-
+            // if device is rooted
             btnKill.setOnClickListener(view -> {
                 killAction();
             });
-        } else if (!isRoot() && isModuleActive()) {
-            btnKill.setText("Instagram Patched!");
+        } else {
+            // if device is not rooted
+            btnKill.setText("Use LSPatch to enable the module on Instagram");
             btnKill.setOnClickListener(view -> {
-                Toast.makeText(this, "Instagram Already Patched", Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, "Stop the app manually!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "1. Enable the module on Instagram Using LSPatch", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "2. Stop the app manually!", Toast.LENGTH_SHORT).show();
 
             });
 
@@ -221,27 +221,23 @@ public class MainActivity extends AppCompatActivity {
         initIGVersionsSpinner();
         initViewsFunctions();
 
-        Donation.remindDonation(this);
+        //Donation.remindDonation(this);
 
-        if(!isModuleActive()){
+        if(isRoot() && !isModuleActive()){
             disableView();
             textViewError.setText("Module DISABLED!");
             textViewError.setVisibility(View.VISIBLE);
-            infoHooktext.setText("The module isn't enabled, Please enable it!\nUse LSPatch for Non-root devices!");
+            infoHooktext.setText("The module isn't enabled, Please enable it!");
 
         } else if (!isRoot()) {
             disableView();
-            howtotext.setText("1. Find and download a compatible Instagram version\n" +
+            howtotext.setText("1. Download a compatible Instagram version\n" +
                     "2. Install it\n" +
-                    "3. Patch Instagram using our mod\n" +
-                    "4. Patch our mod with itself\nCheck Github for non-root supported versions!");
-            textViewError.setText("Using LSPatch!");
-            textViewError.setVisibility(View.VISIBLE);
-            infoHooktext.setText("Using LSPatch! Use supported versions-See Github page.");
-
-            btnDownload.setVisibility(View.GONE);
-            layoutChooseVersion.setVisibility(View.GONE);
-            igVersionsSpinner.setVisibility(View.GONE);
+                    "3. Patch Instagram using LSPatch (Local Patch Mode)\n" +
+                    "4. Add our mod to Instagram Module scope using LSPatch\n" +
+                    "5. Force stop Instagram and Start it!!!");
+            textViewError.setVisibility(View.GONE);
+            infoHooktext.setText("Use supported versions\nChoose one of the supported versions and click 'Download APK'\nSee Github page for more information.");
             layoutHeckerMode.setVisibility(View.GONE);
             layoutSwitch.setVisibility(View.GONE);
         }
@@ -254,9 +250,7 @@ public class MainActivity extends AppCompatActivity {
         textHookedClass.setEnabled(false);
         switchUseHeckerMode.setEnabled(false);
         btnHook.setEnabled(false);
-        igVersionsSpinner.setEnabled(false);
         layoutHeckerMode.setEnabled(false);
-        btnDownload.setEnabled(false);
         btnKill.setEnabled(false);
 
     }

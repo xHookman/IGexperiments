@@ -15,13 +15,17 @@ Enable developer options in Instagram!
   2. Run the module and select the desired Instagram version.
   3. Kill instagram
   4. Done! you can check the developer options by holding on the home button.
+     
+  Extra: You can use Hecker mode to test newer versions with its Method and Classes
 
 * Non-Rooted Devices (Using LSPatch)
 
-  1. Install the module and one of the compatible Instagram versions ([Non-Root Compatible versions](https://raw.githubusercontent.com/ReSo7200/IGexperiments/master/SupportedVersions.txt))
-  2. Patch the Instagram app with the module
-  3. Patch the module with itself
-  4. Done! you can check the developer options by holding on the home button.
+  1. Install the module
+  2. Check the list of compatible versions and install the desired one
+  3. Patch the Instagram app using LSPatch (Local Patch Mode)
+  4. Add the module to the Instagram Module Scope using LSPatch
+  5. Force stop Instagram and start it!
+  6. Done! you can check the developer options by holding on the home button.
 
 
 ## How to update Instagram
@@ -68,7 +72,7 @@ Now go at top, you will see a line like this:
 
 You now know the class to hook: X.8WQ!
 
-You can now try if it works by enabling HECKER mode and completing the class name and method name field, click on hook and kill Instagram :)
+You can now try if it works by enabling HECKER mode and completing the class name and method name field, click on hook and kill Instagram :) (Root devices ONLY!)
 
 ## Authors
 
