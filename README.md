@@ -30,13 +30,24 @@ Enable developer options in Instagram!
 
 ## How to update Instagram
 ### Enable Employee options!
-* Go to Developer Options Page
-* MetaConfig Settings & Overrides
-* Search for "Employee"
-* Enable "is employee", "employee options", "is employee or test user"
-* Download a newer version from Apkmirror
-* Use LSPatch to patch the APK "Select apk(s) from storage"
-* Select "Local" as a Patch mode, Patch and Install! 
+* Rooted Devices
+  
+1. Go to Developer Options Page
+2. MetaConfig Settings & Overrides
+3. Search for "Employee"
+4. Enable "is employee", "employee options", "is employee or test user"
+5. Disable the Modulde from (magisk, Edxposed, LSposed etc...)
+5. Download and Install a newer version from Apkmirror
+
+* Non-Rooted Devices (Using LSPatch)
+
+1. Go to Developer Options Page
+2. MetaConfig Settings & Overrides
+3. Search for "Employee"
+4. Enable "is employee", "employee options", "is employee or test user"
+5. Download a newer version from Apkmirror
+6. Use LSPatch to patch the APK "Select apk(s) from storage"
+7. Select "Local" as a Patch mode, Patch and Install! 
 ## Contributing
 
 Contributions are always welcome!
