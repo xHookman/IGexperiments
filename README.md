@@ -87,7 +87,7 @@ Method to hook: A00
 
 Second class to hook: X.0lb (the last three characters of 'c12990lb' for example)
 
-You can now try if it works by enabling HECKER mode and completing the class name and method name field, click on hook and kill Instagram :) (Root devices ONLY!)
+You can now try if it works by enabling HECKER mode and completing the class name and method name field, click on hook and kill Instagram - Root devices ONLY!
 
 ## Authors
 
