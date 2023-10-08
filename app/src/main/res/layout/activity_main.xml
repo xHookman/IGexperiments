@@ -12,21 +12,10 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textViewError"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/error"
-        android:textAlignment="center"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="@dimen/text_error_size"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/layoutBtns"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <LinearLayout
         android:id="@+id/layoutBtns"
@@ -39,7 +28,7 @@
         <ImageButton
             android:id="@+id/btnGithub"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/btn_github_height"
+            android:layout_height="66dp"
             android:layout_marginTop="50dp"
             android:background="@android:color/black"
             android:scaleType="centerInside"
@@ -48,10 +37,20 @@
         <ImageButton
             android:id="@+id/btnDonate"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/btn_donate_height"
+            android:layout_height="76dp"
             android:background="@android:color/black"
             android:scaleType="centerInside"
             android:src="@drawable/btn_donate" />
+
+        <TextView
+            android:id="@+id/textViewError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/error"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_red_dark"
+            android:visibility="gone"
+            android:textSize="@dimen/text_error_size" />
 
     </LinearLayout>
     <LinearLayout
