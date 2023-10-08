@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @SuppressLint("SuspiciousIndentation")
     private void killAction() {
-        if (Shell.SU.available()) {
+        if (isRoot()) {
             try {
                 Process su = Runtime.getRuntime().exec("su");
                 DataOutputStream os = new DataOutputStream(su.getOutputStream());
@@ -286,10 +286,11 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else
+        } else {
             Toast.makeText(this, "Root not granted !", Toast.LENGTH_SHORT).show();
             Toast.makeText(this, "Stop the app manually!", Toast.LENGTH_SHORT).show();
         }
+    }
 
 
     /**
