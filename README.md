@@ -70,9 +70,11 @@ Now go at top, you will see a line like this:
 <img src="https://github.com/xHookman/IGexperiments/blob/master/readme/3.png?raw=true">
 
 
-You now know the class to hook: X.1AX!
-And the method to hook would be A00
-The second class to hook would be X.0lb (the last three characters of 'c12990lb' for example)
+You now know the class to hook: X.1AX
+
+Method to hook: A00
+
+Second class to hook: X.0lb (the last three characters of 'c12990lb' for example)
 
 You can now try if it works by enabling HECKER mode and completing the class name and method name field, click on hook and kill Instagram :) (Root devices ONLY!)
 
