@@ -55,7 +55,7 @@ First you will need to use [Jadx](https://github.com/skylot/jadx)
 - Search for "```is_employee```" or "```"is_employee", Boolean.valueOf```" and find a line similar to:
 
 ```
-r2.A0i("is_employee", Boolean.valueOf(C8WQ.A03(userSession)));
+r2.A0i("is_employee", Boolean.valueOf(C1AX.A00(c12990lb)));
 ```
 <img src="https://github.com/xHookman/IGexperiments/blob/master/readme/1.png?raw=true">
 
@@ -65,12 +65,14 @@ Double click on the method name, A03:
 
 Now go at top, you will see a line like this: 
 ```
-/* renamed from: X.8WQ  reason: invalid class name */
+/* renamed from: X.1AX reason: invalid class name */
 ```
 <img src="https://github.com/xHookman/IGexperiments/blob/master/readme/3.png?raw=true">
 
 
-You now know the class to hook: X.8WQ!
+You now know the class to hook: X.1AX!
+And the method to hook would be A00
+The second class to hook would be X.0lb (the last three characters of 'c12990lb' for example)
 
 You can now try if it works by enabling HECKER mode and completing the class name and method name field, click on hook and kill Instagram :) (Root devices ONLY!)
 
