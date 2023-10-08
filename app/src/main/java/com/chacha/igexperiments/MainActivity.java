@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
                 os.flush();
                 os.writeBytes("am force-stop " + Utils.IG_PACKAGE_NAME + "\n");
                 os.flush();
-                os.writeBytes("am start -n " + Utils.IG_PACKAGE_NAME + "/com.instagram.mainactivity.MainActivity" + "\n");
+                os.writeBytes("am start -n " + Utils.IG_PACKAGE_NAME + "/com.instagram.mainactivity.InstagramMainActivity" + "\n");
                 os.flush();
             } catch (IOException e) {
                 e.printStackTrace();
