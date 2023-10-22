@@ -49,7 +49,7 @@ Enable developer options in Instagram!
 
 
 
-## FAQ
+## FAQ
 
 
 #### The module doesn't start up.
