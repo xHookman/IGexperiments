@@ -1,10 +1,8 @@
-<img src="https://socialify.git.ci/xHookman/IGexperiments/image?description=1&font=Source%20Code%20Pro&language=1&name=1&pattern=Solid&pulls=1&stargazers=1&theme=Light" alt="IGexperiments" width="640" height="320" />
+<img src="[https://socialify.git.ci/xHookman/IGexperiments/image?description=1&font=Source%20Code%20Pro&language=1&name=1&pattern=Solid&pulls=1&stargazers=1&theme=Light](https://webapi.johnversus.dev/api/generateGithubSocial?repo_url=https://github.com/JohnVersus/github-social-image-generator)" alt="IGexperiments" width="640" height="320" />
 
 # IGExperiments
 
 Enable developer options in Instagram!
-
-
 
 
 ## Installation
@@ -47,7 +45,43 @@ Enable developer options in Instagram!
 4. Enable "is employee", "employee options", "is employee or test user"
 5. Download a newer version from Apkmirror
 6. Use LSPatch to patch the APK "Select apk(s) from storage"
-7. Select "Local" as a Patch mode, Patch and Install! 
+7. Select "Local" as a Patch mode, Patch and Install!
+
+
+
+## FAQ
+
+
+#### The module doesn't start up.
+
+
+Open a ticket including your device name, OS, root status, and the logs from LSPosed if rooted.
+
+
+Otherwise, we won't be able to help you!
+
+
+#### The module starts, but the developer options are not showing up.
+
+* Make sure you have installed one of the combitaple versions of Instagram.
+* Make sure you have enabled the module from LSPosed/EdXposed/etc.
+* If none worked, check LSPosed logs and send them to us by opening a ticket.
+* Please note that if the logs don't include anything wrong, we won't be able to help you because most likely it's something with your device.
+
+
+
+#### If you think you are smart and can solve a problem,
+
+
+* Just fork it and contrubiute to the repository; don't come up to us insulting our team just because you don't know how to run it.
+
+#### Where is the home button?
+
+
+* The home button is the Instagram home button (not the phone home button, apparently!).
+
+
+
 ## Contributing
 
 Contributions are always welcome!
