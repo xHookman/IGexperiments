@@ -1,4 +1,4 @@
-<img src="[https://socialify.git.ci/xHookman/IGexperiments/image?description=1&font=Source%20Code%20Pro&language=1&name=1&pattern=Solid&pulls=1&stargazers=1&theme=Light](https://webapi.johnversus.dev/api/generateGithubSocial?repo_url=https://github.com/JohnVersus/github-social-image-generator)" alt="IGexperiments" width="640" height="320" />
+<img src="https://socialify.git.ci/xHookman/IGexperiments/image?description=1&font=Source%20Code%20Pro&language=1&name=1&pattern=Solid&pulls=1&stargazers=1&theme=Light" alt="IGexperiments" width="640" height="320" />
 
 # IGExperiments
 
@@ -69,17 +69,17 @@ Otherwise, we won't be able to help you!
 * Please note that if the logs don't include anything wrong, we won't be able to help you because most likely
    it's something with your device.
 
+#### Where is the home button?
 
+
+* The home button is the Instagram home button (not the phone home button, apparently!).
 
 #### If you think you are smart and can solve a problem,
 
 
 * Just fork it and contrubiute to the repository; don't come up to us insulting our team just because you don't know how to run it.
 
-#### Where is the home button?
 
-
-* The home button is the Instagram home button (not the phone home button, apparently!).
 
 
 
