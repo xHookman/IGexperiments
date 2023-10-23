@@ -72,10 +72,10 @@ Otherwise, we won't be able to help you!
 
 * The home button is the Instagram home button (not the phone home button, apparently!).
 
-#### If you think you are smart and can solve a problem,
+#### The module has root access, enabled and applied on Instagram but it's not enabling developer options.
 
 
-* Just fork it and contrubiute to the repository; don't come up to us insulting our team just because you don't know how to run it.
+* Please deactivate and reactivate the module from LSPosed, EdXposed, etc...
 
 
 
