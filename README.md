@@ -63,6 +63,7 @@ Otherwise, we won't be able to help you!
 
 * Make sure you have installed one of the combitaple versions of Instagram.
 * Make sure you have enabled the module from LSPosed/EdXposed/etc.
+* Deactivate and reactivate the module from LSPosed, EdXposed, etc...
 * If none worked, check LSPosed logs and send them to us by opening a ticket.
 * Please note that if the logs don't include anything wrong, we won't be able to help you because most likely
    it's something with your device.
@@ -72,10 +73,8 @@ Otherwise, we won't be able to help you!
 
 * The home button is the Instagram home button (not the phone home button, apparently!).
 
-#### The module has root access, enabled and applied on Instagram but it's not enabling developer options.
 
 
-* Please deactivate and reactivate the module from LSPosed, EdXposed, etc...
 
 
 
