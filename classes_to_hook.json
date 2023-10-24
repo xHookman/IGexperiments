@@ -1,32 +1,25 @@
 {
     "ig_versions": [
         {
-                "version": "305.0.0.0.27 (Alpha)",
-                "class_to_hook": "X.1AX",
+                "version": "305.0.0.34.110 (Stable)",
+                "class_to_hook": "X.19S",
                 "method_to_hook": "A00",
-                "second_class_to_hook":"X.0lb",
-                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-305-0-0-0-27-release/"
+                "second_class_to_hook":"X.0lP",
+                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-305-0-0-34-110-release/"
         },
         {
-                "version": "305.0.0.0.12 (Alpha)",
-                "class_to_hook": "X.1AQ",
+                "version": "305.0.0.10.110 (Beta)",
+                "class_to_hook": "X.1AU",
                 "method_to_hook": "A00",
-                "second_class_to_hook":"X.0lE",
-                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-305-0-0-0-12-release/"
+                "second_class_to_hook":"X.0lS",
+                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-305-0-0-10-110-release/"
         },
         {
-                "version": "303.0.0.0.64 (Alpha)",
-                "class_to_hook": "X.1B4",
+                "version": "306.0.0.0.97 (Alpha)",
+                "class_to_hook": "X.1A1",
                 "method_to_hook": "A00",
-                "second_class_to_hook":"X.0cX",
-                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-303-0-0-0-64-release/"
-        },
-        {
-                "version": "303.0.0.0.24 (Alpha)",
-                "class_to_hook": "X.1B4",
-                "method_to_hook": "A00",
-                "second_class_to_hook":"X.0cX",
-                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-303-0-0-0-24-release/"
-        },
+                "second_class_to_hook":"X.0dB",
+                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-306-0-0-0-97-release/"
+        }
   ]
 }
