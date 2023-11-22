@@ -88,7 +88,10 @@ Contributions are always welcome!
 
 To support newer versions:
 
-*You can now use my new tool IGExperimentsPatcher to directly patch Instagram apk without waiting me for update something, it will give the method and class to patch too if you prefer to use this Xposed module. Find it [here](https://github.com/xHookman/IGExperimentsPatcher), it's totally automatic.*
+### *You can now use my new tool IGExperimentsPatcher to directly patch Instagram apk without waiting me for update something, it will give the method and class to patch too if you prefer to use this Xposed module. Find it [here](https://github.com/xHookman/IGExperimentsPatcher), it's totally automatic.* ###
+
+
+
 
 #### Otherwise if you are a hacker wearing a very dark hood  ROOT Devices ONLY:
 
