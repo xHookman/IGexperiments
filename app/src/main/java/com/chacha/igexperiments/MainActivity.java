@@ -271,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Kill and start Instagram app
      */
+
     @SuppressLint("SuspiciousIndentation")
     private void killAction() {
         if (isRoot()) {
@@ -291,7 +292,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Stop the app manually!", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     /**
      * @return Return the json of supported IG versions
