@@ -33,7 +33,7 @@ Enable developer options in Instagram!
 2. MetaConfig Settings & Overrides
 3. Search for "Employee"
 4. Enable "is employee", "employee options", "is employee or test user"
-5. Disable the Modulde from (magisk, Edxposed, LSposed etc...)
+5. Disable the Module from (magisk, Edxposed, LSposed etc...)
 5. Download and Install a newer version from Apkmirror
 
 * Non-Rooted Devices (Using LSPatch - Requires Local Patch Mode)
