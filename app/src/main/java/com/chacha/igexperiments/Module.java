@@ -16,7 +16,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -25,7 +27,6 @@ import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import eu.chainfire.libsuperuser.Shell;
 
 public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     private String className, methodName, secondClassName;
@@ -76,85 +77,15 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) {
 
         if (lpparam.packageName.equals(Utils.IG_PACKAGE_NAME)) {
-            if (!Shell.SU.available()) {
-                // If device is not rooted
-                try {
-                    Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
-                    Object parser = parserCls.newInstance();
-                    File apkPath = new File(lpparam.appInfo.sourceDir);
-                    Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
-                    String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
 
+            boolean success = false;
 
-                    InfoIGVersion infoForTargetVersion = getInfoByVersion(versionName);
-
-                    String classToHook = infoForTargetVersion.getClassToHook();
-                    String methodToHook = infoForTargetVersion.getMethodToHook();
-                    String secondClassToHook = infoForTargetVersion.getSecondClassToHook();
-                    // DEV PURPOSES
-                    //showToast(versionName);
-                    //showToast("(IGExperiments) Hooking class: " + classToHook);
-                    //showToast("(IGExperiments) Hooking method: " + methodToHook);
-                    //showToast("(IGExperiments) Hooking Second class: " + secondClassToHook);
-
-                    Class<?> targetClass = XposedHelpers.findClass(classToHook, lpparam.classLoader);
-                    Class<?> secondTargetClass = XposedHelpers.findClass(secondClassToHook, lpparam.classLoader);
-                    XposedHelpers.findAndHookMethod(targetClass, methodToHook, secondTargetClass,
-                            new XC_MethodReplacement() {
-                                @Override
-                                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                                    // Always return true
-                                    return true;
-                                }
-                            });
-
-
-                } catch (Throwable ignored) {
-
-                }
-            } else {
-                // if device is rooted
+            try {
                 String type = initPreferences();
                 initElemToHook();
-
-                if (type.equals("Normal")) {
-                    try {
-                        Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
-                        Object parser = parserCls.newInstance();
-                        File apkPath = new File(lpparam.appInfo.sourceDir);
-                        Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
-                        String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
-
-                        InfoIGVersion infoForTargetVersion = getInfoByVersion(versionName);
-
-                        String classToHook = infoForTargetVersion.getClassToHook();
-                        String methodToHook = infoForTargetVersion.getMethodToHook();
-                        String secondClassToHook = infoForTargetVersion.getSecondClassToHook();
-
-                        // DEV PURPOSES
-                        //showToast(versionName);
-                        //showToast("(IGExperiments) Hooking class: " + classToHook);
-                        //showToast("(IGExperiments) Hooking method: " + methodToHook);
-                        //showToast("(IGExperiments) Hooking Second class: " + secondClassToHook);
-
-                        Class<?> targetClass = XposedHelpers.findClass(classToHook, lpparam.classLoader);
-                        Class<?> secondTargetClass = XposedHelpers.findClass(secondClassToHook, lpparam.classLoader);
-                        XposedHelpers.findAndHookMethod(targetClass, methodToHook, secondTargetClass,
-                                new XC_MethodReplacement() {
-                                    @Override
-                                    protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                                        // Always return true
-                                        return true;
-                                    }
-                                });
-
-
-                    } catch (Throwable ignored) {
-
-                    }
-                }
-                else {
-
+                success = true;
+                // if not normal means Hecker mode is being used!
+                if (!type.equals("Normal")) {
                     // DEV PURPOSES
 
                     //showToast("HECKER MODE");
@@ -173,9 +104,63 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                                 }
                             });
                 }
-
+            } catch (Exception e) {
 
             }
+            // if not success it means the hecker mode wasn't used "Root wasn't granted at the first place"
+            if (!success) {
+                try {
+                    Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
+                    Object parser = parserCls.newInstance();
+                    File apkPath = new File(lpparam.appInfo.sourceDir);
+                    Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
+                    String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
+
+                    InfoIGVersion infoForTargetVersion = getInfoByVersion(versionName);
+
+                    String classToHook = infoForTargetVersion.getClassToHook();
+                    String methodToHook = infoForTargetVersion.getMethodToHook();
+                    String secondClassToHook = infoForTargetVersion.getSecondClassToHook();
+
+                    // DEV PURPOSES
+//                        showToast(versionName);
+//                        showToast("(IGExperiments) Hooking class: " + classToHook);
+//                        showToast("(IGExperiments) Hooking method: " + methodToHook);
+//                        showToast("(IGExperiments) Hooking Second class: " + secondClassToHook);
+//                        XposedBridge.log(getTime() + versionName);
+                    XposedBridge.log(getTime() + "(IGExperiments) Hooking class: " + classToHook);
+                    XposedBridge.log(getTime() + "(IGExperiments) Hooking method: " + methodToHook);
+                    XposedBridge.log(getTime() + "(IGExperiments) Hooking Second class: " + secondClassToHook);
+
+
+                    Class<?> targetClass = XposedHelpers.findClass(classToHook, lpparam.classLoader);
+                    Class<?> secondTargetClass = XposedHelpers.findClass(secondClassToHook, lpparam.classLoader);
+                    XposedHelpers.findAndHookMethod(targetClass, methodToHook, secondTargetClass,
+                            new XC_MethodReplacement() {
+                                @Override
+                                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                                    // Always return true
+                                    XposedBridge.log("(IGExperiments) Successfully Hooked into method");
+                                    return true;
+                                }
+                            });
+
+
+                } catch (InstantiationException | IllegalAccessException e) {
+                    XposedBridge.log(getTime() + "Reflection error: " + e.getMessage());
+                    e.printStackTrace();
+                } catch (IllegalArgumentException e) {
+                    XposedBridge.log(getTime() + "Illegal argument in method call: " + e.getMessage());
+                    e.printStackTrace();
+                } catch (Exception e) { // Catch other exceptions that might not be predicted
+                    XposedBridge.log(getTime() + "Unhandled exception: " + e.getMessage());
+                    e.printStackTrace();
+                }
+                XposedBridge.log(getTime() + "End!");
+            }
+
+
+            //}
 
         }
 
@@ -239,13 +224,8 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
         }
         // if the installed Instagram version wasn't supported:
-        if (Shell.SU.available()) {
-            // if device is rooted
-            showToast("Version is not supported, Use Hecker mode or use a supported version!");
-        } else {
-            // if device is not rooted
-            showToast("Version is not supported, Use a supported version!");
-        }
+        showToast("Version is not supported, Use Hecker mode or use a supported version!");
+
         return null; // Version not found
     }
 
@@ -258,18 +238,17 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         });
     }
 
-    public static int getFirstNumberOfVersion(String input) {
-        String[] parts = input.split("\\.");
-        if (parts.length > 0) {
-            try {
-                return Integer.parseInt(parts[0]);
-            } catch (NumberFormatException e) {
-                // Handle the case where the first part is not a valid integer
-                e.printStackTrace();
-            }
-        }
-        // Return a default value if parsing fails
-        return 0;
+    public String getTime() {
+        // Format for displaying the current date and time
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        // Get current date and time
+        String currentTime = sdf.format(new Date());
+
+        // Log the current time
+        String time = "Time: " + currentTime + " - ";
+
+        return time;
     }
 
 }

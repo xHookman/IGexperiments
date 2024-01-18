@@ -20,8 +20,7 @@ Enable developer options in Instagram!
 
   1. Install the module
   2. Check the list of compatible versions and install the desired one
-  3. Patch the Instagram app using LSPatch (Local Patch Mode)
-  4. Add the module to the Instagram Module Scope using LSPatch
+  3. Patch the Instagram app using LSPatch (L̶o̶c̶a̶l̶ P̶a̶t̶c̶h̶ M̶o̶d̶e) With the new LSPatch update the module doesn't require Local Patch Mode anymore unless you want to manually update!
   5. Force stop Instagram and start it!
   6. Done! you can check the developer options by holding on the home button.
 
@@ -34,10 +33,10 @@ Enable developer options in Instagram!
 2. MetaConfig Settings & Overrides
 3. Search for "Employee"
 4. Enable "is employee", "employee options", "is employee or test user"
-5. Disable the Modulde from (magisk, Edxposed, LSposed etc...)
+5. Disable the Module from (magisk, Edxposed, LSposed etc...)
 5. Download and Install a newer version from Apkmirror
 
-* Non-Rooted Devices (Using LSPatch)
+* Non-Rooted Devices (Using LSPatch - Requires Local Patch Mode)
 
 1. Go to Developer Options Page
 2. MetaConfig Settings & Overrides
@@ -118,11 +117,11 @@ Now go at top, you will see a line like this:
 <img src="https://github.com/xHookman/IGexperiments/blob/master/readme/3.png?raw=true">
 
 
-You now know the class to hook: X.1AX
+You now know the class to hook: X.17H
 
 Method to hook: A00
 
-Second class to hook: X.0lb (the last three characters of 'c12990lb' for example)
+Second class to hook: X.0m3 (the last three characters of 'c12800m3' for example)
 
 You can now try if it works by enabling HECKER mode and completing the class name and method name field, click on hook and kill Instagram - Root devices ONLY!
 
