@@ -60,7 +60,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
         if (className.equals("")) {
             XposedBridge.log("(IGExperiments) No class name found, using default");
-            className = Utils.DEFAULT_CLASS_TO_HOOK; // Change this if you want to update the app
+            className = Utils.DEFAULT_CLASS_TO_HOOK;
             methodName = Utils.DEFAULT_METHOD_TO_HOOK;
             secondClassName = Utils.DEFAULT_SECOND_CLASS_TO_HOOK;
         }
@@ -87,7 +87,6 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 // if not normal means Hecker mode is being used!
                 if (!type.equals("Normal")) {
                     // DEV PURPOSES
-
                     //showToast("HECKER MODE");
                     //showToast("(IGExperiments) Hooking class: " + classToHook);
                     //showToast("(IGExperiments) Hooking method: " + methodToHook);
@@ -174,7 +173,6 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     private static String getJSONContent() {
         try {
             Log.println(Log.INFO, "IGexperiments", "Reading raw content from github file");
-            //Please change to the main one - xHookman after accepting pull request
             URL url = new URL("https://raw.githubusercontent.com/ReSo7200/IGexperiments/master/classes_to_hook.json");
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
