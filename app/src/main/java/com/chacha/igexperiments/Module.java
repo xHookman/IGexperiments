@@ -81,11 +81,12 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
             boolean success = false;
 
             try {
+                XposedBridge.log("Here");
                 String type = initPreferences();
                 initElemToHook();
-                success = true;
                 // if not normal means Hecker mode is being used!
                 if (!type.equals("Normal")) {
+                    success = true;
                     // DEV PURPOSES
                     //showToast("HECKER MODE");
                     //showToast("(IGExperiments) Hooking class: " + classToHook);
@@ -109,6 +110,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
             // if not success it means the hecker mode wasn't used "Root wasn't granted at the first place"
             if (!success) {
                 try {
+                    XposedBridge.log("Here 1");
                     Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
                     Object parser = parserCls.newInstance();
                     File apkPath = new File(lpparam.appInfo.sourceDir);
