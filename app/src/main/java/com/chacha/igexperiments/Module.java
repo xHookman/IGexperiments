@@ -83,9 +83,9 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
             try {
                 String type = initPreferences();
                 initElemToHook();
-                success = true;
                 // if not normal means Hecker mode is being used!
                 if (!type.equals("Normal")) {
+                    success = true;
                     // DEV PURPOSES
                     //showToast("HECKER MODE");
                     //showToast("(IGExperiments) Hooking class: " + classToHook);
