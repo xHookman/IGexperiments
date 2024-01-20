@@ -99,17 +99,17 @@ First you will need to use [Jadx](https://github.com/skylot/jadx)
 - Search for "```is_employee```" or "```"is_employee", Boolean.valueOf```" and find a line similar to:
 
 ```
-r2.A0i("is_employee", Boolean.valueOf(C1AX.A00(c12990lb)));
+c0ba.A0Y("is_employee", Boolean.valueOf(C17H.A00(c12800m3)));
 ```
 <img src="https://github.com/xHookman/IGexperiments/blob/master/readme/1.png?raw=true">
 
-Double click on the method name, A03:
+Double click on the method name, A00:
 
 <img src="https://github.com/xHookman/IGexperiments/blob/master/readme/2.png?raw=true">
 
 Now go at top, you will see a line like this: 
 ```
-/* renamed from: X.1AX reason: invalid class name */
+/* renamed from: X.17H reason: invalid class name */
 ```
 <img src="https://github.com/xHookman/IGexperiments/blob/master/readme/3.png?raw=true">
 
