@@ -78,6 +78,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
         if (lpparam.packageName.equals(Utils.IG_PACKAGE_NAME)) {
 
+
             boolean success = false;
 
             try {
@@ -88,9 +89,12 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     success = true;
                     // DEV PURPOSES
                     //showToast("HECKER MODE");
-                    //showToast("(IGExperiments) Hooking class: " + classToHook);
-                    //showToast("(IGExperiments) Hooking method: " + methodToHook);
-                    //showToast("(IGExperiments) Hooking Second class: " + secondClassToHook);
+                    //showToast("(IGExperiments) Hooking class: " + className);
+                    //showToast("(IGExperiments) Hooking method: " + methodName);
+                    //showToast("(IGExperiments) Hooking Second class: " + secondClassName);
+                    XposedBridge.log(getTime() + "(IGExperiments) Hooking class: " + className);
+                    XposedBridge.log(getTime() + "(IGExperiments) Hooking method: " + methodName);
+                    XposedBridge.log(getTime() + "(IGExperiments) Hooking Second class: " + secondClassName);
 
                     Class<?> targetClass = XposedHelpers.findClass(className, lpparam.classLoader);
                     Class<?> secondTargetClass = XposedHelpers.findClass(secondClassName, lpparam.classLoader);
@@ -103,7 +107,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                                 }
                             });
                 }
-            } catch (Exception e) {
+            } catch (Exception ignored) {
 
             }
             // if not success it means the hecker mode wasn't used "Root wasn't granted at the first place"
@@ -144,22 +148,23 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                                 }
                             });
 
-
                 } catch (InstantiationException | IllegalAccessException e) {
                     XposedBridge.log(getTime() + "Reflection error: " + e.getMessage());
                     e.printStackTrace();
                 } catch (IllegalArgumentException e) {
                     XposedBridge.log(getTime() + "Illegal argument in method call: " + e.getMessage());
                     e.printStackTrace();
-                } catch (Exception e) { // Catch other exceptions that might not be predicted
+                }
+                catch (XposedHelpers.InvocationTargetError e){
+                    showToast("Didn't work, Please use Hecker mode!");
+                    XposedBridge.log(getTime() + "Auto hook didn't work, Use Hecker mode!");
+                }
+                catch (Exception e) { // Catch other exceptions that might not be predicted
                     XposedBridge.log(getTime() + "Unhandled exception: " + e.getMessage());
                     e.printStackTrace();
                 }
                 XposedBridge.log(getTime() + "End!");
             }
-
-
-            //}
 
         }
 
@@ -244,9 +249,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         String currentTime = sdf.format(new Date());
 
         // Log the current time
-        String time = "Time: " + currentTime + " - ";
-
-        return time;
+        return "Time: " + currentTime + " - ";
     }
 
 }
