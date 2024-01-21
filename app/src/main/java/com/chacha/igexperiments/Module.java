@@ -170,30 +170,6 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 XposedBridge.log(getTime() + "End!");
             }
 
-            try {
-                XposedHelpers.findAndHookMethod("X.Dq5", lpparam.classLoader, "onClick", android.view.View.class, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        super.beforeHookedMethod(param);
-                        XposedHelpers.setIntField(param.thisObject, "A01", 43);
-                        XposedBridge.log("Here - WhitehatOptions");
-                        showToast("WhitehatOptionsFragment");
-                    }
-
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        super.afterHookedMethod(param);
-                        XposedHelpers.setIntField(param.thisObject, "A01", 43);
-                        XposedBridge.log("Here - WhitehatOptions");
-                        showToast("WhitehatOptionsFragment");
-
-                    }
-                });
-            } catch (Exception e) {
-                XposedBridge.log(getTime() + "Exp" + e.getMessage());
-            }
-
-
         }
 
         if (lpparam.packageName.equals(Utils.MY_PACKAGE_NAME)) {
