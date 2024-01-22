@@ -10,129 +10,83 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.webkit.MimeTypeMap;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class FileHelper {
 
-    public Context mContext;
+    private final String TEMP_DIR_NAME = "TempAPKs";
+    private String tempFilePath;
 
-    public FileHelper(Context context)
-    {
-        this.mContext = context;
+    public FileHelper() {
     }
 
-    public String getRealPathFromUri(final Uri uri) {
-        // DocumentProvider
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(mContext, uri)) {
-            // ExternalStorageProvider
-            if (isExternalStorageDocument(uri)) {
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
-
-                if ("primary".equalsIgnoreCase(type)) {
-                    return Environment.getExternalStorageDirectory() + "/" + split[1];
-                }
-            }
-            // DownloadsProvider
-            else if (isDownloadsDocument(uri)) {
-
-                final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-
-                return getDataColumn(mContext, contentUri, null, null);
-            }
-            // MediaProvider
-            else if (isMediaDocument(uri)) {
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
-
-                Uri contentUri = null;
-                if ("image".equals(type)) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                } else if ("video".equals(type)) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                } else if ("audio".equals(type)) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                }
-
-                final String selection = "_id=?";
-                final String[] selectionArgs = new String[]{
-                        split[1]
-                };
-
-                return getDataColumn(mContext, contentUri, selection, selectionArgs);
-            }
-        }
-        // MediaStore (and general)
-        else if ("content".equalsIgnoreCase(uri.getScheme())) {
-
-            // Return the remote address
-            if (isGooglePhotosUri(uri))
-                return uri.getLastPathSegment();
-
-            return getDataColumn(mContext, uri, null, null);
-        }
-        // File
-        else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            return uri.getPath();
-        }
-
-        return null;
+    public String getTempFilePath() {
+        return tempFilePath;
     }
 
-    private String getDataColumn(Context context, Uri uri, String selection,
-                                 String[] selectionArgs) {
+    public void handleSelectedApkFile(Context context, Uri selectedFileUri) {
+        this.tempFilePath = copyFileToTempDir(context, selectedFileUri);
 
-        Cursor cursor = null;
-        final String column = "_data";
-        final String[] projection = {
-                column
-        };
-
-        try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
-                    null);
-            if (cursor != null && cursor.moveToFirst()) {
-                final int index = cursor.getColumnIndexOrThrow(column);
-                return cursor.getString(index);
-            }
-        } finally {
-            if (cursor != null)
-                cursor.close();
-        }
-        return null;
-    }
-
-    public String getMimeType(Uri uri) {
-        String mimeType = null;
-        if (ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
-            ContentResolver cr = mContext.getContentResolver();
-            mimeType = cr.getType(uri);
+        if (tempFilePath != null) {
+            Toast.makeText(context, "Copied file to: " + tempFilePath, Toast.LENGTH_LONG).show();
+            // Continue with your logic, using tempFilePath
         } else {
-            String fileExtension = MimeTypeMap.getFileExtensionFromUrl(uri
-                    .toString());
-            mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
-                    fileExtension.toLowerCase());
+            Toast.makeText(context, "Failed to copy file to temp directory", Toast.LENGTH_SHORT).show();
         }
-        return mimeType;
     }
 
+    private String copyFileToTempDir(Context context, Uri sourceUri) {
+        try {
+            File tempDir = new File(context.getCacheDir(), TEMP_DIR_NAME);
+            if (!tempDir.exists()) {
+                tempDir.mkdir();
+            }
 
-    private boolean isExternalStorageDocument(Uri uri) {
-        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+            String fileName = getFileNameFromUri(context, sourceUri);
+            String tempFilePath = tempDir.getAbsolutePath() + File.separator + fileName;
+
+            try (InputStream inputStream = context.getContentResolver().openInputStream(sourceUri);
+                 OutputStream outputStream = new FileOutputStream(tempFilePath)) {
+                byte[] buffer = new byte[8192];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer, 0, 8192)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                return tempFilePath;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    private boolean isDownloadsDocument(Uri uri) {
-        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
-    }
+    private String getFileNameFromUri(Context context, Uri uri) {
+        String fileName = null;
+        String scheme = uri.getScheme();
 
-    private boolean isMediaDocument(Uri uri) {
-        return "com.android.providers.media.documents".equals(uri.getAuthority());
-    }
+        if (ContentResolver.SCHEME_FILE.equals(scheme)) {
+            fileName = new File(uri.getPath()).getName();
+        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
+            String[] projection = {MediaStore.Images.Media.DISPLAY_NAME};
+            try (Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME);
+                    fileName = cursor.getString(columnIndex);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-    private boolean isGooglePhotosUri(Uri uri) {
-        return "com.google.android.apps.photos.content".equals(uri.getAuthority());
+        if (fileName == null) {
+            fileName = "temp_file";
+        }
+
+        return fileName;
     }
 }

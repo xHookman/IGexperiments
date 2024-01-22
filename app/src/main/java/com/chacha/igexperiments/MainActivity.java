@@ -217,23 +217,38 @@ public class MainActivity extends AppCompatActivity {
             PermissionsManager permissionsManager = new PermissionsManager(this);
             permissionsManager.checkAndRequestStoragePermissions();
             askForApkFileToPatch();
-
-           /* File fileToPatch = new File(Environment.getExternalStorageDirectory() + "/Download/ig313.apk");
-            Patcher patcher = new Patcher(fileToPatch);
-            try {
-                patcher.findWhatToPatch();
-            } catch (IOException e) {
-                Toast.makeText(this, "An error occured: " + fileToPatch.getPath(), Toast.LENGTH_LONG).show();
-                throw new RuntimeException(e);
-            }*/
         });
     }
+
+    private void patchApk(File apkFile) {
+        Toast.makeText(this, "Patching: " + apkFile.getPath(), Toast.LENGTH_LONG).show();
+        Patcher patcher = new Patcher(apkFile);
+        try {
+            patcher.findWhatToPatch();
+        } catch (IOException e) {
+            Toast.makeText(this, "An error occured: " + apkFile.getPath(), Toast.LENGTH_LONG).show();
+            throw new RuntimeException(e);
+        }
+    }
+
+    private final ActivityResultLauncher<Intent> filePickingActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Uri selectedFileUri = result.getData().getData();
+                    FileHelper fileHelper = new FileHelper();
+                    fileHelper.handleSelectedApkFile(this, selectedFileUri);
+                    patchApk(new File(fileHelper.getTempFilePath()));
+                }
+            }
+    );
 
     private void askForApkFileToPatch() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("application/vnd.android.package-archive");
-        startActivityForResult(intent, APK_FILE_CODE);
+        filePickingActivityResultLauncher.launch(intent);
     }
+
 
     /**
      * Init array of IG versions infos
@@ -393,36 +408,8 @@ public class MainActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> storageActivityResultLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     o -> {
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-                            //Android is 11 (R) or above
-                            if(Environment.isExternalStorageManager()){
-                                //Manage External Storage Permissions Granted
-                                Log.d(TAG, "onActivityResult: Manage External Storage Permissions Granted");
-                            }else{
-                                Toast.makeText(MainActivity.this, "Storage Permissions Denied", Toast.LENGTH_SHORT).show();
-                            }
-                        }else{
-                            //Below android 11
 
-                        }
                     });
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == APK_FILE_CODE && resultCode == RESULT_OK && data != null) {
-            // Get the selected file's URI
-            Uri selectedFileUri = data.getData();
-            Toast.makeText(this, "Selected file: " + selectedFileUri.getPath(), Toast.LENGTH_LONG).show();
-
-            // Now you can handle the selected file URI as needed
-            // For example, you might want to install the APK using PackageManager
-
-            // To install the APK, you would typically use the following code
-            // Commented out because installing an APK programmatically requires special permissions
-            // installApk(selectedFileUri);
-        }
-    }
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
