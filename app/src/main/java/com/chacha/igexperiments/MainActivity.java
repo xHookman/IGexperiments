@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -20,11 +21,14 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.chacha.igexperiments.patcher.Patcher;
 import com.coniy.fileprefs.FileSharedPreferences;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textHookedClass, textViewError, infoHooktext, howtotext;
     private ImageButton btnDonate, btnGithub;
     private SwitchCompat switchUseHeckerMode;
-    private Button btnHook, btnDownload, btnKill;
+    private Button btnHook, btnDownload, btnKill, btnOpenApk;
     private Spinner igVersionsSpinner;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         infoHooktext = findViewById(R.id.textView2);
         howtotext = findViewById(R.id.howtotext);
         layoutSwitch = findViewById(R.id.linearLayout2);
+        btnOpenApk = findViewById(R.id.buttonOpenApk);
     }
 
     /**
@@ -184,6 +189,16 @@ public class MainActivity extends AppCompatActivity {
 
             });
 
+            btnOpenApk.setOnClickListener(view -> {
+                File fileToPatch = new File(Environment.getExternalStorageDirectory() + "/Download/ig313.apk");
+                Patcher patcher = new Patcher(fileToPatch);
+                try {
+                    patcher.findWhatToPatch();
+                } catch (IOException e) {
+                    Toast.makeText(this, "An error occured: " + fileToPatch.getPath(), Toast.LENGTH_LONG).show();
+                    throw new RuntimeException(e);
+                }
+            });
         }
 
         btnDonate.setOnClickListener(view -> {

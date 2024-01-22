@@ -8,6 +8,15 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/buttonOpenApk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OPEN APK"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutBtns" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -160,6 +169,7 @@
             android:id="@+id/igVersionsSpinner"
             android:layout_width="match_parent"
             android:layout_height="@dimen/spinner_height"
+            android:dropDownWidth="match_parent"
             android:entries="@array/ig_version"
             tools:layout_editor_absoluteX="208dp"
             tools:layout_editor_absoluteY="706dp" />
