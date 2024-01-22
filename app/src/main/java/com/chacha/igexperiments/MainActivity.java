@@ -1,12 +1,24 @@
 package com.chacha.igexperiments;
 
+import static eu.chainfire.libsuperuser.Debug.TAG;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -32,10 +44,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends AppCompatActivity {
+    private final int STORAGE_PERMISSION_CODE = 23;
+    private final int APK_FILE_CODE = 24;
     private LinearLayout layoutHeckerMode, layoutSwitch;
     private EditText customClassName, customMethodName, customSecondClassName;
     private TextView textHookedClass, textViewError, infoHooktext, howtotext;
@@ -188,17 +203,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "2. Stop the app manually!", Toast.LENGTH_SHORT).show();
 
             });
-
-            btnOpenApk.setOnClickListener(view -> {
-                File fileToPatch = new File(Environment.getExternalStorageDirectory() + "/Download/ig313.apk");
-                Patcher patcher = new Patcher(fileToPatch);
-                try {
-                    patcher.findWhatToPatch();
-                } catch (IOException e) {
-                    Toast.makeText(this, "An error occured: " + fileToPatch.getPath(), Toast.LENGTH_LONG).show();
-                    throw new RuntimeException(e);
-                }
-            });
         }
 
         btnDonate.setOnClickListener(view -> {
@@ -208,6 +212,27 @@ public class MainActivity extends AppCompatActivity {
         btnGithub.setOnClickListener(view -> {
             openUrl("https://github.com/xHookman/IGexperiments/");
         });
+
+        btnOpenApk.setOnClickListener(view -> {
+            PermissionsManager permissionsManager = new PermissionsManager(this);
+            permissionsManager.checkAndRequestStoragePermissions();
+            askForApkFileToPatch();
+
+           /* File fileToPatch = new File(Environment.getExternalStorageDirectory() + "/Download/ig313.apk");
+            Patcher patcher = new Patcher(fileToPatch);
+            try {
+                patcher.findWhatToPatch();
+            } catch (IOException e) {
+                Toast.makeText(this, "An error occured: " + fileToPatch.getPath(), Toast.LENGTH_LONG).show();
+                throw new RuntimeException(e);
+            }*/
+        });
+    }
+
+    private void askForApkFileToPatch() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/vnd.android.package-archive");
+        startActivityForResult(intent, APK_FILE_CODE);
     }
 
     /**
@@ -361,6 +386,56 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < iGVersionsInfos.size(); i++) {
             if (iGVersionsInfos.get(i).getClassToHook().equals(sharedPreferences.getString("className", ""))){
                 igVersionsSpinner.setSelection(i);
+            }
+        }
+    }
+
+    private final ActivityResultLauncher<Intent> storageActivityResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    o -> {
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+                            //Android is 11 (R) or above
+                            if(Environment.isExternalStorageManager()){
+                                //Manage External Storage Permissions Granted
+                                Log.d(TAG, "onActivityResult: Manage External Storage Permissions Granted");
+                            }else{
+                                Toast.makeText(MainActivity.this, "Storage Permissions Denied", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            //Below android 11
+
+                        }
+                    });
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == APK_FILE_CODE && resultCode == RESULT_OK && data != null) {
+            // Get the selected file's URI
+            Uri selectedFileUri = data.getData();
+            Toast.makeText(this, "Selected file: " + selectedFileUri.getPath(), Toast.LENGTH_LONG).show();
+
+            // Now you can handle the selected file URI as needed
+            // For example, you might want to install the APK using PackageManager
+
+            // To install the APK, you would typically use the following code
+            // Commented out because installing an APK programmatically requires special permissions
+            // installApk(selectedFileUri);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == STORAGE_PERMISSION_CODE){
+            if(grantResults.length > 0){
+                boolean write = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                boolean read = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                if(read && write){
+                    Toast.makeText(MainActivity.this, "Storage Permissions Granted", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Storage Permissions Denied", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
