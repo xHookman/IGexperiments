@@ -28,5 +28,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.github.chengxuncc:fileprefs:1.0'
     compileOnly files('libs/api-82.jar')
+    compileOnly files('libs/apktool_2.8.1.jar')
+    implementation group: 'net.lingala.zip4j', name: 'zip4j', version: '2.11.5'
     implementation 'eu.chainfire:libsuperuser:201501111220'
 }
