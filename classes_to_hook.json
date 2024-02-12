@@ -1,11 +1,11 @@
 {
     "ig_versions": [
         {
-                "version": "314.0.0.20.114 - Stable",
-                "class_to_hook": "X.17H",
+                "version": "317.0.0.34.109 - Stable",
+                "class_to_hook": "X.16G",
                 "method_to_hook": "A00",
-                "second_class_to_hook":"X.0m3",
-                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-314-0-0-20-114-release/"
+                "second_class_to_hook":"X.0gk",
+                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-317-0-0-34-109-release/"
         },
         {
                 "version": "315.0.0.21.109 - Beta",
