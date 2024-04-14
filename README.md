@@ -80,19 +80,16 @@ Otherwise, we won't be able to help you!
 
 
 
-
+### To support newer versions:
+#### *You can now use my new tool IGExperimentsPatcher to directly patch Instagram apk without waiting me for update something, it can also simply give you the class, method and arg type to use in this module. Find it [here](https://github.com/xHookman/IGExperimentsPatcher) !* ###
+#### Otherwise if you are a hacker wearing a very dark hood  ROOT Devices ONLY:
 ## Contributing
 
-Contributions are always welcome!
-
-To support newer versions:
-
-### *You can now use my new tool IGExperimentsPatcher to directly patch Instagram apk without waiting me for update something, it can also simply give you the class, method and arg type to use in this module. Find it [here](https://github.com/xHookman/IGExperimentsPatcher) !* ###
+Contributions are always welcome! 
 
 
+Please refer to the [IGHookClasses repository](https://github.com/xHookman/IGHookClasses) to update class hooks necessary for new Instagram versions.
 
-
-#### Otherwise if you are a hacker wearing a very dark hood  ROOT Devices ONLY:
 
 First you will need to use [Jadx](https://github.com/skylot/jadx)
  to decompile an [Instagram apk](https://www.apkmirror.com/apk/instagram/).
