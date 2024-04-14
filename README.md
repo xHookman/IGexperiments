@@ -88,7 +88,7 @@ Otherwise, we won't be able to help you!
 Contributions are always welcome! 
 
 
-Please refer to the [IGHookClasses repository](https://github.com/xHookman/IGHookClasses) to update class hooks necessary for new Instagram versions.
+Please refer to the [IGHookClasses repository](https://github.com/ReSo7200/IGExperimentsHooksUpdates) to update class hooks necessary for new Instagram versions.
 
 
 First you will need to use [Jadx](https://github.com/skylot/jadx)
