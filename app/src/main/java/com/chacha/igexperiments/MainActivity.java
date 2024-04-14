@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             Log.println(Log.INFO, "IGexperiments", "Reading raw content from github file");
             //Please change to the main one - xHookman after accepting pull request
-            URL url = new URL("https://raw.githubusercontent.com/ReSo7200/IGexperiments/master/classes_to_hook.json");
+            URL url = new URL("https://raw.githubusercontent.com/ReSo7200/IGExperimentsUpdates/master/hooks.json");
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             Scanner s = new Scanner(url.openStream());
