@@ -1,7 +1,7 @@
 {
     "ig_versions": [
         {
-                "version": "331.0.0.6.90 - Stable",
+                "version": "330.0.0.40.92 - Stable",
                 "class_to_hook": "X.1Aq",
                 "method_to_hook": "A00",
                 "second_class_to_hook":"X.0TF",
