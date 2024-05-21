@@ -8,11 +8,11 @@
                 "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-332-0-0-38-90-release/"
         },
         {
-                "version": "327.0.0.32.93 - Beta",
-                "class_to_hook": "X.1Aq",
+                "version": "332.0.0.25.90 - Beta",
+                "class_to_hook": "X.1BZ",
                 "method_to_hook": "A00",
-                "second_class_to_hook":"X.0vg",
-                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-327-0-0-32-93-release/"
+                "second_class_to_hook":"com.instagram.common.session.UserSession",
+                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-332-0-0-25-90-release/"
         },
         {
                 "version": "333.0.0.0.38 - Alpha",
