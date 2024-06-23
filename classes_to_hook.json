@@ -1,25 +1,25 @@
 {
     "ig_versions": [
         {
-                "version": "332.0.0.38.90 - Stable",
-                "class_to_hook": "X.1BJ",
+                "version": "336.0.0.35.90 - Stable",
+                "class_to_hook": "X.159",
                 "method_to_hook": "A00",
                 "second_class_to_hook":"com.instagram.common.session.UserSession",
-                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-332-0-0-38-90-release/"
+                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-336-0-0-35-90-release/"
         },
         {
-                "version": "332.0.0.25.90 - Beta",
-                "class_to_hook": "X.1BZ",
+                "version": "337.0.0.27.102 - Beta",
+                "class_to_hook": "X.143",
                 "method_to_hook": "A00",
                 "second_class_to_hook":"com.instagram.common.session.UserSession",
-                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-332-0-0-25-90-release/"
+                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-337-0-0-27-102-release/"
         },
         {
-                "version": "333.0.0.0.38 - Alpha",
-                "class_to_hook": "X.1B9",
+                "version": "338.0.0.0.34 - Alpha",
+                "class_to_hook": "X.143",
                 "method_to_hook": "A00",
                 "second_class_to_hook":"com.instagram.common.session.UserSession",
-                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-333-0-0-0-38-release/"
+                "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-338-0-0-0-34-release/"
         }
   ]
 }
