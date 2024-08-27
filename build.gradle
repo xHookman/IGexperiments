@@ -2,9 +2,8 @@
 buildscript {
     repositories {
         google()
-        mavenCentral()
-        // JCenter is deprecated and was sunsetted on May 1, 2021. It’s better to remove it.
-        jcenter()
+        mavenCentral()  // Replaced JCenter with Maven Central
+        // jcenter() - Removed as JCenter is deprecated
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.0.2'
@@ -17,10 +16,9 @@ buildscript {
 allprojects {
     repositories {
         google()
-        mavenCentral()
-        // JCenter is deprecated; consider removing it or replacing with mavenCentral() if all dependencies are available there.
-        jcenter()
-        maven { url 'https://jitpack.io' }
+        mavenCentral()  // Replaced JCenter with Maven Central
+        // jcenter() - Removed as JCenter is deprecated
+        maven { url 'https://jitpack.io' } // Keeping JitPack for any GitHub-hosted libraries
     }
 }
 
