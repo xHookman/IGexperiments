@@ -2,8 +2,8 @@
 buildscript {
     repositories {
         google()
-        mavenCentral()  // Replaced JCenter with Maven Central
-        // jcenter() - Removed as JCenter is deprecated
+        mavenCentral()
+        maven { url 'https://jitpack.io' }  // Add JitPack repository
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.0.2'
@@ -16,9 +16,8 @@ buildscript {
 allprojects {
     repositories {
         google()
-        mavenCentral()  // Replaced JCenter with Maven Central
-        // jcenter() - Removed as JCenter is deprecated
-        maven { url 'https://jitpack.io' } // Keeping JitPack for any GitHub-hosted libraries
+        mavenCentral()
+        maven { url 'https://jitpack.io' }  // Add JitPack repository
     }
 }
 
