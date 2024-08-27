@@ -28,5 +28,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.github.chengxuncc:fileprefs:1.0'
     compileOnly files('libs/api-82.jar')
-    implementation 'eu.chainfire:libsuperuser:201501111220'
+    
+    // Updated libsuperuser dependency to a version available on JitPack
+    implementation 'eu.chainfire:libsuperuser:1.1.1'
 }
