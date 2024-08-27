@@ -3,6 +3,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        // JCenter is deprecated and was sunsetted on May 1, 2021. It’s better to remove it.
         jcenter()
     }
     dependencies {
@@ -17,6 +18,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        // JCenter is deprecated; consider removing it or replacing with mavenCentral() if all dependencies are available there.
         jcenter()
         maven { url 'https://jitpack.io' }
     }
