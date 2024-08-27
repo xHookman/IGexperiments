@@ -16,7 +16,7 @@
         },
         {
                 "version": "347.0.0.0.76 - Alpha",
-                "class_to_hook": "X.143",
+                "class_to_hook": "X.17f",
                 "method_to_hook": "A00",
                 "second_class_to_hook":"com.instagram.common.session.UserSession",
                 "download": "https://www.apkmirror.com/apk/instagram/instagram-instagram/instagram-instagram-347-0-0-0-76-release/"
