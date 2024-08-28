@@ -1,5 +1,6 @@
 package com.chacha.igexperiments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.coniy.fileprefs.FileSharedPreferences;
@@ -13,6 +14,7 @@ public class Preferences {
      * @param context
      * @return the preferences
      */
+    @SuppressLint("WorldReadableFiles")
     public static SharedPreferences loadPreferences(Context context){
         try {
             //noinspection deprecation

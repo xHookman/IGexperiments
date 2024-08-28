@@ -22,4 +22,22 @@
         <item name="android:inputType">text</item>
         <item name="hintEnabled">false</item>
     </style>
+
+
+    <!-- Define a custom style for Spinner Popup -->
+    <style name="SpinnerPopup" parent="Theme.AppCompat.Light">
+        <item name="android:textAppearance">@style/SpinnerTextAppearance</item>
+        <item name="android:background">@android:color/black</item>
+    </style>
+
+    <!-- Define the text appearance for the Spinner items -->
+    <style name="SpinnerTextAppearance" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:autoSizeTextType">uniform</item>
+        <item name="android:autoSizeMinTextSize">10sp</item>
+        <item name="android:autoSizeMaxTextSize">18sp</item>
+        <item name="android:autoSizeStepGranularity">1sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+
 </resources>

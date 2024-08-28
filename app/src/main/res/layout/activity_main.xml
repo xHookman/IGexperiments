@@ -32,7 +32,8 @@
             android:layout_marginTop="50dp"
             android:background="@android:color/black"
             android:scaleType="centerInside"
-            android:src="@drawable/btn_github" />
+            android:src="@drawable/btn_github"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
             android:id="@+id/btnDonate"
@@ -40,7 +41,8 @@
             android:layout_height="76dp"
             android:background="@android:color/black"
             android:scaleType="centerInside"
-            android:src="@drawable/btn_donate" />
+            android:src="@drawable/btn_donate"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:id="@+id/textViewError"
@@ -53,6 +55,7 @@
             android:textSize="@dimen/text_error_size" />
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
@@ -69,7 +72,8 @@
             android:layout_weight="1"
             android:text="@string/use_hecker_mode"
             android:thumb="@drawable/thumb_layerlist"
-            app:track="@drawable/track_selector"/>
+            app:track="@drawable/track_selector"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/textView3"
@@ -161,8 +165,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/spinner_height"
             android:entries="@array/ig_version"
-            tools:layout_editor_absoluteX="208dp"
-            tools:layout_editor_absoluteY="706dp" />
+            android:spinnerMode="dropdown"
+            android:popupTheme="@style/SpinnerPopup"/>
     </LinearLayout>
 
     <TextView

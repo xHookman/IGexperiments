@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
     private static String getJSONContent(){
         try {
             Log.println(Log.INFO, "IGexperiments", "Reading raw content from github file");
-            //Please change to the main one - xHookman after accepting pull request
+            // IGExperimentsHooksUpdates available @ https://github.com/ReSo7200/IGExperimentsHooksUpdates/tree/main
             URL url = new URL("https://raw.githubusercontent.com/ReSo7200/IGExperimentsUpdates/master/hooks.json");
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
