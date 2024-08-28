@@ -109,16 +109,16 @@ Double click on the method name, A00:
 
 Now go at top, you will see a line like this: 
 ```
-/* renamed from: X.17H reason: invalid class name */
+/* renamed from: X.196 reason: invalid class name */
 ```
 <img src="https://github.com/xHookman/IGexperiments/blob/master/readme/3.png?raw=true">
 
 
-You now know the class to hook: X.17H
+You now know the class to hook: X.196
 
 Method to hook: A00
 
-Second class to hook: X.0m3 (the last three characters of 'c12800m3' for example)
+Second class to hook: com.instagram.common.session.UserSession
 
 You can now try if it works by enabling HECKER mode and completing the class name and method name field, click on hook and kill Instagram - Root devices ONLY!
 
@@ -126,6 +126,8 @@ You can now try if it works by enabling HECKER mode and completing the class nam
 
 - [@xHookman](https://github.com/xHookman)
 - [@ReSo7200](https://github.com/ReSo7200)
-- [@Vasilis](https://github.com/down-bad)
-- [@rmnscnce](https://github.com/rmnscnce)
+
+  ### Contributors
+ - [@Vasilis](https://github.com/down-bad)
+ - [@rmnscnce](https://github.com/rmnscnce)
 
