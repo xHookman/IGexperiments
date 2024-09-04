@@ -75,18 +75,13 @@ Otherwise, we won't be able to help you!
 * The home button is the Instagram home button (not the phone home button, apparently!).
 
 
-
-
-
-
-
-### To support newer versions:
-#### *You can now use my new tool IGExperimentsPatcher to directly patch Instagram apk without waiting me for update something, it can also simply give you the class, method and arg type to use in this module. Find it [here](https://github.com/xHookman/IGExperimentsPatcher) !* ###
-#### Otherwise if you are a hacker wearing a very dark hood:
 ## Contributing
 
 Contributions are always welcome! 
 
+### To support newer versions:
+#### *You can now use my new tool IGExperimentsPatcher to directly patch Instagram apk without waiting me for update something, it can also simply give you the class, method and arg type to use in this module. Find it [here](https://github.com/xHookman/IGExperimentsPatcher) !* ###
+#### Otherwise if you are a hacker wearing a very dark hood:
 
 Please refer to the [IGHookClasses repository](https://github.com/ReSo7200/IGExperimentsHooksUpdates) to update class hooks necessary for new Instagram versions.
 
