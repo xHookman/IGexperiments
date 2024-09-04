@@ -96,10 +96,10 @@ First you will need to use [Jadx](https://github.com/skylot/jadx)
 
 - Open Jadx and select your apk.
 - Click on the text search button at top, wait for decompiling (it can takes several times)
-- Search for "```is_employee```" or "```"is_employee", Boolean.valueOf```" and find a line similar to:
+- Search for "```"is_employee", Boolean.valueOf```" and find a line similar to:
 
 ```
-c0ba.A0Y("is_employee", Boolean.valueOf(C17H.A00(c12800m3)));
+c0at.A0J("is_employee", Boolean.valueOf(AnonymousClass196.A00(userSession)));
 ```
 <img src="https://github.com/xHookman/IGexperiments/blob/master/readme/1.png?raw=true">
 
@@ -126,8 +126,4 @@ You can now try if it works by enabling HECKER mode and completing the class nam
 
 - [@xHookman](https://github.com/xHookman)
 - [@ReSo7200](https://github.com/ReSo7200)
-
-  ### Contributors
- - [@Vasilis](https://github.com/down-bad)
- - [@rmnscnce](https://github.com/rmnscnce)
 
