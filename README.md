@@ -90,38 +90,6 @@ Contributions are always welcome!
 
 Please refer to the [IGHookClasses repository](https://github.com/ReSo7200/IGExperimentsHooksUpdates) to update class hooks necessary for new Instagram versions.
 
-
-First you will need to use [Jadx](https://github.com/skylot/jadx)
- to decompile an [Instagram apk](https://www.apkmirror.com/apk/instagram/).
-
-- Open Jadx and select your apk.
-- Click on the text search button at top, wait for decompiling (it can takes several times)
-- Search for "```"is_employee", Boolean.valueOf```" and find a line similar to:
-
-```
-c0at.A0J("is_employee", Boolean.valueOf(AnonymousClass196.A00(userSession)));
-```
-<img src="https://github.com/xHookman/IGexperiments/blob/master/readme/1.png?raw=true">
-
-Double click on the method name, A00:
-
-<img src="https://github.com/xHookman/IGexperiments/blob/master/readme/2.png?raw=true">
-
-Now go at top, you will see a line like this: 
-```
-/* renamed from: X.196 reason: invalid class name */
-```
-<img src="https://github.com/xHookman/IGexperiments/blob/master/readme/3.png?raw=true">
-
-
-You now know the class to hook: X.196
-
-Method to hook: A00
-
-Second class to hook: com.instagram.common.session.UserSession
-
-You can now try if it works by enabling HECKER mode and completing the class name and method name field, click on hook and kill Instagram - Root devices ONLY!
-
 ## Authors
 
 - [@xHookman](https://github.com/xHookman)
