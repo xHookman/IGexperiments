@@ -1,6 +1,5 @@
 name: Build Debug APK
 
-# Automatically trigger the workflow on pushes to 'main' or pull requests to 'main'
 on:
   push:
     branches:
@@ -44,11 +43,15 @@ jobs:
           build-tools: 34.0.0  # Make sure this matches your buildToolsVersion
           target: android-34
 
-      # Step 5: Build the APK (Debug build)
+      # Step 5: Grant execute permission for gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      # Step 6: Build the APK (Debug build)
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
-      # Step 6: Upload the generated APK as an artifact
+      # Step 7: Upload the generated APK as an artifact
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
