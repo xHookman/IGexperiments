@@ -1,5 +1,6 @@
 name: Build Debug APK
 
+# Automatically trigger the workflow on pushes to 'main' or pull requests to 'main'
 on:
   push:
     branches:
@@ -7,6 +8,7 @@ on:
   pull_request:
     branches:
       - main  # Run on pull requests to the main branch
+  workflow_dispatch:  # Allows manual triggering via the GitHub UI
 
 jobs:
   build_debug_apk:
