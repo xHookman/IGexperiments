@@ -1,7 +1,7 @@
 {
     "ig_versions": [
         {
-                "version": "350.1.0.46.93 - S",
+                "version": "350.1.0.46.93 - St",
                 "class_to_hook": "X.1AG",
                 "method_to_hook": "A00",
                 "second_class_to_hook":"com.instagram.common.session.UserSession",
