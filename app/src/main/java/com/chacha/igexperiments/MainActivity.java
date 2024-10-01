@@ -1,8 +1,7 @@
 package com.chacha.igexperiments;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -20,18 +19,25 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.coniy.fileprefs.FileSharedPreferences;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import eu.chainfire.libsuperuser.Shell;
 
@@ -47,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private ArrayList<InfoIGVersion> iGVersionsInfos;
 
+
+    private static final String VERSION_URL = "https://raw.githubusercontent.com/ReSo7200/IGExperimentsHooksUpdates/refs/heads/main/version.json";
+    private static final String CURRENT_VERSION = "3.0";
+
+    private final ExecutorService executor = Executors.newSingleThreadExecutor(); // Executor for background tasks
+
     /**
      * Init views preferences
      */
@@ -58,18 +70,31 @@ public class MainActivity extends AppCompatActivity {
         String useMode = sharedPreferences.getString("Mode", "Normal");
 
         // Set the button text and UI based on the mode
-        if (useMode.equals("Hecker")) {
-            layoutHeckerMode.setVisibility(View.VISIBLE);  // Show Hecker-specific UI
-            textHookedClass.setVisibility(View.VISIBLE);   // Show Hooked Class
-            switchModeBtn.setText(getResources().getString(R.string.hecker_mode));  // Set button text to Hecker mode
-        } else if (useMode.equals("Normal")) {
-            layoutHeckerMode.setVisibility(View.GONE);     // Hide Hecker-specific UI
-            textHookedClass.setVisibility(View.VISIBLE);   // Show Hooked Class
-            switchModeBtn.setText(getResources().getString(R.string.normal_mode));      // Set button text to Normal mode
-        } else if (useMode.equals("Auto")) {
-            layoutHeckerMode.setVisibility(View.GONE);     // Hide Hecker-specific UI
-            textHookedClass.setVisibility(View.GONE);      // Hide Hooked Class
-            switchModeBtn.setText(getResources().getString(R.string.auto_mode));        // Set button text to Auto mode
+        switch (useMode) {
+            case "Hecker":
+                layoutHeckerMode.setVisibility(View.VISIBLE);  // Show Hecker-specific UI
+
+                textHookedClass.setVisibility(View.VISIBLE);   // Show Hooked Class
+
+                switchModeBtn.setText(getResources().getString(R.string.hecker_mode));  // Set button text to Hecker mode
+
+                break;
+            case "Normal":
+                layoutHeckerMode.setVisibility(View.GONE);     // Hide Hecker-specific UI
+
+                textHookedClass.setVisibility(View.VISIBLE);   // Show Hooked Class
+
+                switchModeBtn.setText(getResources().getString(R.string.normal_mode));      // Set button text to Normal mode
+
+                break;
+            case "Auto":
+                layoutHeckerMode.setVisibility(View.GONE);     // Hide Hecker-specific UI
+
+                textHookedClass.setVisibility(View.GONE);      // Hide Hooked Class
+
+                switchModeBtn.setText(getResources().getString(R.string.auto_mode));        // Set button text to Auto mode
+
+                break;
         }
 
         // Update the displayed hooked class and method names
@@ -241,9 +266,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (isRoot()) {
-            btnKill.setOnClickListener(view -> {
-                killAction();
-            });
+            btnKill.setOnClickListener(view -> killAction());
         } else {
             btnKill.setText("Use LSPatch to enable the module on Instagram");
             btnKill.setOnClickListener(view -> {
@@ -280,6 +303,8 @@ public class MainActivity extends AppCompatActivity {
         initIGVersionsSpinner();
         initViewsFunctions();
 
+        checkForUpdate();
+
         if (isRoot() && !isModuleActive()) {
             disableView();
             textViewError.setText("Module DISABLED!");
@@ -298,6 +323,74 @@ public class MainActivity extends AppCompatActivity {
             layoutHeckerMode.setVisibility(View.GONE);
             layoutSwitch.setVisibility(View.GONE);
         }
+    }
+
+    // Function to check for the latest version
+    private void checkForUpdate() {
+        executor.submit(() -> {
+            String versionData = fetchVersionData();
+
+            if (versionData != null) {
+                try {
+                    // Parse the JSON data to get the latest version and update URL
+                    JSONObject jsonObject = new JSONObject(versionData);
+                    String latestVersion = jsonObject.getString("latestVersion");
+                    String updateUrl = jsonObject.getString("updateUrl");
+
+                    Log.d("VersionCheck", "Latest version: " + latestVersion);
+                    Log.d("VersionCheck", "Update URL: " + updateUrl);
+
+                    // Check if the latest version is newer than the current version
+                    if (isNewVersionAvailable(latestVersion)) {
+                        runOnUiThread(() -> showUpdateDialog(updateUrl, latestVersion)); // Show dialog on main thread
+                    }
+                } catch (Exception e) {
+                    Log.e("VersionCheck", "Error parsing JSON", e);
+                }
+            }
+        });
+    }
+
+    // Function to fetch the JSON content from the URL
+    private String fetchVersionData() {
+        StringBuilder result = new StringBuilder();
+        try {
+            URL url = new URL(VERSION_URL);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+            reader.close();
+            Log.d("VersionCheck", "Fetched JSON: " + result);
+            return result.toString();
+
+        } catch (Exception e) {
+            Log.e("VersionCheck", "Error fetching version data", e);
+            return null;
+        }
+    }
+
+    // Function to compare the current version with the latest version
+    private boolean isNewVersionAvailable(String latestVersion) {
+        return CURRENT_VERSION.compareTo(latestVersion) < 0;
+    }
+
+    // Function to show a dialog when a new version is available
+    private void showUpdateDialog(String updateUrl, String newVersion) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("New Version Available")
+                .setMessage("A new version of the module is available. Would you like to update?\nNew Version: " + newVersion)
+                .setPositiveButton("Update", (dialog, which) -> {
+                    // Open the update URL in the browser
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
+                    startActivity(browserIntent);
+                })
+                .setNegativeButton("Later", null)
+                .show();
     }
 
     // Disable when module not enabled
