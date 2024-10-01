@@ -2,14 +2,30 @@
 
 # IGExperiments
 
-**Unlock Instagram's Developer Options!**  
-IGExperiments is a module that allows you to enable developer options in Instagram, providing access to hidden features like **White hat settings**, **test user mode**, and more.
+🔓 **Unlock Instagram's Developer Options!** 🚀✨
+IGExperiments is a module that unlocks Instagram's hidden developer options, giving you access to advanced features like **White Hat settings** (enables SSL unpinning), **Test User mode**, and much more.
 
 ## Features
 
 - Enable Developer Options in Instagram (rooted or non-rooted devices).
 - Multiple modes: Normal, Hecker (manual), and Auto (automatic detection).
 - Compatible with both rooted and non-rooted devices (via LSPatch).
+
+### Root vs Non-Root Functionality
+
+| Feature                          | Rooted Devices                      | Non-Rooted Devices (LSPatch)     |
+|-----------------------------------|-------------------------------------|----------------------------------|
+| **Modes Available**               | Normal, Hecker, Auto                | Normal (Manual updates)          |
+| **Auto Mode (Auto-detect hooks)** | ✅ Yes                              | ❌ No                             |
+| **Hecker Mode (Manual classes)**  | ✅ Yes                              | ❌ No                             |
+| **Normal Mode (Standard hooks)**  | ✅ Yes                              | ✅ Yes                            |
+| **Kill Button (Force stop/start)**| ✅ Yes (Force stop Instagram)       | ❌ No                             |
+| **Manual Updates**                | ✅ Yes (Easier and often automatic) | ✅ Yes (Requires manual patching) |
+
+> **Note**:  
+> - **Rooted Devices** have full access to all modes, and manual updates are easier or automatic in some cases.  
+> - **Non-Rooted Devices** are limited to **Normal Mode**, which requires manual updates and patching using LSPatch.
+
 
 ## Installation
 
@@ -33,23 +49,21 @@ IGExperiments is a module that allows you to enable developer options in Instagr
 5. Done! Access developer options by long-pressing the Instagram home button.
 
 > **Note:**  
-- **LSPatch** requires Local Patch Mode for manual updates to Instagram.
+- The module requires Instagram to be patched in **Local Patch Mode** via **LSPatch** in order to apply updates.
 
 ---
 
 ## How to Update Instagram
 
-### Enable Employee Options
-
 #### Rooted Devices
 
-**Option 1: Auto Mode (recommended)**
+**Option 1: Auto Mode**
 
 1. Uninstall Instagram.
 2. Install the latest version from the **Google Play Store** or **APKMirror**.
 3. Use **Auto Mode** in the module to re-enable developer options.
 
-**Option 2: Legacy Method**
+**Option 2: Legacy Method (_Enable Employee Options_)**
 
 1. Go to **Developer Options** > **MetaConfig Settings & Overrides**.
 2. Search for **Employee**.
