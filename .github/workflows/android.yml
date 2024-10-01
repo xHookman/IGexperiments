@@ -1,32 +1,32 @@
-name: Android CI
+name: Build Debug APK
 
 on:
   push:
     branches:
-      - main  # Triggers the build on pushes to the main branch
+      - main  # Run on push to the main branch
   pull_request:
     branches:
-      - main  # Triggers the build on pull requests to the main branch
+      - main  # Run on pull requests to the main branch
 
 jobs:
-  build:
+  build_debug_apk:
     runs-on: ubuntu-latest
 
     steps:
       # Step 1: Checkout the code from the repository
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      # Step 2: Set up JDK 11, which is required for Android builds
+      # Step 2: Set up JDK 11 (as per your module's requirement)
       - name: Set up JDK 11
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '11'
 
       # Step 3: Cache Gradle dependencies to speed up builds
       - name: Cache Gradle dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -38,17 +38,17 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
         with:
-          api-level: 34
-          build-tools: 34.0.0  # This should match your compileSdkVersion
+          api-level: 34  # Make sure this matches your compileSdkVersion
+          build-tools: 34.0.0  # Make sure this matches your buildToolsVersion
           target: android-34
 
-      # Step 5: Build APK using Gradle
-      - name: Build APK
-        run: ./gradlew assembleRelease
+      # Step 5: Build the APK (Debug build)
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
 
-      # Step 6: Upload APK as a build artifact so it can be downloaded
+      # Step 6: Upload the generated APK as an artifact
       - name: Upload APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: app-release.apk
-          path: app/build/outputs/apk/release/app-release.apk
+          name: app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
