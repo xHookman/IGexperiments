@@ -6,10 +6,10 @@ android {
         applicationId "com.chacha.igexperiments"
         minSdkVersion 26
         targetSdkVersion 34
-        versionCode 1
-        versionName '2.5.2'
+        versionName '3.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionCode 30
     }
 
     buildTypes {

@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
+
+
     private String className, methodName, secondClassName;
 
     /**
@@ -38,16 +41,20 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         XposedPreferences.loadPreferences();
         XposedPreferences.reloadPrefs();
 
-        if (XposedPreferences.getPrefs().getBoolean("useHeckerMode", false)) {
-            XposedBridge.log("(IGExperiments) Using class name from preferences");
-            return "Hecker";
+        if (XposedPreferences.getPrefs().getString("Mode", "Normal").equals("Normal")) {
+            XposedBridge.log("(IGExperiments) Using class name from Github");
+
+            return "Normal";
+        } else if (XposedPreferences.getPrefs().getString("Mode", "Normal").equals("Auto")) {
+            XposedBridge.log("(IGExperiments) Dynamic searching");
+
+            return "Auto";
         }
-        XposedBridge.log("(IGExperiments) Using class name from Github");
-
-        return "Normal";
-
+        XposedBridge.log("(IGExperiments) Using class name from preferences");
+        return "Hecker";
 
     }
+
 
     /**
      * Initialize the class and method to hook
@@ -76,22 +83,81 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     @Override
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) {
 
-        if (lpparam.packageName.equals(Utils.IG_PACKAGE_NAME)) {
 
+        if (lpparam.packageName.equals(Utils.MY_PACKAGE_NAME)) {
+            findAndHookMethod(Utils.MY_PACKAGE_NAME + ".MainActivity", lpparam.classLoader,
+                    "isModuleActive", XC_MethodReplacement.returnConstant(true));
+        }
+
+        if (lpparam.packageName.equals(Utils.IG_PACKAGE_NAME)) {
 
             boolean success = false;
 
             try {
                 String type = initPreferences();
                 initElemToHook();
-                // if not normal means Hecker mode is being used!
-                if (!type.equals("Normal")) {
-                    success = true;
-                    // DEV PURPOSES
-                    //showToast("HECKER MODE");
-                    //showToast("(IGExperiments) Hooking class: " + className);
-                    //showToast("(IGExperiments) Hooking method: " + methodName);
-                    //showToast("(IGExperiments) Hooking Second class: " + secondClassName);
+
+                // Normal mode logic
+                if (type.equals("Normal")) {
+                    try {
+                        Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
+                        Object parser = parserCls.newInstance();
+                        File apkPath = new File(lpparam.appInfo.sourceDir);
+                        Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
+                        String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
+
+                        InfoIGVersion infoForTargetVersion = getInfoByVersion(versionName);
+
+                        String classToHook = infoForTargetVersion.getClassToHook();
+                        String methodToHook = infoForTargetVersion.getMethodToHook();
+                        String secondClassToHook = infoForTargetVersion.getSecondClassToHook();
+
+                        /*
+                         DEV PURPOSES
+                         showToast(versionName);
+                         showToast("(IGExperiments) Hooking class: " + classToHook);
+                         showToast("(IGExperiments) Hooking method: " + methodToHook);
+                         showToast("(IGExperiments) Hooking Second class: " + secondClassToHook);
+                        */
+                        XposedBridge.log(getTime() + versionName);
+                        XposedBridge.log(getTime() + "(IGExperiments) Hooking class: " + classToHook);
+                        XposedBridge.log(getTime() + "(IGExperiments) Hooking method: " + methodToHook);
+                        XposedBridge.log(getTime() + "(IGExperiments) Hooking Second class: " + secondClassToHook);
+
+
+                        Class<?> targetClass = XposedHelpers.findClass(classToHook, lpparam.classLoader);
+                        Class<?> secondTargetClass = XposedHelpers.findClass(secondClassToHook, lpparam.classLoader);
+                        XposedHelpers.findAndHookMethod(targetClass, methodToHook, secondTargetClass,
+                                new XC_MethodReplacement() {
+                                    @Override
+                                    protected Object replaceHookedMethod(MethodHookParam param) {
+                                        // Always return true
+                                        XposedBridge.log("(IGExperiments) Successfully Hooked into method");
+                                        return true;
+                                    }
+                                });
+
+                        success = true;
+
+                    } catch (InstantiationException | IllegalAccessException e) {
+                        XposedBridge.log(getTime() + "Reflection error: " + e.getMessage());
+                        e.printStackTrace();
+                    } catch (IllegalArgumentException e) {
+                        XposedBridge.log(getTime() + "Illegal argument in method call: " + e.getMessage());
+                        e.printStackTrace();
+                    } catch (XposedHelpers.InvocationTargetError e) {
+                        showToast("Didn't work, Please use Hecker mode!");
+                        XposedBridge.log(getTime() + "Auto hook didn't work, Use Hecker mode!");
+                    } catch (Exception e) { // Catch other exceptions that might not be predicted
+                        XposedBridge.log(getTime() + "Unhandled exception: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                    XposedBridge.log(getTime() + "End!");
+                }
+
+
+                // Hecker mode logic
+                else if (type.equals("Hecker")) {
                     XposedBridge.log(getTime() + "(IGExperiments) Hooking class: " + className);
                     XposedBridge.log(getTime() + "(IGExperiments) Hooking method: " + methodName);
                     XposedBridge.log(getTime() + "(IGExperiments) Hooking Second class: " + secondClassName);
@@ -101,79 +167,121 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     XposedHelpers.findAndHookMethod(targetClass, methodName, secondTargetClass,
                             new XC_MethodReplacement() {
                                 @Override
-                                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                                    // Always return true
-                                    return true;
+                                protected Object replaceHookedMethod(MethodHookParam param) {
+                                    return true; // Always return true
                                 }
                             });
+
+                    success = true;
+
+                // Dynamic search logic
+                } else if (type.equals("Auto")) {
+                    try {
+                        // Fixed method and second class
+                        String methodToHook = "A00";
+                        String secondClassToHook = "com.instagram.common.session.UserSession";
+
+
+                        Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
+                        Object parser = parserCls.newInstance();
+                        File apkPath = new File(lpparam.appInfo.sourceDir);
+                        Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
+                        String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
+
+                        String[] versionParts = versionName.split("\\.");
+                        String majorVersion = versionParts[0];
+                        int majorVersionNumber = Integer.parseInt(majorVersion);
+
+                        if (majorVersionNumber >= 334) { // if the instagram version starts with 334 or more it would be compatible with auto mode
+                            XposedBridge.log(getTime() + "(IGExperiments) Searching for the correct class to hook...");
+
+                            // Try to hook into multiple class names incrementally
+                            String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+                            outerLoop:
+                            for (char first : characters.toCharArray()) {
+                                for (char second : characters.toCharArray()) {
+                                    for (char third : characters.toCharArray()) {
+                                        String classToHook = "X." + first + second + third; // Generate class name
+                                        try {
+                                            // DEV PURPOSES
+                                            // XposedBridge.log("(IGExperiments) Attempting to inspect class: " + classToHook);
+
+                                            Class<?> targetClass = XposedHelpers.findClass(classToHook, lpparam.classLoader);
+                                            Class<?> secondTargetClass = XposedHelpers.findClass(secondClassToHook, lpparam.classLoader);
+
+                                            // Check if the method returns a Boolean
+                                            boolean hasIsEmployee = false;
+                                            for (Method method : targetClass.getDeclaredMethods()) {
+                                                if (method.getReturnType() == Boolean.TYPE) {
+                                                    hasIsEmployee = true;
+                                                    break;
+                                                }
+                                            }
+
+                                            if (!hasIsEmployee) {
+                                                // DEV PURPOSES
+                                                // XposedBridge.log("(IGExperiments) Class " + classToHook + " does not return a Boolean, skipping...");
+                                                continue; // Skip this class if it doesn't have the expected method
+                                            }
+
+                                            XposedBridge.log("(IGExperiments) Found target class with 'is_employee': " + classToHook);
+
+                                            // Hook the method A00 in this class
+                                            XposedHelpers.findAndHookMethod(targetClass, methodToHook, secondTargetClass,
+                                                    new XC_MethodReplacement() {
+                                                        @Override
+                                                        protected Object replaceHookedMethod(MethodHookParam param) {
+                                                            XposedBridge.log("(IGExperiments) Successfully Hooked into class: " + classToHook);
+                                                            return true;
+                                                        }
+                                                    });
+
+                                            success = true; // Mark as successful if a method was hooked
+                                            break outerLoop; // Exit loop if successful
+                                        } catch (XposedHelpers.ClassNotFoundError e) {
+                                            // If the class doesn't exist, continue trying
+                                            XposedBridge.log("(IGExperiments) Class " + classToHook + " not found, trying next.");
+                                        } catch (NoSuchMethodError e) {
+                                            XposedBridge.log("(IGExperiments) Method A00 not found in class: " + classToHook);
+                                        } catch (Exception e) {
+                                            XposedBridge.log("(IGExperiments) Failed to hook class: " + classToHook + ", error: " + e.getMessage());
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (!success) {
+                                XposedBridge.log("(IGExperiments) No matching class found.");
+                            }
+
+
+                        } else {
+                            showToast("Versions that are older than 334.x aren't compatible with auto mode!\nTry another mode.");
+                        }
+
+
+                    } catch (IllegalArgumentException e) {
+                        XposedBridge.log(getTime() + "Illegal argument in method call: " + e.getMessage());
+                        e.printStackTrace();
+                    } catch (Exception e) { // Catch other exceptions
+                        XposedBridge.log(getTime() + "Unhandled exception: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+
+                    XposedBridge.log(getTime() + "End!");
+                }
+
+                if (!success) {
+                    XposedBridge.log("Selected method didn't work!");
                 }
             } catch (Exception ignored) {
-
-            }
-            // if not success it means the hecker mode wasn't used "Root wasn't granted at the first place"
-            if (!success) {
-                try {
-                    Class<?> parserCls = XposedHelpers.findClass("android.content.pm.PackageParser", lpparam.classLoader);
-                    Object parser = parserCls.newInstance();
-                    File apkPath = new File(lpparam.appInfo.sourceDir);
-                    Object pkg = XposedHelpers.callMethod(parser, "parsePackage", apkPath, 0);
-                    String versionName = (String) XposedHelpers.getObjectField(pkg, "mVersionName");
-
-                    InfoIGVersion infoForTargetVersion = getInfoByVersion(versionName);
-
-                    String classToHook = infoForTargetVersion.getClassToHook();
-                    String methodToHook = infoForTargetVersion.getMethodToHook();
-                    String secondClassToHook = infoForTargetVersion.getSecondClassToHook();
-
-                    // DEV PURPOSES
-//                        showToast(versionName);
-//                        showToast("(IGExperiments) Hooking class: " + classToHook);
-//                        showToast("(IGExperiments) Hooking method: " + methodToHook);
-//                        showToast("(IGExperiments) Hooking Second class: " + secondClassToHook);
-//                        XposedBridge.log(getTime() + versionName);
-                    XposedBridge.log(getTime() + "(IGExperiments) Hooking class: " + classToHook);
-                    XposedBridge.log(getTime() + "(IGExperiments) Hooking method: " + methodToHook);
-                    XposedBridge.log(getTime() + "(IGExperiments) Hooking Second class: " + secondClassToHook);
-
-
-                    Class<?> targetClass = XposedHelpers.findClass(classToHook, lpparam.classLoader);
-                    Class<?> secondTargetClass = XposedHelpers.findClass(secondClassToHook, lpparam.classLoader);
-                    XposedHelpers.findAndHookMethod(targetClass, methodToHook, secondTargetClass,
-                            new XC_MethodReplacement() {
-                                @Override
-                                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                                    // Always return true
-                                    XposedBridge.log("(IGExperiments) Successfully Hooked into method");
-                                    return true;
-                                }
-                            });
-
-                } catch (InstantiationException | IllegalAccessException e) {
-                    XposedBridge.log(getTime() + "Reflection error: " + e.getMessage());
-                    e.printStackTrace();
-                } catch (IllegalArgumentException e) {
-                    XposedBridge.log(getTime() + "Illegal argument in method call: " + e.getMessage());
-                    e.printStackTrace();
-                }
-                catch (XposedHelpers.InvocationTargetError e){
-                    showToast("Didn't work, Please use Hecker mode!");
-                    XposedBridge.log(getTime() + "Auto hook didn't work, Use Hecker mode!");
-                }
-                catch (Exception e) { // Catch other exceptions that might not be predicted
-                    XposedBridge.log(getTime() + "Unhandled exception: " + e.getMessage());
-                    e.printStackTrace();
-                }
-                XposedBridge.log(getTime() + "End!");
             }
 
         }
 
-        if (lpparam.packageName.equals(Utils.MY_PACKAGE_NAME)) {
-            findAndHookMethod(Utils.MY_PACKAGE_NAME + ".MainActivity", lpparam.classLoader,
-                    "isModuleActive", XC_MethodReplacement.returnConstant(true));
-        }
+
     }
-
 
     private static String getJSONContent() {
         try {
@@ -233,12 +341,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     }
 
     private void showToast(final String text) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(AndroidAppHelper.currentApplication().getApplicationContext(), text, Toast.LENGTH_LONG).show();
-            }
-        });
+        new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(AndroidAppHelper.currentApplication().getApplicationContext(), text, Toast.LENGTH_LONG).show());
     }
 
     public String getTime() {
