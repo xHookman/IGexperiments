@@ -2,91 +2,114 @@
 
 # IGExperiments
 
-Enable developer options in Instagram!
+**Unlock Instagram's Developer Options!**  
+IGExperiments is a module that allows you to enable developer options in Instagram, providing access to hidden features like **White hat settings**, **test user mode**, and more.
 
+## Features
+
+- Enable Developer Options in Instagram (rooted or non-rooted devices).
+- Multiple modes: Normal, Hecker (manual), and Auto (automatic detection).
+- Compatible with both rooted and non-rooted devices (via LSPatch).
 
 ## Installation
 
-* Rooted Devices
+### For Rooted Devices
 
-  1. Install the module and enable it using (magisk, Edxposed, LSposed etc...)
-  2. Run the module and select the desired Instagram version.
-  3. Kill instagram
-  4. Done! you can check the developer options by holding on the home button.
-     
-  Extra: You can use Hecker mode to test newer versions with its Method and Classes
+1. Install the module and activate it using **Magisk**, **EdXposed**, **LSPosed**, etc.
+2. Select the desired mode in the module (Normal, Hecker, or Auto).
+3. Kill the Instagram app to apply the changes.
+4. Done! Access developer options by long-pressing the Instagram home button.
 
-* Non-Rooted Devices (Using LSPatch)
+> **Note:**  
+- **Auto Mode** works with Instagram versions 334 or higher.  
+- **Hecker Mode** allows you to manually specify classes and methods for older or custom versions.
 
-  1. Install the module
-  2. Check the list of compatible versions and install the desired one
-  3. Patch the Instagram app using LSPatch (L̶o̶c̶a̶l̶ P̶a̶t̶c̶h̶ M̶o̶d̶e) With the new LSPatch update the module doesn't require Local Patch Mode anymore unless you want to manually update!
-  5. Force stop Instagram and start it!
-  6. Done! you can check the developer options by holding on the home button.
+### For Non-Rooted Devices (via LSPatch)
 
+1. Install the module.
+2. Check the list of compatible Instagram versions and install the desired version.
+3. Patch the Instagram app using **LSPatch**.
+4. Force stop Instagram and restart it.
+5. Done! Access developer options by long-pressing the Instagram home button.
 
-## How to update Instagram
-### Enable Employee options!
-* Rooted Devices
-  
-1. Go to Developer Options Page
-2. MetaConfig Settings & Overrides
-3. Search for "Employee"
-4. Enable "is employee", "employee options", "is employee or test user"
-5. Disable the Module from (magisk, Edxposed, LSposed etc...)
-5. Download and Install a newer version from Apkmirror
+> **Note:**  
+- **LSPatch** requires Local Patch Mode for manual updates to Instagram.
 
-* Non-Rooted Devices (Using LSPatch - Requires Local Patch Mode)
+---
 
-1. Go to Developer Options Page
-2. MetaConfig Settings & Overrides
-3. Search for "Employee"
-4. Enable "is employee", "employee options", "is employee or test user"
-5. Download a newer version from Apkmirror
-6. Use LSPatch to patch the APK "Select apk(s) from storage"
-7. Select "Local" as a Patch mode, Patch and Install!
+## How to Update Instagram
 
+### Enable Employee Options
 
+#### Rooted Devices
+
+**Option 1: Auto Mode (recommended)**
+
+1. Uninstall Instagram.
+2. Install the latest version from the **Google Play Store** or **APKMirror**.
+3. Use **Auto Mode** in the module to re-enable developer options.
+
+**Option 2: Legacy Method**
+
+1. Go to **Developer Options** > **MetaConfig Settings & Overrides**.
+2. Search for **Employee**.
+3. Enable:
+   - **is employee**
+   - **employee options**
+   - **is employee or test user**
+4. Disable the module from **Magisk**, **EdXposed**, **LSPosed**, etc.
+5. Install a newer version of Instagram from **APKMirror**.
+
+#### Non-Rooted Devices (via LSPatch)
+
+1. Go to **Developer Options** > **MetaConfig Settings & Overrides**.
+2. Search for **Employee**.
+3. Enable:
+   - **is employee**
+   - **employee options**
+   - **is employee or test user**
+4. Download a newer version of Instagram from **APKMirror**.
+5. Patch the APK using **LSPatch** and choose **Local Patch Mode**.
+
+---
 
 ## FAQ
 
+### The module doesn't start.
 
-#### The module doesn't start up.
+1. Ensure you have root access if required.
+2. Open a ticket and provide your device name, OS version, root status, and the logs from LSPosed (if rooted).
 
+### Developer options are not showing up.
 
-Open a ticket including your device name, OS, root status, and the logs from LSPosed if rooted.
+1. Ensure you've installed a compatible Instagram version.
+2. Ensure the module is enabled in **LSPosed**, **EdXposed**, or your preferred manager.
+3. Deactivate and reactivate the module if necessary.
+4. If none of the above works, check the logs in **LSPosed** and open a ticket with the log details.
 
+### Where is the home button?
 
-Otherwise, we won't be able to help you!
+The **Instagram home button** is the one at the bottom of the app, not the home button on your phone.
 
-
-#### The module starts, but the developer options are not showing up.
-
-* Make sure you have installed one of the combitaple versions of Instagram.
-* Make sure you have enabled the module from LSPosed/EdXposed/etc.
-* Deactivate and reactivate the module from LSPosed, EdXposed, etc...
-* If none worked, check LSPosed logs and send them to us by opening a ticket.
-* Please note that if the logs don't include anything wrong, we won't be able to help you because most likely
-   it's something with your device.
-
-#### Where is the home button?
-
-
-* The home button is the Instagram home button (not the phone home button, apparently!).
-
+---
 
 ## Contributing
 
-Contributions are always welcome! 
+Contributions are always welcome! You can help keep the module up-to-date or extend its functionality.
 
-### To support newer versions:
-#### *You can now use my new tool IGExperimentsPatcher to directly patch Instagram apk without waiting me for update something, it can also simply give you the class, method and arg type to use in this module. Find it [here](https://github.com/xHookman/IGExperimentsPatcher) !* ###
-#### Otherwise if you are a hacker wearing a very dark hood:
+### Supporting New Instagram Versions
 
-Please refer to the [IGHookClasses repository](https://github.com/ReSo7200/IGExperimentsHooksUpdates) to update class hooks necessary for new Instagram versions.
+#### Option 1: IGExperimentsPatcher
+
+You can use my [**IGExperimentsPatcher**](https://github.com/xHookman/IGExperimentsPatcher) tool to patch the Instagram APK directly. It can provide the necessary class, method, and argument types to use in the module without waiting for an update.
+
+#### Option 2: Manual Class Hooks
+
+If you're an experienced developer, you can help by contributing to the [**IGHookClasses repository**](https://github.com/ReSo7200/IGExperimentsHooksUpdates) to update the class hooks for new Instagram versions.
+
+---
 
 ## Authors
 
-- [@xHookman](https://github.com/xHookman)
-- [@ReSo7200](https://github.com/ReSo7200)
-
+- [@xHookman](https://github.com/xHookman) - Main developer and creator of the IGExperiments module.
+- [@ReSo7200](https://github.com/ReSo7200) - Contributor and maintainer of IGHookClasses.
