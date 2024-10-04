@@ -11,7 +11,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         versionCode 30
     }
-
+// test
     buildTypes {
         release {
             minifyEnabled true
