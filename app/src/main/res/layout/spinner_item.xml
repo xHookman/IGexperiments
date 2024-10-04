@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:textColor="@android:color/white"
+    android:autoSizeTextType="uniform"
+    android:autoSizeMinTextSize="10sp"
+    android:autoSizeMaxTextSize="18sp"
+    android:autoSizeStepGranularity="1sp"
+    android:padding="8dp"
+    tools:targetApi="o" />

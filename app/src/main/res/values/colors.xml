@@ -3,5 +3,5 @@
     <color name="colorPrimary">@android:color/black</color>
     <color name="colorPrimaryDark">@android:color/black</color>
     <color name="colorAccent">@android:color/black</color>
-    <color name="oneui_gray">#ff202020</color>
+    <color name="oneui_gray">#ff202020</color>zz
 </resources>

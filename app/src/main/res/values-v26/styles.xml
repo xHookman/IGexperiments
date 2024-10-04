@@ -7,4 +7,12 @@
         <item name="android:layout_marginHorizontal">3dp</item>
         <item name="android:layout_weight">2</item>
     </style>
+
+    <style name="SpinnerTextAppearance" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:autoSizeTextType">uniform</item>
+        <item name="android:autoSizeMinTextSize">10sp</item>
+        <item name="android:autoSizeMaxTextSize">18sp</item>
+        <item name="android:autoSizeStepGranularity">1sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>

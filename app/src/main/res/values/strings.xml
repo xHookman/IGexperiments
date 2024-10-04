@@ -2,7 +2,7 @@
     <string name="app_name">IGexperiments</string>
     <string name="top_red_text">1. Choose you Instagram version\n2. Download and install the apk\n3. Kill and launch Instagram\n4. Long press the home button &amp; enjoy!</string>
     <string name="app_kill">Kill &amp; launch Instagram</string>
-    <string name="infohook">The last version is not supported? Contribute! Read the FAQ from the github repo.\nUse the HECKER mode to try what you found!</string>
+    <string name="infohook">The last version is not supported? Contribute! Read the FAQ from the github repo.\nUse the HECKER mode to try what you found!\nOr try your luck with Auto mode.</string>
     <string name="classname">Class name</string>
     <string name="methodname">Method name</string>
     <string name="use_hecker_mode">Use HECKER mode</string>
@@ -14,4 +14,7 @@
     <string name="donation_thanks">Thanks by advanced if you support my works! you\'re nice :)</string>
     <string name="ex_class">ex : X.8W4</string>
     <string name="ex_method">ex : A00</string>
+    <string name="normal_mode">Normal Mode</string>
+    <string name="hecker_mode">Hecker Mode</string>
+    <string name="auto_mode">Auto Mode</string>
 </resources>
