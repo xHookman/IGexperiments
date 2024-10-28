@@ -29,7 +29,9 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-/** @noinspection ALL*/
+/**
+ * @noinspection ALL
+ */
 public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
 
@@ -63,12 +65,11 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     }
 
 
-
     /**
      * Initialize the class and method to hook
      */
     private void initElemToHook() {
-        try{
+        try {
             className = XposedPreferences.getPrefs().getString("className", "");
             methodName = XposedPreferences.getPrefs().getString("methodName", "");
             secondClassName = XposedPreferences.getPrefs().getString("secondClassName", "");
@@ -80,8 +81,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 methodName = Utils.DEFAULT_METHOD_TO_HOOK;
                 secondClassName = Utils.DEFAULT_SECOND_CLASS_TO_HOOK;
             }
-        }
-        catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
 
@@ -188,7 +188,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
                     success = true;
 
-                // Dynamic search logic
+                    // Dynamic search logic
                 } else if (type.equals("Auto")) {
                     try {
                         // Fixed method and second class
@@ -206,11 +206,12 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                         String majorVersion = versionParts[0];
                         int majorVersionNumber = Integer.parseInt(majorVersion);
 
-                        if (majorVersionNumber >= 334) { // if the instagram version starts with 334 or more it would be compatible with auto mode
+                        if (majorVersionNumber >= 334) { // Check if Instagram version is compatible with auto mode
                             XposedBridge.log(getTime() + "(IGExperiments) Searching for the correct class to hook...");
 
                             // Try to hook into multiple class names incrementally
-                            String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                            String characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                            int hookCount = 0;  // Counter for successful hooks
 
                             outerLoop:
                             for (char first : characters.toCharArray()) {
@@ -218,60 +219,59 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                                     for (char third : characters.toCharArray()) {
                                         String classToHook = "X." + first + second + third; // Generate class name
                                         try {
-                                            // DEV PURPOSES
-                                            // XposedBridge.log("(IGExperiments) Attempting to inspect class: " + classToHook);
-
+                                            // Attempt to find the target class and second target class
                                             Class<?> targetClass = XposedHelpers.findClass(classToHook, lpparam.classLoader);
                                             Class<?> secondTargetClass = XposedHelpers.findClass(secondClassToHook, lpparam.classLoader);
 
-                                            // Check if the method returns a Boolean
-                                            boolean hasIsEmployee = false;
-                                            for (Method method : targetClass.getDeclaredMethods()) {
-                                                if (method.getReturnType() == Boolean.TYPE) {
-                                                    hasIsEmployee = true;
-                                                    break;
+                                            // Catch NoClassDefFoundError within the method inspection loop
+                                            try {
+                                                //XposedBridge.log("Trying class: " + classToHook);
+                                                // Check if the target class has a Boolean-returning method named A00 with one parameter
+                                                for (Method method : targetClass.getDeclaredMethods()) {
+                                                    if (method.getName().equals("A00") &&
+                                                            method.getReturnType() == Boolean.TYPE &&
+                                                            method.getParameterCount() == 1) {
+
+                                                        XposedBridge.log("(IGExperiments) Hooking into class: " + classToHook);
+                                                        XposedHelpers.findAndHookMethod(targetClass, "A00", secondTargetClass,
+                                                                new XC_MethodReplacement() {
+                                                                    @Override
+                                                                    protected Object replaceHookedMethod(MethodHookParam param) {
+                                                                        XposedBridge.log("(IGExperiments) Successfully Hooked into class: " + classToHook);
+                                                                        return true;
+                                                                    }
+                                                                });
+
+                                                        hookCount++;  // Increment counter for each successful hook
+                                                        break;  // No need to check further methods in this class
+                                                    }
                                                 }
+                                            } catch (NoClassDefFoundError e) {
+                                                // Log and continue to the next class if NoClassDefFoundError is encountered
+                                                //XposedBridge.log("(IGExperiments) Dependency not found while inspecting " + classToHook + ", skipping.");
+                                                continue;
                                             }
 
-                                            if (!hasIsEmployee) {
-                                                // DEV PURPOSES
-                                                // XposedBridge.log("(IGExperiments) Class " + classToHook + " does not return a Boolean, skipping...");
-                                                continue; // Skip this class if it doesn't have the expected method
-                                            }
-
-                                            XposedBridge.log("(IGExperiments) Found target class with 'is_employee': " + classToHook);
-
-                                            // Hook the method A00 in this class
-                                            XposedHelpers.findAndHookMethod(targetClass, methodToHook, secondTargetClass,
-                                                    new XC_MethodReplacement() {
-                                                        @Override
-                                                        protected Object replaceHookedMethod(MethodHookParam param) {
-                                                            XposedBridge.log("(IGExperiments) Successfully Hooked into class: " + classToHook);
-                                                            return true;
-                                                        }
-                                                    });
-
-                                            success = true; // Mark as successful if a method was hooked
-                                            break outerLoop; // Exit loop if successful
                                         } catch (XposedHelpers.ClassNotFoundError e) {
-                                            // If the class doesn't exist, continue trying
-                                            XposedBridge.log("(IGExperiments) Class " + classToHook + " not found, trying next.");
+                                            //XposedBridge.log("(IGExperiments) Class " + classToHook + " not found, trying next.");
                                         } catch (NoSuchMethodError e) {
-                                            XposedBridge.log("(IGExperiments) Method A00 not found in class: " + classToHook);
+                                            //XposedBridge.log("(IGExperiments) Method A00 not found in class: " + classToHook);
                                         } catch (Exception e) {
-                                            XposedBridge.log("(IGExperiments) Failed to hook class: " + classToHook + ", error: " + e.getMessage());
+                                            //XposedBridge.log("(IGExperiments) Failed to hook class: " + classToHook + ", error: " + e.getMessage());
                                         }
                                     }
                                 }
                             }
 
-                            if (!success) {
+                            // After completing the loop, check if multiple hooks were set and show a toast
+                            if (hookCount > 1) {
+                                showToast("Multiple hooks set. Please disable the module if you encounter issues.");
+                            } else if (hookCount == 0) {
                                 XposedBridge.log("(IGExperiments) No matching class found.");
                             }
 
-
                         } else {
-                            showToast("Versions that are older than 334.x aren't compatible with auto mode!\nTry another mode.");
+                            showToast("Versions older than 334.x aren't compatible with auto mode! Try another mode.");
                         }
 
 
