@@ -20,6 +20,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -213,6 +214,9 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                             String characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
                             int hookCount = 0;  // Counter for successful hooks
 
+                            // Initialize a list to store the names of successfully hooked classes
+                            List<String> hookedClasses = new ArrayList<>();
+
                             outerLoop:
                             for (char first : characters.toCharArray()) {
                                 for (char second : characters.toCharArray()) {
@@ -237,11 +241,13 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                                                                 new XC_MethodReplacement() {
                                                                     @Override
                                                                     protected Object replaceHookedMethod(MethodHookParam param) {
-                                                                        XposedBridge.log("(IGExperiments) Successfully Hooked into class: " + classToHook);
+                                                                        //XposedBridge.log("(IGExperiments) Successfully Hooked into class: " + classToHook);
                                                                         return true;
                                                                     }
                                                                 });
 
+                                                        // Add to the list of hooked classes
+                                                        hookedClasses.add(classToHook);
                                                         hookCount++;  // Increment counter for each successful hook
                                                         break;  // No need to check further methods in this class
                                                     }
@@ -266,7 +272,13 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                             // After completing the loop, check if multiple hooks were set and show a toast
                             if (hookCount > 1) {
                                 showToast("Multiple hooks set. Please disable the module if you encounter issues.");
-                            } else if (hookCount == 0) {
+                            }
+                            if (!hookedClasses.isEmpty()) {
+                                XposedBridge.log("(IGExperiments) Successfully hooked classes:");
+                                for (String hookedClass : hookedClasses) {
+                                    XposedBridge.log("(IGExperiments) Hooked class: " + hookedClass);
+                                }
+                            } else {
                                 XposedBridge.log("(IGExperiments) No matching class found.");
                             }
 
