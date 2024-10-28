@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final String VERSION_URL = "https://raw.githubusercontent.com/ReSo7200/IGExperimentsHooksUpdates/refs/heads/main/version.json";
-    private static final String CURRENT_VERSION = "3.0";
+    private static final String CURRENT_VERSION = "3.1";
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor(); // Executor for background tasks
 
