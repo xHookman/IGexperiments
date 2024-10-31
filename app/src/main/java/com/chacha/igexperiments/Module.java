@@ -20,6 +20,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -29,6 +30,9 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+/**
+ * @noinspection ALL
+ */
 public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
 
@@ -38,21 +42,27 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
      * Init the preferences
      */
     private String initPreferences() {
-        XposedPreferences.loadPreferences();
-        XposedPreferences.reloadPrefs();
+        try {
+            XposedPreferences.loadPreferences();
+            XposedPreferences.reloadPrefs();
 
-        if (XposedPreferences.getPrefs().getString("Mode", "Normal").equals("Normal")) {
-            XposedBridge.log("(IGExperiments) Using class name from Github");
+            String mode = XposedPreferences.getPrefs().getString("Mode", "Normal");
 
-            return "Normal";
-        } else if (XposedPreferences.getPrefs().getString("Mode", "Normal").equals("Auto")) {
-            XposedBridge.log("(IGExperiments) Dynamic searching");
+            if (mode.equals("Normal")) {
+                XposedBridge.log("(IGExperiments) Using class name from Github");
+                return "Normal";
+            } else if (mode.equals("Auto")) {
+                XposedBridge.log("(IGExperiments) Dynamic searching");
+                return "Auto";
+            }
 
-            return "Auto";
+            XposedBridge.log("(IGExperiments) Using class name from preferences");
+            return "Hecker";
+
+        } catch (Exception e) {
+            XposedBridge.log("(IGExperiments) Exception in initPreferences, defaulting to 'Normal': " + e.getMessage());
+            return "Normal"; // Default to "Normal" if an exception occurs
         }
-        XposedBridge.log("(IGExperiments) Using class name from preferences");
-        return "Hecker";
-
     }
 
 
@@ -60,17 +70,22 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
      * Initialize the class and method to hook
      */
     private void initElemToHook() {
-        className = XposedPreferences.getPrefs().getString("className", "");
-        methodName = XposedPreferences.getPrefs().getString("methodName", "");
-        secondClassName = XposedPreferences.getPrefs().getString("secondClassName", "");
+        try {
+            className = XposedPreferences.getPrefs().getString("className", "");
+            methodName = XposedPreferences.getPrefs().getString("methodName", "");
+            secondClassName = XposedPreferences.getPrefs().getString("secondClassName", "");
 
 
-        if (className.equals("")) {
-            XposedBridge.log("(IGExperiments) No class name found, using default");
-            className = Utils.DEFAULT_CLASS_TO_HOOK;
-            methodName = Utils.DEFAULT_METHOD_TO_HOOK;
-            secondClassName = Utils.DEFAULT_SECOND_CLASS_TO_HOOK;
+            if (className.equals("")) {
+                XposedBridge.log("(IGExperiments) No class name found, using default");
+                className = Utils.DEFAULT_CLASS_TO_HOOK;
+                methodName = Utils.DEFAULT_METHOD_TO_HOOK;
+                secondClassName = Utils.DEFAULT_SECOND_CLASS_TO_HOOK;
+            }
+        } catch (Exception ignored) {
+
         }
+
     }
 
     @Override
@@ -174,7 +189,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
                     success = true;
 
-                // Dynamic search logic
+                    // Dynamic search logic
                 } else if (type.equals("Auto")) {
                     try {
                         // Fixed method and second class
@@ -192,11 +207,15 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                         String majorVersion = versionParts[0];
                         int majorVersionNumber = Integer.parseInt(majorVersion);
 
-                        if (majorVersionNumber >= 334) { // if the instagram version starts with 334 or more it would be compatible with auto mode
+                        if (majorVersionNumber >= 334) { // Check if Instagram version is compatible with auto mode
                             XposedBridge.log(getTime() + "(IGExperiments) Searching for the correct class to hook...");
 
                             // Try to hook into multiple class names incrementally
-                            String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                            String characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                            int hookCount = 0;  // Counter for successful hooks
+
+                            // Initialize a list to store the names of successfully hooked classes
+                            List<String> hookedClasses = new ArrayList<>();
 
                             outerLoop:
                             for (char first : characters.toCharArray()) {
@@ -204,60 +223,67 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                                     for (char third : characters.toCharArray()) {
                                         String classToHook = "X." + first + second + third; // Generate class name
                                         try {
-                                            // DEV PURPOSES
-                                            // XposedBridge.log("(IGExperiments) Attempting to inspect class: " + classToHook);
-
+                                            // Attempt to find the target class and second target class
                                             Class<?> targetClass = XposedHelpers.findClass(classToHook, lpparam.classLoader);
                                             Class<?> secondTargetClass = XposedHelpers.findClass(secondClassToHook, lpparam.classLoader);
 
-                                            // Check if the method returns a Boolean
-                                            boolean hasIsEmployee = false;
-                                            for (Method method : targetClass.getDeclaredMethods()) {
-                                                if (method.getReturnType() == Boolean.TYPE) {
-                                                    hasIsEmployee = true;
-                                                    break;
+                                            // Catch NoClassDefFoundError within the method inspection loop
+                                            try {
+                                                //XposedBridge.log("Trying class: " + classToHook);
+                                                // Check if the target class has a Boolean-returning method named A00 with one parameter
+                                                for (Method method : targetClass.getDeclaredMethods()) {
+                                                    if (method.getName().equals("A00") &&
+                                                            method.getReturnType() == Boolean.TYPE &&
+                                                            method.getParameterCount() == 1) {
+
+                                                        XposedBridge.log("(IGExperiments) Hooking into class: " + classToHook);
+                                                        XposedHelpers.findAndHookMethod(targetClass, "A00", secondTargetClass,
+                                                                new XC_MethodReplacement() {
+                                                                    @Override
+                                                                    protected Object replaceHookedMethod(MethodHookParam param) {
+                                                                        //XposedBridge.log("(IGExperiments) Successfully Hooked into class: " + classToHook);
+                                                                        return true;
+                                                                    }
+                                                                });
+
+                                                        // Add to the list of hooked classes
+                                                        hookedClasses.add(classToHook);
+                                                        hookCount++;  // Increment counter for each successful hook
+                                                        break;  // No need to check further methods in this class
+                                                    }
                                                 }
+                                            } catch (NoClassDefFoundError e) {
+                                                // Log and continue to the next class if NoClassDefFoundError is encountered
+                                                //XposedBridge.log("(IGExperiments) Dependency not found while inspecting " + classToHook + ", skipping.");
+                                                continue;
                                             }
 
-                                            if (!hasIsEmployee) {
-                                                // DEV PURPOSES
-                                                // XposedBridge.log("(IGExperiments) Class " + classToHook + " does not return a Boolean, skipping...");
-                                                continue; // Skip this class if it doesn't have the expected method
-                                            }
-
-                                            XposedBridge.log("(IGExperiments) Found target class with 'is_employee': " + classToHook);
-
-                                            // Hook the method A00 in this class
-                                            XposedHelpers.findAndHookMethod(targetClass, methodToHook, secondTargetClass,
-                                                    new XC_MethodReplacement() {
-                                                        @Override
-                                                        protected Object replaceHookedMethod(MethodHookParam param) {
-                                                            XposedBridge.log("(IGExperiments) Successfully Hooked into class: " + classToHook);
-                                                            return true;
-                                                        }
-                                                    });
-
-                                            success = true; // Mark as successful if a method was hooked
-                                            break outerLoop; // Exit loop if successful
                                         } catch (XposedHelpers.ClassNotFoundError e) {
-                                            // If the class doesn't exist, continue trying
-                                            XposedBridge.log("(IGExperiments) Class " + classToHook + " not found, trying next.");
+                                            //XposedBridge.log("(IGExperiments) Class " + classToHook + " not found, trying next.");
                                         } catch (NoSuchMethodError e) {
-                                            XposedBridge.log("(IGExperiments) Method A00 not found in class: " + classToHook);
+                                            //XposedBridge.log("(IGExperiments) Method A00 not found in class: " + classToHook);
                                         } catch (Exception e) {
-                                            XposedBridge.log("(IGExperiments) Failed to hook class: " + classToHook + ", error: " + e.getMessage());
+                                            //XposedBridge.log("(IGExperiments) Failed to hook class: " + classToHook + ", error: " + e.getMessage());
                                         }
                                     }
                                 }
                             }
 
-                            if (!success) {
+                            // After completing the loop, check if multiple hooks were set and show a toast
+                            if (hookCount > 1) {
+                                showToast("Multiple hooks set. Please disable the module if you encounter issues.");
+                            }
+                            if (!hookedClasses.isEmpty()) {
+                                XposedBridge.log("(IGExperiments) Successfully hooked classes:");
+                                for (String hookedClass : hookedClasses) {
+                                    XposedBridge.log("(IGExperiments) Hooked class: " + hookedClass);
+                                }
+                            } else {
                                 XposedBridge.log("(IGExperiments) No matching class found.");
                             }
 
-
                         } else {
-                            showToast("Versions that are older than 334.x aren't compatible with auto mode!\nTry another mode.");
+                            showToast("Versions older than 334.x aren't compatible with auto mode! Try another mode.");
                         }
 
 
@@ -286,7 +312,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     private static String getJSONContent() {
         try {
             Log.println(Log.INFO, "IGexperiments", "Reading raw content from github file");
-            URL url = new URL("https://raw.githubusercontent.com/ReSo7200/IGexperiments/master/classes_to_hook.json");
+            URL url = new URL("https://raw.githubusercontent.com/ReSo7200/IGExperimentsUpdates/master/hooks.json");
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             Scanner s = new Scanner(url.openStream());

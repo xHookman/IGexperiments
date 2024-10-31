@@ -18,7 +18,7 @@ public class XposedPreferences extends Preferences{
         return new XSharedPreferences(f);
     }
 
-    public static XSharedPreferences loadPreferences() {
+    public static void loadPreferences() {
         if (XposedBridge.getXposedVersion() < 93) {
             pref = getLegacyPrefs();
         } else {
@@ -31,13 +31,7 @@ public class XposedPreferences extends Preferences{
             XposedBridge.log("Can't load preference in the module");
         }
 
-        return pref;
     }
-
-    public static boolean hasPrefsChanged() {
-        return pref.hasFileChanged();
-    }
-
     public static void reloadPrefs() {
         pref.reload();
     }
