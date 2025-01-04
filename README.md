@@ -57,6 +57,7 @@ Use LSPatch fork by [JingMatrix](https://github.com/JingMatrix/LSPatch).
 3. Go back to **LSPatch** and enable the module for Instagram.
 4. Force stop Instagram and restart it.
 5. Open Instagram and **long-press the home button** to access Developer Options.
+6. Follow the Guide "What's next?", otherwise you would have to reinstall the patch again!
 
 ---
 
