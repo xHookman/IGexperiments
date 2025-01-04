@@ -69,6 +69,10 @@ IGExperiments is a module that unlocks Instagram's hidden developer options, giv
 
 Open a ticket and provide your device name, OS version, root status, and the logs from LSPosed (if rooted).
 
+### Instagram is taking a long time to open.
+
+This is normal. Once you’ve accessed Instagram, follow the guide to enable the **Developer Options**. After that, **disable the module** in your manager (LSPosed or LSPatch) to improve the app’s loading speed.
+
 ### Developer options are not showing up.
 
 1. Ensure you've installed a compatible Instagram version (340+).
