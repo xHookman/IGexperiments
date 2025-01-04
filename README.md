@@ -5,6 +5,23 @@
 🔓 **Unlock Instagram's Developer Options!** 🚀✨  
 IGExperiments is a module that unlocks Instagram's hidden developer options, giving you access to advanced features like **White Hat settings** (enables SSL unpinning), **Test User mode**, and much more.
 
+## ⚠️ Important: IGExperiments is Now Deprecated
+
+Thank you for your support! 🎉 IGExperiments has reached its final version. We encourage you to switch to our new module, **InstaEclipse**, which comes with exciting new features such as:
+
+- 🕵️ **Ghost Mode**  
+- 🎯 **Distraction-Free Mode**  
+- 🚫 **Disable Ads**  
+- 🔧 **Additional Customizations**  
+
+👉 **Check out InstaEclipse here:** [InstaEclipse on GitHub](https://github.com/ReSo7200/InstaEclipse)
+
+We appreciate your continued support and contributions to the project. Let’s make Instagram better together!
+
+Thank you! 💙  
+— ReSo7200
+
+
 ---
 
 ## Features
