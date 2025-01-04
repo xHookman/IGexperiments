@@ -28,7 +28,7 @@ Thank you! 💙
 
 - Enable Developer Options in Instagram on both rooted and non-rooted devices.
 - **Auto Mode** supports all compatible Instagram versions from Instagram version 340+.
-- Please Use it on Alpha and Beta versions only!
+### Please Use it on Alpha and Beta versions only!
 
 ---
 
