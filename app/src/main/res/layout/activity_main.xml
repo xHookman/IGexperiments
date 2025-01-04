@@ -1,213 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:fitsSystemWindows="true"
+    android:background="@color/black">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <!-- App Bar -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        android:fitsSystemWindows="true"
+        android:background="@color/black">
 
-    </LinearLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/top_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/black"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-    <LinearLayout
-        android:id="@+id/layoutBtns"
+            <!-- App Name -->
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:paddingStart="16dp"
+                android:textStyle="bold" />
+
+            <!-- App Version -->
+            <TextView
+                android:id="@+id/toolbar_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:text="@string/version"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:paddingEnd="18dp"
+                tools:ignore="RtlSymmetry" />
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Scrollable Content -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        android:layout_height="match_parent"
+        android:layout_marginTop="76dp"
 
-        <ImageButton
-            android:id="@+id/btnGithub"
-            android:layout_width="match_parent"
-            android:layout_height="66dp"
-            android:layout_marginTop="50dp"
-            android:background="@android:color/black"
-            android:scaleType="centerInside"
-            android:src="@drawable/btn_github"
-            tools:ignore="SpeakableTextPresentCheck" />
+        android:background="@color/black">
 
-        <ImageButton
-            android:id="@+id/btnDonate"
-            android:layout_width="match_parent"
-            android:layout_height="76dp"
-            android:background="@android:color/black"
-            android:scaleType="centerInside"
-            android:src="@drawable/btn_donate"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <TextView
-            android:id="@+id/textViewError"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/error"
-            android:textAlignment="center"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="@dimen/text_error_size"
-            android:visibility="gone" />
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="16dp">
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/default_marginHorizontal"
-        android:layout_marginBottom="@dimen/default_marginBottom"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/layoutHeckerMode"
-        tools:ignore="ExtraText">
-
-        <Button
-            android:id="@+id/modeToggleButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/normal_mode"
-        tools:ignore="TouchTargetSizeCheck" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/hooked_class"
-            android:textColor="@android:color/holo_green_light" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/layoutHeckerMode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:theme="@style/Theme.MaterialComponents"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/EditTextCustom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            app:helperText="@string/ex_class">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextClassName"
+            <!-- Module Status Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/classname"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/dark_gray">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/EditTextCustom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            app:helperText="@string/ex_method">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextMethodName"
+                    <TextView
+                        android:id="@+id/module_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/module_status_disabled"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/red" />
+
+                    <TextView
+                        android:id="@+id/module_subtext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/module_disabled"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Instagram Status Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/methodname"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/dark_gray">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/EditTextCustom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            app:helperText="X.0cQ">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextSecondClassName"
+                    <!-- Instagram Logo -->
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:tint="@color/white"
+                        android:src="@drawable/ic_instagram_logo"
+                        android:contentDescription="@string/instagram_logo"
+                        android:layout_marginEnd="12dp" />
+
+                    <!-- Instagram Status -->
+                    <TextView
+                        android:id="@+id/instagram_status_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/checking_instagram"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Restart Instagram Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/restart_instagram_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/classname"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/restart_instagram"
+                android:textColor="@color/white"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/accent_blue"
+                android:enabled="false" />
 
-        <Button
-            android:id="@+id/btnHook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape"
-            android:text="@string/hook" />
-    </LinearLayout>
+            <!-- Contributors Section -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/dark_gray">
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/choose_version"
-            android:textColor="@android:color/holo_red_light"
-            app:layout_constraintBottom_toTopOf="@+id/useCustomClass"
-            app:layout_constraintStart_toStartOf="parent" />
+                    <TextView
+                        android:id="@+id/contributors_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/contributors"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_horizontal" />
 
-        <Spinner
-            android:id="@+id/igVersionsSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/spinner_height"
-            android:entries="@array/ig_version"
-            android:popupTheme="@style/SpinnerPopup"
-            android:spinnerMode="dropdown" />
-    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/contributors_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/default_marginHorizontal"
-        android:layout_marginTop="@dimen/default_marginTop"
-        android:autoLink="web"
-        android:text="@string/infohook"
-        app:layout_constraintTop_toBottomOf="@+id/btnKill" />
 
-    <Button
-        android:id="@+id/btnDownload"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/shape"
-        android:text="@string/download_apk"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+        </LinearLayout>
+    </ScrollView>
 
-    <Button
-        android:id="@+id/btnKill"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_marginTop"
-        android:layout_weight="1"
-        android:background="@drawable/shape"
-        android:text="@string/app_kill"
-        android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintTop_toBottomOf="@+id/btnDownload" />
-
-    <TextView
-        android:id="@+id/howtotext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="230dp"
-        android:text="@string/top_red_text"
-        android:textAlignment="center"
-        android:textColor="@android:color/holo_red_light"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="-5dp" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

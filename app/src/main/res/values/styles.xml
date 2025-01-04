@@ -1,43 +1,11 @@
 <resources>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorLink">@android:color/holo_blue_light</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:animateLayoutChanges">true</item>
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your theme colors -->
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/accent_blue</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
-
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/background_splash</item>
-    </style>
-
-    <style name="EditTextCustom" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">2</item>
-        <item name="maxLines">1</item>
-        <item name="android:inputType">text</item>
-        <item name="hintEnabled">false</item>
-    </style>
-
-
-    <!-- Define a custom style for Spinner Popup -->
-    <style name="SpinnerPopup" parent="Theme.AppCompat.Light">
-        <item name="android:textAppearance">@style/SpinnerTextAppearance</item>
-        <item name="android:background">@android:color/black</item>
-    </style>
-
-    <!-- Define the text appearance for the Spinner items -->
-    <style name="SpinnerTextAppearance" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:autoSizeTextType">uniform</item>
-        <item name="android:autoSizeMinTextSize">10sp</item>
-        <item name="android:autoSizeMaxTextSize">18sp</item>
-        <item name="android:autoSizeStepGranularity">1sp</item>
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
-
 </resources>

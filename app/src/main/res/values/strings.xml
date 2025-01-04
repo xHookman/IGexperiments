@@ -1,20 +1,29 @@
 <resources>
     <string name="app_name">IGexperiments</string>
-    <string name="top_red_text">1. Choose you Instagram version\n2. Download and install the apk\n3. Kill and launch Instagram\n4. Long press the home button &amp; enjoy!</string>
-    <string name="app_kill">Kill &amp; launch Instagram</string>
-    <string name="infohook">The last version is not supported? Contribute! Read the FAQ from the github repo.\nUse the HECKER mode to try what you found!\nOr try your luck with Auto mode.</string>
-    <string name="classname">Class name</string>
-    <string name="methodname">Method name</string>
-    <string name="use_hecker_mode">Use HECKER mode</string>
-    <string name="hooked_class">Hooked class: %1$s\nHooked method: %2$s</string>
-    <string name="hook">HOOK!</string>
-    <string name="choose_version">Choose your IG version: </string>
-    <string name="error">An error occurred getting infos for instagram versions from Github!</string>
-    <string name="download_apk">Download APK</string>
-    <string name="donation_thanks">Thanks by advanced if you support my works! you\'re nice :)</string>
-    <string name="ex_class">ex : X.8W4</string>
-    <string name="ex_method">ex : A00</string>
-    <string name="normal_mode">Normal Mode</string>
-    <string name="hecker_mode">Hecker Mode</string>
-    <string name="auto_mode">Auto Mode</string>
+    <string name="version">v4.0</string>
+    <string name="instagram_logo" translatable="false">Instagram Logo</string>
+
+    <string name="module_status">Module Status:</string>
+    <string name="module_status_disabled">Module Disabled</string>
+    <string name="request_enable_module">Please enable the module in Xposed Installer.</string>
+    <string name="module_disabled">Please enable the module to use features.</string>
+    <string name="module_status_enabled_no_root">Module Status: Enabled (No Root Access)</string>
+    <string name="request_enable_root">Root access is required for auto-restart. Manual restart required.</string>
+    <string name="module_status_enabled">Module Status: Enabled</string>
+    <string name="module_active">The module is active and working.</string>
+
+    <string name="checking_instagram">Checking Instagram</string>
+    <string name="restart_instagram">Restart Instagram</string>
+    <string name="installed_instagram_version">Instagram Installed - Version: </string>
+    <string name="not_installed_instagram">Instagram is not installed.</string>
+    <string name="error_instagram">Error checking Instagram status.</string>
+
+    <string name="contributors">Contributors</string>
+    <string name="contributor_name">Contributor Name</string>
+
+    <!-- Toast -->
+    <string name="restart_insta_toast">Restarting Instagram</string>
+    <string name="failed_restart_insta_toast">Failed to restart Instagram</string>
+    <string name="non_root_restart_insta_toast">Please force stop Instagram and open it</string>
+
 </resources>

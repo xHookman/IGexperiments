@@ -4,4 +4,12 @@
     <color name="colorPrimaryDark">@android:color/black</color>
     <color name="colorAccent">@android:color/black</color>
     <color name="oneui_gray">#ff202020</color>zz
+    <color name="dark_gray">#333333</color>
+    <color name="accent_blue">#2196F3</color>
+    <color name="red">#FF0000</color>
+    <color name="gray">#3C3C3C</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#121212</color>
+    <color name="green">#4CAF50</color>
+
 </resources>
