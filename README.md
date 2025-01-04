@@ -49,7 +49,8 @@ Thank you! 💙
 ---
 
 ### ✅ For Non-Rooted Devices (via LSPatch)
-
+**Please Note!**
+Use LSPatch fork by [JingMatrix](https://github.com/JingMatrix/LSPatch).
 1. Patch the installed Instagram APK using **LSPatch** in **Local Patch Mode**.
 2. Open Instagram and **sign in** to your account.  
 3. Go back to **LSPatch** and enable the module for Instagram.
